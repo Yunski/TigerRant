@@ -1,4 +1,4 @@
-# course-eval-site
+# Project Tigershop
 
 ## Overview
 This project is a dedicated course shopping site for Princeton University.
