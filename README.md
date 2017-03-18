@@ -16,20 +16,31 @@ There are currently three other teams working on review sites, so this space is 
 For backend, install MySQL on your local machine. Make sure to start the MySQL server. On MacOS, this can be done by opening  **System Preferences** and seleting **MySQL**.
 Reset temporary root password to a password of your choice with the following commands in terminal.
 ```
-mysql -u root -p
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('my-password');
+$ mysql -u root -p
+$ SET PASSWORD FOR 'root'@'localhost' = PASSWORD('my-password');
 ```
-Navigate to the project root directory. To create tables, run the script
+Navigate to the project root directory. 
+To use virtualenv, execute the following:
 ```
-python shopper/model_cloudsql.py
+$ pip install virtualenv
+$ virtualenv env
+$ source env/bin/activate
+```
+To install dependencies, execute:
+```
+$ pip install -r requirements.txt
+```
+To create tables, run the script
+```
+$ python shopper/model_cloudsql.py
 ```
 Then run the following script to fill tables with fall16-spring17 course offerings data.
 ```
-python db_populate.py
+$ python db_populate.py
 ```
 To start the python app on localhost, run the script
 ```
-python main.py
+$ python main.py
 ```
 Open http://localhost:8080/
 
