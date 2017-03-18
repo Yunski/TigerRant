@@ -10,9 +10,28 @@ For developers, data can be fetched through the OIT web feed url: http://etcweb.
 Sample [course evaluation page](https://reg-captiva.princeton.edu/chart/index.php?terminfo=1174&courseinfo=007998).
 For each course, we will need to scrape from a similar evaluation page using [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
 
-
-
 There are currently three other teams working on review sites, so this space is potentially competitive.
+
+### Getting Started
+For backend, install MySQL on your local machine. Make sure to start the MySQL server. On MacOS, this can be done by opening  **System Preferences** and seleting **MySQL**.
+Reset temporary root password to a password of your choice with the following commands in terminal.
+```
+mysql -u root -p
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('my-password');
+```
+Navigate to the project root directory. To create tables, run the script
+```
+python shopper/model_cloudsql.py
+```
+Then run the following script to fill tables with fall16-spring17 course offerings data.
+```
+python db_populate.py
+```
+To start the python app on localhost, run the script
+```
+python main.py
+```
+Open http://localhost:8080/
 
 ### TODOs
 
