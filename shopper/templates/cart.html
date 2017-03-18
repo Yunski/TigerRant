@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block navbar %}
+<nav id="navbar-browse" class="navbar navbar-light bg-clear">
+  <div class="row" id="navbar-main">
+    <div class="col-md-2 text-center">
+      <div class="navbar-col-content"><a class="navbar-brand" href="/browse">Navbar</a></div>
+    </div>
+    <div class="col-md-7 text-center">
+      <div class="navbar-col-content">
+        <input class="search-text-field" type="text" placeholder="search courses"></input>
+        <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+  <div class="row" id="navbar-footer">
+    <div class="col-md-4">
+      <div class="nav-section">
+        <div class="nav">
+          <a href="#" class="nav-link">Departmentals</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="nav-section">
+        <div class="nav">
+          <a href="#" class="nav-link">Distributions</a>
+          <a href="#" class="nav-link">Easy PDFs</a>
+          <a href="#" class="nav-link">GPA Boosters</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="nav-section">
+        <div class="nav">
+          <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
+          <a href="#" class="nav-link" id="nav-account" class="btn nav-button">Your Account</a>
+          <a href="/cart" class="nav-link" id="cart-button" class="btn nav-button">
+            <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
+            <span id="num-items-in-cart">1</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+{% endblock %}

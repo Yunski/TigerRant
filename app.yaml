@@ -1,0 +1,22 @@
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$PORT main:app
+
+runtime_config:
+  python_version: 3
+
+# env_variables:
+    # Replace user, password, database, and instance connection name with the values obtained
+    # when configuring your Cloud SQL instance.
+    # SQLALCHEMY_DATABASE_URI: >-
+    # mysql+pymysql://root:chviYTENG597@/shopper?unix_socket=/cloudsql/tigershop-161820:us-east1:shopper
+
+#[START cloudsql_settings]
+beta_settings:
+    # If using Cloud SQL, uncomment and set this value to the Cloud SQL
+    # connection name, e.g.
+    #   "project:region:cloudsql-instance"
+    # You must also update the values in config.py.
+    #
+    cloud_sql_instances: "tigershop-161820:us-east1:shopper"
+#[END cloudsql_settings]
