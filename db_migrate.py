@@ -1,7 +1,7 @@
 #!flask/bin/python
 import imp
 from migrate.versioning import api
-from shopper import model_cloudsql.db
+from shopper.model_cloudsql import db
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
 
