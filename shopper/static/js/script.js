@@ -19,6 +19,18 @@ $(window).scroll(function() {
 });
 
 $(document).ready(function() {
+    $('.search-options').change(function(){
+        $(".resizing-search-option").html($('.search-options option:selected').text());
+        $(this).width($(".resizing-search-select").width() + 4);
+        console.log($(this).width());
+        $(this).css("background-position-x", ($(".resizing-search-select").width() + 20).toString() + "px");
+    });
+
+    $('.sort-options').change(function(){
+        $(".resizing-sort-option").html($('.sort-options option:selected').text());
+        $(this).width($(".resizing-sort-select").width());
+    });
+
     $("#navbar-browse .search-button").click(function() {
         window.location.href = "/browse";
     });

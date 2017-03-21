@@ -47,12 +47,13 @@ a, a:link, a:active, a:visited {
   outline: none;
 }
 
-select:focus {
-  outline: none;
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
 }
 
-.select {
-  border: 1px solid #303030;
+select:focus {
+  outline: none;
 }
 
 button:hover {
@@ -216,22 +217,36 @@ button:focus, textarea:focus {
   margin: 0 auto;
 }
 
-.search-text-field {
-  float: left;
-  width: 80%;
-  max-width: 80%;
+select.search-options {
+  width: 66px;
   height: 2.5rem;
-  line-height: 1.5rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
   padding-left: 1rem;
-  border-top: 1px solid #cccccc;
-  border-left: 1px solid #cccccc;
+  padding-right: 1rem;
+  border-color: rgba(0, 0, 0, 0.25);
+  background: url("/static/icons/svg/arrow-down.svg") no-repeat center;
+  background-size: 0.5rem 0.5rem;
+  background-position-x: 48px;
+}
+
+select.resizing-search-select, select.resizing-sort-select {
+  display: none;
+}
+
+.search-text-field {
+  height: 2.5rem;
+  padding-left: 1rem;
+  line-height: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  border-left: none;
   border-right: none;
-  border-bottom: 1px solid #cccccc;
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 0;
   font-size: 1rem;
   color: #303030;
   background-color: white;
+  flex-grow: 1;
 }
 
 .search-text-field:focus, .search-text-field:hover {
@@ -240,13 +255,15 @@ button:focus, textarea:focus {
   border-color: #303030;
 }
 
-.search-text-field::-webkit-input-placeholder { color: #cccccc; font-weight: 100; }
-.search-text-field::-moz-placeholder          { color: #cccccc; font-weight: 100; }
-.search-text-field:-moz-placeholder           { color: #cccccc; font-weight: 100; }
-.search-text-field:-ms-input-placeholder      { color: #cccccc; font-weight: 100; }
+.search-text-field::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
+.search-text-field::-moz-placeholder          { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
+.search-text-field:-moz-placeholder           { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
+.search-text-field:-ms-input-placeholder      { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
 
 .search-button {
   float: left;
+  width: 3rem;
+  max-width: 3rem;
   height: 2.5rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -293,15 +310,24 @@ button:focus, textarea:focus {
 /* browse page */
 
 #browse-results-info {
-  padding: 0.2rem;
+  position: relative;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.2rem;
   height: 2rem;
   border-bottom: 1px solid rgba(0,0,0,.125);
   box-shadow: 0px 1px #F6F6F6;
   margin-bottom: 0.5rem;
 }
 
+#browse-results-info .sort-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12rem;
+}
+
 #browse-results-info span {
-  padding-left: 1rem;
   line-height: 1.6rem;
   height: 1.6rem;
   font-weight: 300;
@@ -310,14 +336,16 @@ button:focus, textarea:focus {
 
 #browse-results-info .browse-sort {
   height: 1.6rem;
-  float: right;
-  padding-right: 1rem;
 }
 
-#browse-results-info .browse-sort select {
-  width: 8rem;
-  vertical-align:middle;
+#browse-results-info .browse-sort .sort-options {
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 0.2rem;
   margin-bottom: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-color: rgba(0, 0, 0, 0.25);
 }
 
 #browse-page-content {
@@ -329,24 +357,24 @@ button:focus, textarea:focus {
   margin-bottom: 0.5rem;
 }
 
-#browse-page-content .card {
+#browse-page-content .card, #cart .card {
   width: 100%;
 }
 
-#browse-page-content .card-title {
+#browse-page-content .card-title, #cart .card-title {
   width: 50%;
 }
 
-#browse-page-content .card-title a:hover {
+#browse-page-content .card-title a:hover, #cart .card-title a:hover {
   color: black;
   border-bottom: 0.2rem solid black;
 }
 
-#browse-page-content .card-link:hover {
+#browse-page-content .card-link:hover, #cart .card-link:hover {
   color: #3E8DED;
 }
 
-#browse-page-content .badges {
+#browse-page-content .badges, #cart .badges {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -356,13 +384,13 @@ button:focus, textarea:focus {
   user-select: none;
 }
 
-#browse-page-content .badges img {
+#browse-page-content .badges img, #cart .badges img {
   width: 2rem;
   height: 2rem;
   margin-left: 1rem;
 }
 
-#browse-page-content .browse-item-rating {
+#browse-page-content .browse-item-rating, #cart .cart-item-rating {
   color: #DEB202;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -374,6 +402,15 @@ button:focus, textarea:focus {
   padding-left: 0.5rem;
 }
 
+.no-match-container {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.no-match-container span {
+  padding-right: 0.5rem;
+}
+
 /* course page */
 
 #course-page-content {
@@ -381,14 +418,20 @@ button:focus, textarea:focus {
 }
 
 #course-page-content .return-link {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   width: 100%;
+}
+
+#course-page-content .return-link span {
+  margin-right: 0.5rem;
 }
 
 /* Reviews Wrapper */
 
 .row-outline-bottom {
   border-bottom: 1px solid #303030;
-  box-shadow: 0 1px 0px #cccccc;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.125);
 }
 
 .course-banner .card {
@@ -470,7 +513,7 @@ button:focus, textarea:focus {
 .initial-rating {
   position: absolute;
   top: 40%;
-  color: #cccccc;
+  color: rgba(0, 0, 0, 0.125);
 }
 
 .initial-rating span {
@@ -640,7 +683,7 @@ button:focus, textarea:focus {
   width: 90%;
   border-radius: 0.2rem;
   background-color: #f6f6f6;
-  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.125);
   height: 2rem;
 }
 
@@ -657,6 +700,33 @@ button:focus, textarea:focus {
   height: 1.6rem;
   top: 0.2rem;
   left: 25%;
+}
+
+/* Cart */
+
+#cart {
+  padding: 2rem;
+}
+
+#cart .cart-title {
+  width: 100%;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#cart .list-group-item {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#cart .card-title {
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#cart .card-text {
+  margin-top: 1rem;
 }
 
 /* Rant Space */
@@ -678,7 +748,7 @@ button:focus, textarea:focus {
 .rant-course {
   font-size: 1.5rem;
   text-align: center;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   box-shadow: 0 2px #f6f6f6;
 }
 

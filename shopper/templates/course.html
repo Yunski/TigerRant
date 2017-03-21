@@ -7,18 +7,29 @@
     </div>
     <div class="col-md-7 text-center">
       <div class="navbar-col-content">
-        <input class="search-text-field" type="text" placeholder="search courses"></input>
-        <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <form class="form-inline">
+          <select class="search-options">
+            <option value="0">Any</option>
+            <option value="1">Department Code</option>
+            <option value="2">Distribution</option>
+            <option value="3">Start Time</option>
+            <option value="4">End Time</option>
+          </select>
+          <select class="resizing-search-select">
+            <option class="resizing-search-option"></option>
+          </select>
+          <input class="search-text-field" type="text" placeholder="search courses"></input>
+          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
       </div>
     </div>
-    <div class="col-md-3">
-    </div>
+    <div class="col-md-3"></div>
   </div>
   <div class="row" id="navbar-footer">
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Departmentals</a>
+          <a href="#" class="nav-link">Departments</a>
         </div>
       </div>
     </div>
@@ -52,7 +63,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ORF 307 - Optimization</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -64,13 +75,7 @@
           <li class="course-location">Location: Friend Center 101</li>
         </ul>
         <p class="course-description">
-          Many real-world problems involve maximizing a linear function subject to linear
-          inequality constraints. Such problems are called Linear Programming (LP) problems.
-          Examples include min-cost network flows, portfolio optimization, options pricing,
-          assignment problems and two-person zero-sumgames to name but a few.
-          The theory of linear programming will be developed with a special emphasis on
-          duality theory. Attention will be devoted to efficient solution algorithms.
-          These algorithms will be illustrated on real-world examples such as those mentioned.
+          {{ course.description }}
         </p>
       </div>
       <div class="modal-footer">
@@ -81,17 +86,22 @@
 </div>
 <div id="course-page-content" class="row">
   <div class="col-md-2">
-    <a href="/browse?search=ORF&amp;page=1" class="return-link">
-      <span>Back to search results for:</span>
-      <span>"ORF"</span>
-    </a>
+    <div class="return-link">
+      <a href="{{ returnURL }}">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
+      </a>
+    </div>
   </div>
   <div class="col-md-8">
     <div class="course-banner" data-aos="zoom-in" data-aos-once="true">
       <div class="row">
         <div class="card bg-clear">
-          <h3 class="card-title"><a href="#myModal" data-toggle="modal">ORF307 - Optimization</a></h3>
-          <div class="course-instructors">Robert Joseph Vanderbei</div>
+          <h3 class="card-title"><a href="#myModal" data-toggle="modal">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</a></h3>
+          <div class="course-instructors">
+            {% for instructor in course.instructors %}
+              <span>{{ instructor.first_name }} {{ instructor.last_name }}</span>
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
@@ -157,7 +167,7 @@
         </div>
         <div class="reviews-sort">
           <span>Sort by:</span>
-          <select class="form-control select">
+          <select class="form-control">
             <option value="recent">Most recent</option>
             <option value="positive">Most positive</option>
             <option value="negative">Most negative</option>
@@ -166,81 +176,29 @@
         </div>
       </div>
       <div class="reviews-listing">
-        <div class="row">
-          <blockquote class="blockquote">
-            <p>Boring course. The material is very easy, so everyone does well on exams, making grading rather arbitrary.</p>
-          </blockquote>
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
-            </div>
-          </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>DON'T TAKE IT unless you're ORFE. It looks like less work than it is because Vanderbei decides throughout the semester to add multiple AMPL homeworks (code), additional questions to existing homeworks, and even a final, "Big Homework." The material is boring and you will never use it again. Don't waste your time.</p>
-          </blockquote>
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
+        {% for review in reviews %}
+          <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
+            <blockquote class="blockquote">
+              <p>{{ review.student_advice }}</p>
+            </blockquote>
+            <div class="like">
+              <div class="sentiment">
+                <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
+              </div>
+              <div class="thumbs-up">
+                <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
+                <span class="num-likes">3</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>Don't take if you don't need to.</p>
-          </blockquote>
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
-            </div>
-          </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>Don't take it unless you have to.</p>
-          </blockquote>
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
-            </div>
-          </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>Don't take this class. It's boring and Vanderbei is not a very good lecturer. It's useful, but if you can learn the methods elsewhere without having to take this class, do so. There will probably be some reviewers that say "Take it!" but those are the same sort of people that rated COS 323 (Fall 2011) and ORF 245 (of Spring 2011) well. If you have to take this class, then just suck it up and do it. Otherwise, avoid it. You only have 36 (or 31 for AB students) classes here, so don't waste any of them on this.</p>
-          </blockquote>
-          <div class="sentiment">
-            <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-          </div>
-          <div class="thumbs-up">
-            <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-            <span class="num-likes">3</span>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </div>
   <div class="col-md-2">
     <div class="tool-panel" data-aos="zoom-in" data-aos-once="true">
       <div class="card">
-        <a href="/rant" class="btn rant-space-button">
+        <a href="/rant" class="btn disabled rant-space-button">
           <img class="card-img-top" src="/static/icons/svg/door.svg" alt="Card image cap">
         </a>
         <div class="card-block">

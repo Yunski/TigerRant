@@ -86,7 +86,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 end = length
             results = baseQuery.order_by(sql.Course.catalog_number)[start:end]
             num_pages = length // 12 + (length % 12 > 0)
-            print(num_pages)
         return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search)
 
     @app.route('/course')
@@ -94,13 +93,23 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if 'netid' not in session:
             return redirect(url_for('index'))
         netid = session['netid']
-        return render_template('course.html', netid=session['netid'])
+        course_id = request.args.get('id')
+        search = request.args.get('search')
+        page = request.args.get('page')
+        returnURL = "/browse?search={}&page={}".format(search, page)
+        course = sql.Course.query.filter_by(c_id=course_id).first()
+        reviews = course.reviews
+        if course == None:
+            # course page not found
+            return redirect(url_for('browse'))
+        return render_template('course.html', netid=netid, course=course, reviews=reviews, returnURL=returnURL)
 
     @app.route('/cart')
     def cart():
         if 'netid' not in session:
             return redirect(url_for('index'))
-        return render_template('cart.html')
+        netid = session['netid']
+        return render_template('cart.html', netid=netid)
 
     @app.route('/rant')
     def rant():

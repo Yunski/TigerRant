@@ -7,18 +7,29 @@
     </div>
     <div class="col-md-7 text-center">
       <div class="navbar-col-content">
-        <input class="search-text-field" type="text" placeholder="search courses"></input>
-        <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <form class="form-inline">
+          <select class="search-options">
+            <option value="0">Any</option>
+            <option value="1">Department Code</option>
+            <option value="2">Distribution</option>
+            <option value="3">Start Time</option>
+            <option value="4">End Time</option>
+          </select>
+          <select class="resizing-search-select">
+            <option class="resizing-search-option"></option>
+          </select>
+          <input class="search-text-field" type="text" placeholder="search courses"></input>
+          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
       </div>
     </div>
-    <div class="col-md-3">
-    </div>
+    <div class="col-md-3"></div>
   </div>
   <div class="row" id="navbar-footer">
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Departmentals</a>
+          <a href="#" class="nav-link">Departments</a>
         </div>
       </div>
     </div>
@@ -33,7 +44,7 @@
     </div>
     <div class="col-md-4">
       <div class="nav-section">
-        <div class="nav">
+        <div class="nav justify-content-end">
           <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
           <a href="#" class="nav-link" id="nav-account" class="btn nav-button">Your Account</a>
           <a href="/cart" class="nav-link" id="cart-button" class="btn nav-button">
@@ -47,4 +58,35 @@
 </nav>
 {% endblock %}
 {% block content %}
+<div id="cart" class="row">
+  <div class="col-md-10">
+    <div class="cart-title"><h2>Shopping Cart</h2></div>
+    <ul class="list-group">
+      <li class="list-group-item justify-content-between" data-aos="zoom-in" data-aos-once="true" data-aos-offset="-2000">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title"><a href="/course">COS 126 - Computer Science: An Interdisciplinary Approach</a></h4>
+            <h6 class="card-subtitle mb-2">Kevin Wayne, Alan Kaplan, Dan Leyzberg</h6>
+            <div class="badges">
+              <img src="/static/icons/svg/trophy.svg" />
+              <img src="/static/icons/svg/badge.svg" />
+              <img src="/static/icons/svg/warning.svg" />
+            </div>
+            <span class="cart-item-rating">
+              <span><i class="fa fa-star" aria-hidden="true"></i></span>
+              <span><i class="fa fa-star" aria-hidden="true"></i></span>
+              <span><i class="fa fa-star" aria-hidden="true"></i></span>
+              <span><i class="fa fa-star" aria-hidden="true"></i></span>
+              <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            </span>
+            <p class="card-text">Enrolled: 327 / 450</p>
+            <a href="#" class="card-link">Delete</a>
+            <a href="#" class="card-link">Move to Wish List</a>
+          </div>
+        </div>
+      </li>
+  </div>
+  <div class="col-md-2">
+  </div>
+</div>
 {% endblock %}

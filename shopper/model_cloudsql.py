@@ -15,7 +15,8 @@ def init_app(app):
 # [START model]
 instructors = db.Table("instructors",
     db.Column("c_id", db.Integer, db.ForeignKey("course.c_id")),
-    db.Column("instructor_id", db.Integer, db.ForeignKey("instructor.emplid"))
+    db.Column("instructor_id", db.Integer, db.ForeignKey("instructor.emplid")),
+    db.Column("review_id", db.Integer, db.ForeignKey("review.id"))
 )
 
 class Course(db.Model):
@@ -26,9 +27,12 @@ class Course(db.Model):
     title = db.Column(db.UnicodeText())
     track = db.Column(db.UnicodeText())
     description = db.Column(db.UnicodeText())
-    crosslisting = db.Column(db.UnicodeText())
+    crosslistings = db.Column(db.UnicodeText())
     instructors = db.relationship("Instructor", secondary=instructors,
         backref=db.backref('courses', lazy='dynamic'))
+    reviews = db.relationship('Review', backref='course',
+                                lazy='dynamic')
+    url = db.Column(db.UnicodeText())
 
     def __repr__(self):
         return "<Course {}{}>".format(self.code, self.catalog_number)
@@ -48,6 +52,21 @@ class User(db.Model):
     ticket = db.Column(db.UnicodeText())
     first_name = db.Column(db.UnicodeText())
     last_name = db.Column(db.UnicodeText())
+
+class Review(db.Model):
+    id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
+    num = db.Column(db.Integer)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
+    sem_code = db.Column(db.Integer, index=True)
+    overall_rating = db.Column(db.Float, index=True)
+    lecture_rating = db.Column(db.Float)
+    student_advice = db.Column(db.UnicodeText())
+    instructors = db.relationship("Instructor", secondary=instructors,
+        backref=db.backref('reviews', lazy='dynamic'))
+
+    def __repr__(self):
+        return "<Review {} {}>".format(self.c_id, self.term_id)
+
 # [END model]
 
 def _create_database():

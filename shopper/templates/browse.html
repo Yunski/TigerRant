@@ -7,18 +7,29 @@
     </div>
     <div class="col-md-7 text-center">
       <div class="navbar-col-content">
-        <input class="search-text-field" type="text" placeholder="search courses"></input>
-        <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <form class="form-inline">
+          <select class="search-options">
+            <option value="0">Any</option>
+            <option value="1">Department Code</option>
+            <option value="2">Distribution</option>
+            <option value="3">Start Time</option>
+            <option value="4">End Time</option>
+          </select>
+          <select class="resizing-search-select">
+            <option class="resizing-search-option"></option>
+          </select>
+          <input class="search-text-field" type="text" placeholder="search courses"></input>
+          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
       </div>
     </div>
-    <div class="col-md-3">
-    </div>
+    <div class="col-md-3"></div>
   </div>
   <div class="row" id="navbar-footer">
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Departmentals</a>
+          <a href="#" class="nav-link">Departments</a>
         </div>
       </div>
     </div>
@@ -47,16 +58,33 @@
 </nav>
 {% endblock %}
 {% block content %}
-<div id="browse-results-info">
-  <span>{% if courses|count == 1 %}{{ num_results }}{% else %}{{ 1 + (current-1) * 12 }} - {% if num_results < current * 12 %}{{ num_results }}{% else %}{{ current * 12 }}{% endif %}{% endif %} of {{ num_results }} results for "{{ search }}"</span>
-  <div class="browse-sort">
-    <span>Sort by:</span>
-    <select class="select">
-      <option value="recent">Avg. Rating</option>
-      <option value="positive">Relevance</option>
-    </select>
+{% if courses|count > 0 %}
+  <div id="browse-results-info">
+    <span>{% if courses|count == 1 %}{{ num_results }}{% else %}{{ 1 + (current-1) * 12 }} - {% if num_results < current * 12 %}{{ num_results }}{% else %}{{ current * 12 }}{% endif %}{% endif %} of {{ num_results }} results for "{{ search }}"</span>
+    <div class="browse-sort">
+      <div class="sort-container">
+        <span>Sort by:</span>
+        <select class="sort-options">
+          <option value="recent">Avg. Rating</option>
+          <option value="positive">Relevance</option>
+        </select>
+        <select class="resizing-sort-select">
+          <option class="resizing-sort-option"></option>
+        </select>
+      </div>
+    </div>
   </div>
-</div>
+{% else %}
+  <div class="no-match-container">
+    <div class="jumbotron bg-clear">
+      <h1 class="display-5">No courses matched your search "{{ search }}".</h1>
+      <p>Princeton doesn't have what you're looking for. Check for typos or change the search option.</p>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="/browse" role="button"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to Browse</a>
+      </p>
+    </div>
+  </div>
+{% endif %}
 <div id="browse-page-content" class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8">
@@ -65,7 +93,7 @@
       <li class="list-group-item justify-content-between" data-aos="zoom-in" data-aos-once="true" data-aos-offset="-2000">
         <div class="card">
           <div class="card-block">
-            <h4 class="card-title"><a href="/course">{{ course.dept }} {{ course.catalog_number }}</a></h4>
+            <h4 class="card-title"><a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}">{{ course.dept }} {{ course.catalog_number }}</a></h4>
             <h6 class="card-subtitle mb-2">{{ course.title|striptags }}</h6>
             <div class="badges">
               <img src="/static/icons/svg/trophy.svg" />
