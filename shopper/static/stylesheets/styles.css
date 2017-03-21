@@ -431,6 +431,31 @@ button:focus, textarea:focus {
   cursor: default;
 }
 
+.rating-term {
+  color: white;
+  font-size: 3.0rem;
+  font-weight: 300;
+  padding: 0.5rem;
+}
+
+.rating-term-pad {
+    padding: 1.0rem;
+}
+
+.rating-term-avg {
+    color: white;
+    font-size: 2.0rem;
+    font-weight: 300;
+    margin-right: 1.0rem;
+}
+
+.rating-term-info {
+    color: white;
+    font-weight: 300;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+}
+
 .rating-display {
   text-align: center;
 }
