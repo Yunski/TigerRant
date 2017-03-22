@@ -3,7 +3,7 @@
 <nav id="navbar-browse" class="navbar navbar-light bg-clear">
   <div class="row" id="navbar-main">
     <div class="col-md-2 text-center">
-      <div class="navbar-col-content"><a class="navbar-brand" href="/browse">Navbar</a></div>
+      <div class="navbar-col-content"><a class="navbar-brand" href="/browse">TigerShop</a></div>
     </div>
     <div class="col-md-7 text-center">
       <div class="navbar-col-content">
@@ -109,9 +109,10 @@
       <div class="col-sm-6 rating-display">
         <div class="rating-lg-average">3.0</div>
         <span class="rating-description">based on <span class="rating-total">{{ total }}</span> reviews</span>
-        <span class="rating-smart">see <a href="#">Smart Rating</a></span>
+        <!--<span class="rating-smart">see <a href="#">Smart Rating</a></span>-->
       </div>
-      <div class="col-sm-6"> <!-- rating-bars -->
+      <div class="col-sm-6">
+        <!-- rating-bars -->
         <div class="initial-rating">
           <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
           <span id="star2"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
@@ -163,8 +164,10 @@
     <div class="reviews" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
       <div class="reviews-header">
         <div class="reviews-title">
-          <h4>All Reviews</h4>
+          <h4>Student Reviews</h4>
         </div>
+        <a class="btn btn-primary">Write a Review</a>
+        {% if reviews|count > 0 %}
         <div class="reviews-sort">
           <span>Sort by:</span>
           <select class="select">
@@ -174,25 +177,33 @@
             <option value="upvotes">Most upvotes</option>
           </select>
         </div>
+        {% endif %}
       </div>
+      {% if reviews|count <= 0 %}
+      <div class="no-reviews">
+        <p>There are no student reviews yet. Be the first to write one!</p>
+      </div>
+      {% endif %}
+      {% if reviews|count > 0 %}
       <div class="reviews-listing">
         {% for review in reviews %}
-          <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-            <blockquote class="blockquote">
-              <p>{{ review.student_advice }}</p>
-            </blockquote>
-            <div class="like">
-              <div class="sentiment">
-                <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-              </div>
-              <div class="thumbs-up">
-                <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-                <span class="num-likes">3</span>
-              </div>
+        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
+          <blockquote class="blockquote">
+            <p>{{ review.student_advice }}</p>
+          </blockquote>
+          <div class="like">
+            <div class="sentiment">
+              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
+            </div>
+            <div class="thumbs-up">
+              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
+              <span class="num-likes">3</span>
             </div>
           </div>
+        </div>
         {% endfor %}
       </div>
+      {% endif %}
     </div>
     <nav class="page-navigation" aria-label="Page navigation">
       <ul class="pagination">
