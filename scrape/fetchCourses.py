@@ -19,8 +19,7 @@ def fetchCourses(term, subject):
         courses = subject['courses']
 
         for course in courses:
-            print("Start course_id: {}, number: {}".format(course['course_id'], course['catalog_number']))
-            num = 0
+            print("Start course_id: {}, {} {}".format(course['course_id'], dept, course['catalog_number']))
             #print("course_id: {}".format(course['course_id']))
             course_id = course['course_id']
             #print("catalog_number: {}".format(course['catalog_number']))
@@ -82,8 +81,8 @@ def fetchCourses(term, subject):
 
             courseObj['reviews'] = newCourse(course_id)['reviews']
             courseList['courses'].append(courseObj)
-            print("Finished course_id: {}, number: {}".format(course['course_id'], course['catalog_number']))
+            print("Finished course_id: {}, {} {}".format(course['course_id'], dept, course['catalog_number']))
 
         with open('courses.json', 'w') as courseFile:
             json.dump(courseList, courseFile, indent=4, separators=(',', ': '))
-fetchCourses("current", "COS")
+fetchCourses("current", "all")

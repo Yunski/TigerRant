@@ -31,10 +31,6 @@ $(document).ready(function() {
         $(this).width($(".resizing-sort-select").width());
     });
 
-    $("#navbar-browse .search-button").click(function() {
-        window.location.href = "/browse";
-    });
-
     /* TEMPORARY LOGOUT TESTING - TODO: FIX THIS! */
     $("#nav-account").click(function(e) {
         e.preventDefault();
@@ -52,21 +48,20 @@ $(document).ready(function() {
             var searchText = $(".search-text-field").val();
             if (searchText == "") return;
             document.location.href = "/browse?search=" + searchText + "&page=1";
-            //console.log(searchText);
             e.preventDefault();
             return false;
         }
     });
 
-    $(".search-button").click(function() {
+    $(".search-button").click(function(e) {
+        e.preventDefault();
         var searchText = $(".search-text-field").val();
         if (searchText == "") return;
-        document.location.href = "/browse?search=" + searchText + + "&page=1";
-        //console.log(searchText);
+        document.location.href = "/browse?search=" + searchText + "&page=1";
     });
 
     /* pagination */
-    $(".page-link").click(function(e) {
+    $(".course-link").click(function(e) {
         e.preventDefault();
         page = $(this).text();
         newPageURL = window.location.href;
@@ -79,23 +74,20 @@ $(document).ready(function() {
             queryString = components[1];
             if (queryString.indexOf("page") >= 0) {
                 currentPage = queryString.split(pageParam)[1];
+                pageInt = parseInt(currentPage);
+                if (isNaN(pageInt)) {
+                    pageInt = 1;
+                }
                 if (page.toLowerCase() === "next") {
-                    pageInt = parseInt(currentPage);
-                    if (pageInt != NaN) {
-                        page = (pageInt + 1).toString();
-                    }
+                    page = (pageInt + 1).toString();
                 } else if (page.toLowerCase() === "previous") {
-                    pageInt = parseInt(currentPage);
-                    if (pageInt != NaN) {
-                        page = (pageInt - 1).toString();
-                    }
+                    page = (pageInt - 1).toString();
                 }
                 queryString = queryString.split(pageParam)[0] + pageParam + page;
             }
         } else {
             /* TEMPORARY - first time on browse, load all courses */
             baseURL = newPageURL;
-            console.log(page);
             if (page.toLowerCase() === "next") {
                 queryString = "?page=2";
             } else {
@@ -103,6 +95,44 @@ $(document).ready(function() {
             }
         }
         //console.log(baseURL + queryString);
+        document.location.href = baseURL + queryString;
+    });
+
+    $(".review-link").click(function(e) {
+        e.preventDefault();
+        page = $(this).text();
+        newPageURL = window.location.href;
+        baseURL = "";
+        queryString = "";
+        pageParam = "current=";
+        if (newPageURL.indexOf("?") >= 0) {
+            components = newPageURL.split("?");
+            baseURL = components[0] + "?";
+            queryString = components[1];
+            if (queryString.indexOf("current") >= 0) {
+                currentPage = queryString.split(pageParam)[1];
+                pageInt = parseInt(currentPage);
+                if (isNaN(pageInt)) {
+                    pageInt = 1;
+                }
+                if (page.toLowerCase() === "next") {
+                    page = (pageInt + 1).toString();
+                } else if (page.toLowerCase() === "previous") {
+                    page = (pageInt - 1).toString();
+                }
+                queryString = queryString.split(pageParam)[0] + pageParam + page;
+            }
+        } else {
+            /* TEMPORARY - first time on browse, load all courses */
+            baseURL = newPageURL;
+            if (page.toLowerCase() === "next") {
+                queryString = "?current=2";
+            } else {
+                queryString = "?current=" + page;
+            }
+        }
+        //console.log(baseURL + queryString);
+
         document.location.href = baseURL + queryString;
     });
 });

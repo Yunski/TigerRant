@@ -93,7 +93,7 @@
       <li class="list-group-item justify-content-between" data-aos="zoom-in" data-aos-once="true" data-aos-offset="-2000">
         <div class="card">
           <div class="card-block">
-            <h4 class="card-title"><a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}">{{ course.dept }} {{ course.catalog_number }}</a></h4>
+            <h4 class="card-title"><a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}&amp;current=1">{{ course.dept }} {{ course.catalog_number }}</a></h4>
             <h6 class="card-subtitle mb-2">{{ course.title|striptags }}</h6>
             <div class="badges">
               <img src="/static/icons/svg/trophy.svg" />
@@ -108,7 +108,7 @@
               <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
             </span>
             <p class="card-text">{{ course.description|striptags|striptags }}</p>
-            <a href="/course" class="card-link">See Details<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
+            <a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}&amp;current=1" class="card-link">See Details<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
           </div>
         </div>
       </li>
@@ -117,50 +117,50 @@
     <nav class="page-navigation" aria-label="Page navigation">
       <ul class="pagination">
         {% if current > 1 %}
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">Previous</a></li>
         {% endif %}
         {% if pages > 1 and pages < 10 %}
           {% for i in range(0, pages) %}
             {% if current == i+1 %}
-              <li class="page-item active"><a class="page-link" href="#">{{ i + 1 }}</a></li>
+              <li class="page-item active"><a class="page-link course-link" href="#">{{ i + 1 }}</a></li>
             {% else %}
-              <li class="page-item"><a class="page-link" href="#">{{ i + 1 }}</a></li>
+              <li class="page-item"><a class="page-link course-link" href="#">{{ i + 1 }}</a></li>
             {% endif %}
           {% endfor %}
         {% endif %}
         {% if pages >= 10 and current < 5 %}
           {% for i in range(0, 5) %}
             {% if current == i+1 %}
-              <li class="page-item active"><a class="page-link" href="#">{{ i + 1 }}</a></li>
+              <li class="page-item active"><a class="page-link course-link" href="#">{{ i + 1 }}</a></li>
             {% else %}
-              <li class="page-item"><a class="page-link" href="#">{{ i + 1 }}</a></li>
+              <li class="page-item"><a class="page-link course-link" href="#">{{ i + 1 }}</a></li>
             {% endif %}
           {% endfor %}
-          <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-          <li class="page-item"><a class="page-link" href="#">{{ pages }}</a></li>
+          <li class="page-item disabled"><a class="page-link course-link" href="#">...</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">{{ pages }}</a></li>
         {% endif %}
         {% if pages >= 10 and current >= 5 and current <= pages-4 %}
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-          <li class="page-item"><a class="page-link" href="#">{{ current-1 }}</a></li>
-          <li class="page-item active"><a class="page-link" href="#">{{ current }}</a></li>
-          <li class="page-item"><a class="page-link" href="#">{{ current+1 }}</a></li>
-          <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-          <li class="page-item"><a class="page-link" href="#">{{ pages }}</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">1</a></li>
+          <li class="page-item disabled"><a class="page-link course-link" href="#">...</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">{{ current-1 }}</a></li>
+          <li class="page-item active"><a class="page-link course-link" href="#">{{ current }}</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">{{ current+1 }}</a></li>
+          <li class="page-item disabled"><a class="page-link course-link" href="#">...</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">{{ pages }}</a></li>
         {% endif %}
         {% if pages >= 10 and current > pages-4 %}
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">1</a></li>
+          <li class="page-item disabled"><a class="page-link course-link" href="#">...</a></li>
           {% for i in range(pages-4, pages+1) %}
             {% if current == i %}
-              <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+              <li class="page-item active"><a class="page-link course-link" href="#">{{ i }}</a></li>
             {% else %}
-              <li class="page-item"><a class="page-link" href="#">{{ i }}</a></li>
+              <li class="page-item"><a class="page-link course-link" href="#">{{ i }}</a></li>
             {% endif %}
           {% endfor %}
         {% endif %}
         {% if current < pages %}
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          <li class="page-item"><a class="page-link course-link" href="#">Next</a></li>
         {% endif %}
       </ul>
     </nav>

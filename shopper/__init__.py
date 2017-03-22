@@ -65,8 +65,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         netid = session['netid']
         page = request.args.get('page')
         search = request.args.get('search')
+        if page is None or search is None:
+            return render_template('home.html', netid=netid)
         pageInt = 0
-        if page is not None:
+        if page.isdigit():
             pageInt = int(page)
             start = (pageInt-1) * 12
             end = pageInt * 12
@@ -94,15 +96,39 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             return redirect(url_for('index'))
         netid = session['netid']
         course_id = request.args.get('id')
-        search = request.args.get('search')
-        page = request.args.get('page')
-        returnURL = "/browse?search={}&page={}".format(search, page)
-        course = sql.Course.query.filter_by(c_id=course_id).first()
-        reviews = course.reviews
+        if course_id is None:
+            return redirect(url_for('browse'))
+        if not course_id.isdigit():
+            return redirect(url_for('browse'))
+        c_id = int(course_id)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             # course page not found
             return redirect(url_for('browse'))
-        return render_template('course.html', netid=netid, course=course, reviews=reviews, returnURL=returnURL)
+
+        search = request.args.get('search')
+        page = request.args.get('page')
+        returnURL = "/browse?search={}&page={}".format(search, page)
+
+        current = request.args.get('current')
+        maxPerPage = 20
+        if current is not None:
+            if current.isdigit():
+                currentPage = int(current)
+                start = (currentPage-1) * maxPerPage
+                end = currentPage * maxPerPage
+        else:
+            currentPage = 1
+            start = 0
+            end = maxPerPage
+        length = len(course.reviews.all())
+        if length < end:
+            end = length
+        num_pages = length // maxPerPage + (length % maxPerPage > 0)
+
+        reviews = course.reviews.order_by(sql.Review.overall_rating)[start:end]
+
+        return render_template('course.html', netid=netid, course=course, current=currentPage, pages=num_pages, reviews=reviews, returnURL=returnURL, total=length)
 
     @app.route('/cart')
     def cart():

@@ -42,7 +42,6 @@ a:hover {
 }
 
 a, a:link, a:active, a:visited {
-  color: inherit;
   text-decoration: none;
   outline: none;
 }
@@ -54,6 +53,10 @@ select {
 
 select:focus {
   outline: none;
+}
+
+.select {
+
 }
 
 button:hover {
@@ -111,6 +114,9 @@ button:focus, textarea:focus {
   background-color: #303030;
 }
 
+.page-item a {
+  color: #303030;
+}
 /* Font Awesome */
 
 /* AOS extras */
@@ -176,6 +182,7 @@ button:focus, textarea:focus {
 #navbar-footer .nav-link {
   font-weight: 200;
   height: 2.8rem;
+  color: white;
 }
 
 #navbar-home.shrink {
@@ -276,7 +283,7 @@ select.resizing-search-select, select.resizing-sort-select {
   background-color: black;
 }
 
-/* Home Content */
+/* Index Content */
 
 .hero-wrapper {
   padding-top: 6rem;
@@ -305,6 +312,21 @@ select.resizing-search-select, select.resizing-sort-select {
 
 .card p {
   font-weight: 200;
+}
+
+/* home page */
+
+#home-feature-carousel .carousel-inner {
+  background: black;
+  height: 20rem;
+}
+
+#home-feature-carousel .carousel-inner a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#home-feature-carousel img {
+  height: 100%;
 }
 
 /* browse page */
@@ -366,8 +388,7 @@ select.resizing-search-select, select.resizing-sort-select {
 }
 
 #browse-page-content .card-title a:hover, #cart .card-title a:hover {
-  color: black;
-  border-bottom: 0.2rem solid black;
+  border-bottom: 0.2rem solid #004A8B;
 }
 
 #browse-page-content .card-link:hover, #cart .card-link:hover {
@@ -421,6 +442,10 @@ select.resizing-search-select, select.resizing-sort-select {
   margin-top: 1rem;
   margin-bottom: 1rem;
   width: 100%;
+}
+
+#course-page-content .return-link a {
+  color: #303030;
 }
 
 #course-page-content .return-link span {
@@ -513,7 +538,7 @@ select.resizing-search-select, select.resizing-sort-select {
 .initial-rating {
   position: absolute;
   top: 40%;
-  color: rgba(0, 0, 0, 0.125);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .initial-rating span {
@@ -656,6 +681,14 @@ select.resizing-search-select, select.resizing-sort-select {
 
 /* course page tool panel */
 
+#course-page-content {
+  padding-bottom: 1rem;
+}
+
+#course-page-content .card-title a {
+  color: #303030;
+}
+
 #course-page-content .tool-panel {
   margin-top: 1rem;
 }
@@ -681,10 +714,11 @@ select.resizing-search-select, select.resizing-sort-select {
   padding: 0.2rem;
   margin: 0 auto 2rem;
   width: 90%;
+  height: 2rem;
   border-radius: 0.2rem;
   background-color: #f6f6f6;
+  color: #303030;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  height: 2rem;
 }
 
 #course-page-content .tool-panel .add-to-cart-button i {
