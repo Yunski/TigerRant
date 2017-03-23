@@ -105,11 +105,38 @@
         </div>
       </div>
     </div>
+    <!--Tabs show up here need to fix the random order that the tabs show up in-->
+    <ul class="nav nav-tabs">
+      {% for key in terms %}
+      <li class="nav-item">
+        <a class="nav-link active"
+           onclick="$('#overall-rating').text('{{ terms[key].rating }}');
+                    $('#num-reviews').text('{{ terms[key].num_reviews }}');">
+          {{ terms[key].period }}</a>
+      </li>
+      <!--$('#prof-rating').text('{{ terms[key].prof_rating }}'); need to use
+        this later for the professor rating-->
+      {% endfor %}
+    </ul>
     <div class="row reviews-summary" data-aos="zoom-in" data-aos-once="true">
       <div class="col-sm-6 rating-display">
-        <div class="rating-lg-average">3.0</div>
-        <span class="rating-description">based on <span class="rating-total">{{ total }}</span> reviews</span>
-        <!--<span class="rating-smart">see <a href="#">Smart Rating</a></span>-->
+        <div class="rating-lg-average" id="overall-rating">
+          {% if recent is defined %}
+          {{ terms[recent].rating }}
+          {% else %}
+          N/A
+          {% endif %}
+        </div>
+        <span class="rating-description">
+          {% if recent is defined %}
+          based on
+          <span class="rating-total" id="num-reviews">
+            {{ terms[recent].num_reviews }}</span> reviews
+          {% else %}
+          no reviews available
+          {% endif %}
+        </span>
+        <!--<span class="rating-smart">see <a href="#">Smart Rating</a></span>don't need this for now-->
       </div>
       <div class="col-sm-6">
         <!-- rating-bars -->

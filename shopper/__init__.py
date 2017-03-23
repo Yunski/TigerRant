@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from flask import current_app, Flask, request, redirect, url_for, render_template, session
 from flask_api import status
@@ -127,8 +128,37 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         num_pages = length // maxPerPage + (length % maxPerPage > 0)
 
         reviews = course.reviews.order_by(sql.Review.overall_rating)[start:end]
-
-        return render_template('course.html', netid=netid, course=course, current=currentPage, pages=num_pages, reviews=reviews, returnURL=returnURL, total=length)
+        allreviews = course.reviews.order_by(sql.Review.sem_code)
+        terms = {}
+        prevTermCode = -1
+        recent = -1
+        for review in allreviews:
+            currentTerm = int(review.sem_code)
+            if prevTermCode != currentTerm:
+                period = ""
+                term = str(currentTerm)[1:]
+                if term[2:3] == "2": period = "Fall "
+                else: period = "Spring "
+                prevYear = str(int(term[:2]) - 1)
+                period += prevYear + "-" + term[:2]
+                prevTermCode = currentTerm
+                recent = prevTermCode
+                terms[prevTermCode] = {
+                    "rating": review.overall_rating,
+                    "num_reviews": "1",
+                    "prof_rating": review.lecture_rating,
+                    "period": period
+                }
+            else:
+                curNum = int(terms[currentTerm]["num_reviews"])
+                terms[currentTerm]["num_reviews"] = str(curNum + 1)
+                for key in terms:
+                    sys.stdout.write(str(terms[key]) + '\n')
+                    sys.stdout.flush()
+        if recent != -1:
+            return render_template('course.html', netid=netid, course=course, current=currentPage, pages=num_pages, recent=recent, reviews=reviews, returnURL=returnURL, terms=terms, total=length)
+        else: #this means no reviews
+            return render_template('course.html', netid=netid, course=course, current=currentPage, pages=num_pages, reviews=reviews, returnURL=returnURL, terms=terms, total=length)
 
     @app.route('/cart')
     def cart():
