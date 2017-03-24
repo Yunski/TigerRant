@@ -28,6 +28,7 @@ class Course(db.Model):
     track = db.Column(db.UnicodeText())
     description = db.Column(db.UnicodeText())
     crosslistings = db.Column(db.UnicodeText())
+    avg_rating = db.Column(db.Float, index=True)
     instructors = db.relationship("Instructor", secondary=instructors,
         backref=db.backref('courses', lazy='dynamic'))
     reviews = db.relationship('Review', backref='course',

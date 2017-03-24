@@ -229,7 +229,6 @@ button:focus, textarea:focus {
 }
 
 select.search-options {
-  width: 66px;
   height: 2.5rem;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -238,7 +237,6 @@ select.search-options {
   border-color: rgba(0, 0, 0, 0.25);
   background: url("/static/icons/svg/arrow-down.svg") no-repeat center;
   background-size: 0.5rem 0.5rem;
-  background-position-x: 48px;
 }
 
 select.resizing-search-select, select.resizing-sort-select {

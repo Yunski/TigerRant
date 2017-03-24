@@ -49,6 +49,7 @@ def populateDB():
                 sql.db.session.add(i)
         c.crosslisting = course["crosslistings"]
 
+        ratings = []
         for review in course['reviews']:
             foundReview = sql.Review.query.filter_by(course_id=int(course_id)).filter_by(num=num).first()
             if foundReview == None:
@@ -66,7 +67,12 @@ def populateDB():
                 r.overall_rating = float(review['overall_rating'])
                 r.lecture_rating = float(review['lecture_rating'])
                 r.student_advice = review['student_advice']
+            ratings.append(r.overall_rating)
             num += 1
+        if len(ratings) != 0:
+            c.avg_rating = sum(ratings) / len(ratings)
+        else:
+            c.avg_rating = 0
         print("Added {} {}".format(course["dept"], course["catalog_number"]))
 
     sql.db.session.commit()

@@ -72,6 +72,9 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         netid = session['netid']
         page = request.args.get('page')
         search = request.args.get('search')
+        fields = None
+        if search is not None:
+            fields = search.split()
         if page is None or search is None:
             return render_template('home.html', netid=netid)
         pageInt = 0
@@ -88,8 +91,16 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             end = length
         num_pages = length // 12 + (length % 12 > 0)
         results = sql.Course.query[start:end]
-        if search is not None:
-            baseQuery = sql.Course.query.filter(sql.Course.dept == search)
+        if fields is not None:
+            baseQuery = sql.Course.query.order_by(sql.Course.dept)
+            for field in fields:
+                if len(field) == 3:
+                    if not field.isdigit():
+                        baseQuery = baseQuery.filter(sql.Course.dept == field)
+                    else:
+                        baseQuery = baseQuery.filter(sql.Course.catalog_number == field)
+                else:
+                    baseQuery = baseQuery.filter(sql.Course.description.contains(field))
             length = len(baseQuery.all())
             if length < end:
                 end = length

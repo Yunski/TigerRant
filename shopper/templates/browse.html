@@ -9,11 +9,12 @@
       <div class="navbar-col-content">
         <form class="form-inline">
           <select class="search-options">
-            <option value="0">Any</option>
-            <option value="1">Department Code</option>
-            <option value="2">Distribution</option>
+            <option value="0">All</option>
+            <!--
+            <option value="1">Distribution</option>
+            <option value="2">Description</option>
             <option value="3">Start Time</option>
-            <option value="4">End Time</option>
+            <option value="4">End Time</option>-->
           </select>
           <select class="resizing-search-select">
             <option class="resizing-search-option"></option>
@@ -29,16 +30,16 @@
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Departments</a>
+          <a href="/browse" class="nav-link">Departments</a>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Distributions</a>
-          <a href="#" class="nav-link">Easy PDFs</a>
-          <a href="#" class="nav-link">GPA Boosters</a>
+          <a class="nav-link disabled">Distributions</a>
+          <a class="nav-link disabled">Easy PDFs</a>
+          <a class="nav-link disabled">GPA Boosters</a>
         </div>
       </div>
     </div>
@@ -46,10 +47,15 @@
       <div class="nav-section">
         <div class="nav justify-content-end">
           <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
-          <a href="/logout" class="nav-link" id="nav-account" class="btn nav-button">Your Account</a>
-          <a href="/cart" class="nav-link" id="cart-button" class="btn nav-button">
+          <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
+            <div class="dropdown-menu" aria-labelledby="nav-account-button">
+              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+            </div>
+          </div>
+          <a class="nav-link disabled" id="cart-button" class="btn nav-button">
             <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-            <span id="num-items-in-cart">1</span>
+            <span id="num-items-in-cart"></span>
           </a>
         </div>
       </div>
@@ -59,27 +65,16 @@
 {% endblock %}
 {% block content %}
 {% if courses|count > 0 %}
-  <div id="browse-results-info">
-    <span>{% if courses|count == 1 %}{{ num_results }}{% else %}{{ 1 + (current-1) * 12 }} - {% if num_results < current * 12 %}{{ num_results }}{% else %}{{ current * 12 }}{% endif %}{% endif %} of {{ num_results }} results for "{{ search }}"</span>
-    <div class="browse-sort">
-      <span>Sort by:</span>
-      <select class="sort-options">
-        <option value="recent">Avg. Rating</option>
-        <option value="positive">Relevance</option>
-      </select>
-    </div>
+<div id="browse-results-info">
+  <span>{% if courses|count == 1 %}{{ num_results }} result {% else %}{{ 1 + (current-1) * 12 }} - {% if num_results < current * 12 %}{{ num_results }}{% else %}{{ current * 12 }}{% endif %} of {{ num_results }} results {% endif %} for "{{ search }}"</span>
+  <div class="browse-sort">
+    <span>Sort by:</span>
+    <select class="sort-options">
+      <option value="recent">Avg. Rating</option>
+      <option value="positive">Relevance</option>
+    </select>
   </div>
-{% else %}
-  <div class="no-match-container">
-    <div class="jumbotron bg-clear">
-      <h1 class="display-5">No courses matched your search "{{ search }}".</h1>
-      <p>Princeton doesn't have what you're looking for. Check for typos or change the search option.</p>
-      <p class="lead">
-        <a class="btn btn-primary btn-lg" href="/browse" role="button"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to Browse</a>
-      </p>
-    </div>
-  </div>
-{% endif %}
+</div>
 <div id="browse-page-content" class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8">
@@ -91,16 +86,24 @@
             <h4 class="card-title"><a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}&amp;current=1">{{ course.dept }} {{ course.catalog_number }}</a></h4>
             <h6 class="card-subtitle mb-2">{{ course.title|striptags }}</h6>
             <div class="badges">
-              <img src="/static/icons/svg/trophy.svg" />
-              <img src="/static/icons/svg/badge.svg" />
-              <img src="/static/icons/svg/warning.svg" />
+              <!-- TODO: need Department model <img src="/static/icons/svg/trophy.svg" />-->
+              {% if course.avg_rating > 4.0 %}<img src="/static/icons/svg/badge.svg" />{% endif %}
+              {% if course.avg_rating < 3.5  and course.avg_rating > 0 %}<img src="/static/icons/svg/warning.svg" />{% endif %}
             </div>
             <span class="browse-item-rating">
+              {% for i in range(0, course.avg_rating|int) %}
               <span><i class="fa fa-star" aria-hidden="true"></i></span>
-              <span><i class="fa fa-star" aria-hidden="true"></i></span>
-              <span><i class="fa fa-star" aria-hidden="true"></i></span>
-              <span><i class="fa fa-star" aria-hidden="true"></i></span>
+              {% endfor %}
+              {% if course.avg_rating - course.avg_rating|int > 0.3 %}
+              <span><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+              {% for i in range(course.avg_rating|int + 1, 5) %}
               <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+              {% endfor %}
+              {% else %}
+              {% for i in range(course.avg_rating|int, 5) %}
+              <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+              {% endfor %}
+              {% endif %}
             </span>
             <p class="card-text">{{ course.description|striptags|striptags }}</p>
             <a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}&amp;current=1" class="card-link">See Details<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
@@ -162,4 +165,15 @@
   </div>
   <div class="col-md-2"></div>
 </div>
+{% else %}
+<div class="no-match-container">
+  <div class="jumbotron bg-clear">
+    <h1 class="display-5">No courses matched your search "{{ search }}".</h1>
+    <p>Princeton doesn't have what you're looking for. Check for typos or change the search option.</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href="/browse" role="button"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to Browse</a>
+    </p>
+  </div>
+</div>
+{% endif %}
 {% endblock %}

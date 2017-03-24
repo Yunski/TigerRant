@@ -2,6 +2,9 @@ var ENTER_KEY = 13;
 
 $(window).on("load", function() {
     AOS.init();
+    $(".resizing-search-option").html($('.search-options option:first').text());
+    $(".search-options").width($(".resizing-search-select").width() + 4);
+    $(".search-options").css("background-position-x", ($(".resizing-search-select").width() + 20).toString() + "px");
 });
 
 $(window).scroll(function() {
@@ -19,10 +22,10 @@ $(window).scroll(function() {
 });
 
 $(document).ready(function() {
-    $('.search-options').change(function(){
+
+    $('.search-options').change(function() {
         $(".resizing-search-option").html($('.search-options option:selected').text());
         $(this).width($(".resizing-search-select").width() + 4);
-        console.log($(this).width());
         $(this).css("background-position-x", ($(".resizing-search-select").width() + 20).toString() + "px");
     });
 
@@ -32,8 +35,7 @@ $(document).ready(function() {
         $(this).width($(".resizing-sort-select").width());
     });*/
 
-    /* TEMPORARY LOGOUT TESTING - TODO: FIX THIS! */
-    $("#nav-account").click(function(e) {
+    $("#logout-link").click(function(e) {
         e.preventDefault();
         $.ajax({
             url: '/logout',

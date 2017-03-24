@@ -9,11 +9,12 @@
       <div class="navbar-col-content">
         <form class="form-inline">
           <select class="search-options">
-            <option value="0">Any</option>
-            <option value="1">Department Code</option>
-            <option value="2">Distribution</option>
+            <option value="0">All</option>
+            <!--
+            <option value="1">Distribution</option>
+            <option value="2">Description</option>
             <option value="3">Start Time</option>
-            <option value="4">End Time</option>
+            <option value="4">End Time</option>-->
           </select>
           <select class="resizing-search-select">
             <option class="resizing-search-option"></option>
@@ -29,16 +30,16 @@
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Departments</a>
+          <a href="/browse" class="nav-link">Departments</a>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Distributions</a>
-          <a href="#" class="nav-link">Easy PDFs</a>
-          <a href="#" class="nav-link">GPA Boosters</a>
+          <a class="nav-link disabled">Distributions</a>
+          <a class="nav-link disabled">Easy PDFs</a>
+          <a class="nav-link disabled">GPA Boosters</a>
         </div>
       </div>
     </div>
@@ -46,10 +47,15 @@
       <div class="nav-section">
         <div class="nav justify-content-end">
           <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
-          <a href="#" class="nav-link" id="nav-account" class="btn nav-button">Your Account</a>
-          <a href="/cart" class="nav-link" id="cart-button" class="btn nav-button">
+          <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
+            <div class="dropdown-menu" aria-labelledby="nav-account-button">
+              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+            </div>
+          </div>
+          <a class="nav-link disabled" id="cart-button" class="btn nav-button">
             <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-            <span id="num-items-in-cart">1</span>
+            <span id="num-items-in-cart"></span>
           </a>
         </div>
       </div>
