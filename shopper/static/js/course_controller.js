@@ -62,9 +62,6 @@
                                     }
                                 }
                                 $scope.reviews = $scope.terms[$scope.selectedTerm]['reviews'].slice(start, end);
-                                $log.log(start);
-                                $log.log(end);
-                                $log.log($scope.reviews.length);
                                 $scope.currentPage = currentPage;
                                 $scope.pages = pages;
                                 $scope.pageLinks = pageLinks;
@@ -94,9 +91,6 @@
                 $scope.pages = pages;
                 $scope.pageLinks = pageLinks;
                 $scope.currentPage = currentPage;
-                $log.log(start);
-                $log.log(end);
-                $log.log(pageLinks);
             };
             $scope.getReviewsForPage = function(event) {
                 var currentPage = event.currentTarget.text;
@@ -119,11 +113,7 @@
                         pageLinks[i] = false;
                     }
                 }
-                $log.log(start);
-                $log.log(end);
-                //$log.log(pageLinks);
                 $scope.reviews = $scope.terms[$scope.selectedTerm]['reviews'].slice(start, end);
-                $log.log($scope.reviews.length);
                 $scope.pageLinks = pageLinks;
             };
         }

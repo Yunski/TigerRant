@@ -98,42 +98,10 @@ $(document).ready(function() {
         //console.log(baseURL + queryString);
         document.location.href = baseURL + queryString;
     });
-    /*
-    $(".review-link").click(function(e) {
-        e.preventDefault();
-        page = $(this).text();
-        newPageURL = window.location.href;
-        baseURL = "";
-        queryString = "";
-        pageParam = "current=";
-        if (newPageURL.indexOf("?") >= 0) {
-            components = newPageURL.split("?");
-            baseURL = components[0] + "?";
-            queryString = components[1];
-            if (queryString.indexOf("current") >= 0) {
-                currentPage = queryString.split(pageParam)[1];
-                pageInt = parseInt(currentPage);
-                if (isNaN(pageInt)) {
-                    pageInt = 1;
-                }
-                if (page.toLowerCase() === "next") {
-                    page = (pageInt + 1).toString();
-                } else if (page.toLowerCase() === "previous") {
-                    page = (pageInt - 1).toString();
-                }
-                queryString = queryString.split(pageParam)[0] + pageParam + page;
-            }
-        } else {
-            // TEMPORARY - first time on browse, load all courses
-            baseURL = newPageURL;
-            if (page.toLowerCase() === "next") {
-                queryString = "?current=2";
-            } else {
-                queryString = "?current=" + page;
-            }
-        }
-        //console.log(baseURL + queryString);
-
-        document.location.href = baseURL + queryString;
-    });*/
 });
+
+function scrollToReviewsTop() {
+    $('html, body').animate({
+        scrollTop: $(".terms").offset().top
+    }, 500);
+}

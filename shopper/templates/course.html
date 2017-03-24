@@ -219,26 +219,26 @@
     </div>
     <nav class="page-navigation" aria-label="Page navigation">
       <ul class="pagination">
-        <li class="page-item" ng-if="pages >= 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)">Previous</a></li>
-        <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ pageNum + 1 }}</a></li>
+        <li class="page-item" ng-if="pages >= 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Previous</a></li>
+        <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
 
-        <li class="page-item" ng-if="pages >= 10 && currentPage < 5 && pageNum < 5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ pageNum + 1 }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage < 5 && pageNum < 5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
         <li class="page-item disabled" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ pages }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
 
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)">1</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
         <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ currentPage - 1}}</a></li>
-        <li class="page-item active" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ currentPage }}</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ currentPage + 1}}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage - 1}}</a></li>
+        <li class="page-item active" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage + 1}}</a></li>
         <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ pages }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
 
-        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)">1</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4 && pageNum >= pages-5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)">{{ pageNum + 1 }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
+        <li class="page-item disabled" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link">...</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4 && pageNum >= pages-5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
 
-        <li class="page-item" ng-if="pages >= 1" ng-class="{ disabled: currentPage >= pages }"><a class="page-link review-link" ng-click="getReviewsForPage($event)">Next</a></li>
+        <li class="page-item" ng-if="pages >= 1" ng-class="{ disabled: currentPage >= pages }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Next</a></li>
       </ul>
     </nav>
     {% endraw %}
