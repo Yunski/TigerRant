@@ -26,10 +26,11 @@ $(document).ready(function() {
         $(this).css("background-position-x", ($(".resizing-search-select").width() + 20).toString() + "px");
     });
 
+    /*
     $('.sort-options').change(function(){
         $(".resizing-sort-option").html($('.sort-options option:selected').text());
         $(this).width($(".resizing-sort-select").width());
-    });
+    });*/
 
     /* TEMPORARY LOGOUT TESTING - TODO: FIX THIS! */
     $("#nav-account").click(function(e) {
@@ -97,7 +98,7 @@ $(document).ready(function() {
         //console.log(baseURL + queryString);
         document.location.href = baseURL + queryString;
     });
-
+    /*
     $(".review-link").click(function(e) {
         e.preventDefault();
         page = $(this).text();
@@ -123,7 +124,7 @@ $(document).ready(function() {
                 queryString = queryString.split(pageParam)[0] + pageParam + page;
             }
         } else {
-            /* TEMPORARY - first time on browse, load all courses */
+            // TEMPORARY - first time on browse, load all courses
             baseURL = newPageURL;
             if (page.toLowerCase() === "next") {
                 queryString = "?current=2";
@@ -134,5 +135,5 @@ $(document).ready(function() {
         //console.log(baseURL + queryString);
 
         document.location.href = baseURL + queryString;
-    });
+    });*/
 });

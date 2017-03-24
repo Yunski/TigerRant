@@ -105,6 +105,10 @@ button:focus, textarea:focus {
   box-shadow:none;
 }
 
+.btn-primary {
+  color: white !important;
+}
+
 .btn-primary:hover {
   background-color: #303030;
   border-color: #303030;
@@ -360,7 +364,9 @@ select.resizing-search-select, select.resizing-sort-select {
   height: 1.6rem;
 }
 
-#browse-results-info .browse-sort .sort-options {
+.sort-options {
+  width: 7rem;
+  max-width: 7rem;
   height: 1.5rem;
   border-radius: 0.5rem;
   margin-top: 0.2rem;
@@ -368,6 +374,9 @@ select.resizing-search-select, select.resizing-sort-select {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   border-color: rgba(0, 0, 0, 0.25);
+  background: url("/static/icons/svg/sort-arrows.svg") no-repeat center;
+  background-size: 0.6rem 0.6rem;
+  background-position-x: 6rem;
 }
 
 #browse-page-content {
@@ -488,7 +497,7 @@ select.resizing-search-select, select.resizing-sort-select {
   position: relative;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  height: 15rem;
+  height: 12rem;
   width: 100%;
   background-color: #303030;
   border-radius: 0.5rem;
@@ -562,7 +571,7 @@ select.resizing-search-select, select.resizing-sort-select {
 
 .rating-bars {
   color: white;
-  height: 13rem;
+  height: 10rem;
 }
 
 .rating-bars .row {
@@ -608,6 +617,41 @@ select.resizing-search-select, select.resizing-sort-select {
   -webkit-transition: width 0.6s linear;
   -moz-transition: width 0.6s linear;
   transition: width 0.6s linear;
+}
+
+/* term tabs */
+
+.terms {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #303030;
+  border-radius: 0.5rem;
+}
+
+.terms .nav-tabs {
+  border-bottom: none;
+}
+
+.terms .nav-tabs .nav-link {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.terms .nav-tabs .nav-link:hover {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid #f6f6f6;
+  background-color: #f6f6f6;
+}
+
+.terms .nav-tabs .active {
+  color: white;
+  background-color: #303030;
+}
+
+.terms .nav-tabs .active:hover {
+  color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #303030;
 }
 
 /* reviews */

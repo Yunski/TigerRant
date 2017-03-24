@@ -65,7 +65,7 @@ class Review(db.Model):
         backref=db.backref('reviews', lazy='dynamic'))
 
     def __repr__(self):
-        return "<Review {} {}>".format(self.c_id, self.term_id)
+        return "<Review {} {}>".format(self.course_id, self.sem_code)
 
 # [END model]
 

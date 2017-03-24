@@ -1,3 +1,4 @@
+import json
 import logging
 import sys
 
@@ -24,16 +25,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         model = sql
         model.init_app(app)
 
+
     @app.route('/')
     def index():
         if 'netid' in session:
             return redirect(url_for('browse'))
         return render_template('index.html')
 
+
     @app.route('/login')
     def login():
         c = cas.CASClient(request.url_root)
         return redirect(c.LoginURL(), code=307)
+
 
     @app.route('/login/validate')
     def validate():
@@ -54,10 +58,12 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             sql.db.session.commit()
         return response
 
+
     @app.route('/logout', methods=['POST'])
     def logout():
         session.pop('netid', None)
         return redirect(url_for('index'))
+
 
     @app.route('/browse')
     def browse():
@@ -91,6 +97,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             num_pages = length // 12 + (length % 12 > 0)
         return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search)
 
+
     @app.route('/course')
     def course():
         if 'netid' not in session:
@@ -107,58 +114,8 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             # course page not found
             return redirect(url_for('browse'))
 
-        search = request.args.get('search')
-        page = request.args.get('page')
-        returnURL = "/browse?search={}&page={}".format(search, page)
+        return render_template('course.html', netid=netid, course=course)
 
-        current = request.args.get('current')
-        maxPerPage = 20
-        if current is not None:
-            if current.isdigit():
-                currentPage = int(current)
-                start = (currentPage-1) * maxPerPage
-                end = currentPage * maxPerPage
-        else:
-            currentPage = 1
-            start = 0
-            end = maxPerPage
-        length = len(course.reviews.all())
-        if length < end:
-            end = length
-        num_pages = length // maxPerPage + (length % maxPerPage > 0)
-
-        reviews = course.reviews.order_by(sql.Review.overall_rating)[start:end]
-        allreviews = course.reviews.order_by(sql.Review.sem_code)
-        terms = {}
-        prevTermCode = -1
-        recent = -1
-        for review in allreviews:
-            currentTerm = int(review.sem_code)
-            if prevTermCode != currentTerm:
-                period = ""
-                term = str(currentTerm)[1:]
-                if term[2:3] == "2": period = "Fall "
-                else: period = "Spring "
-                prevYear = str(int(term[:2]) - 1)
-                period += prevYear + "-" + term[:2]
-                prevTermCode = currentTerm
-                recent = prevTermCode
-                terms[prevTermCode] = {
-                    "rating": review.overall_rating,
-                    "num_reviews": "1",
-                    "prof_rating": review.lecture_rating,
-                    "period": period
-                }
-            else:
-                curNum = int(terms[currentTerm]["num_reviews"])
-                terms[currentTerm]["num_reviews"] = str(curNum + 1)
-                for key in terms:
-                    sys.stdout.write(str(terms[key]) + '\n')
-                    sys.stdout.flush()
-        if recent != -1:
-            return render_template('course.html', netid=netid, course=course, current=currentPage, pages=num_pages, recent=recent, reviews=reviews, returnURL=returnURL, terms=terms, total=length)
-        else: #this means no reviews
-            return render_template('course.html', netid=netid, course=course, current=currentPage, pages=num_pages, reviews=reviews, returnURL=returnURL, terms=terms, total=length)
 
     @app.route('/cart')
     def cart():
@@ -172,6 +129,48 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if 'netid' not in session:
             return redirect(url_for('index'))
         return render_template('rant-space.html')
+
+
+    @app.route('/reviews', methods=['POST'])
+    def reviews():
+        if 'netid' not in session:
+            return redirect(url_for('index'))
+        if request.method == 'POST':
+            data = json.loads(request.data.decode())
+            course_id = data['cid']
+            if course_id == None:
+                return "", status.HTTP_400_BAD_REQUEST
+            if not course_id.isdigit():
+                return "", status.HTTP_400_BAD_REQUEST
+            c_id = int(course_id)
+            course = sql.Course.query.filter_by(c_id=c_id).first()
+            if course == None:
+                return "course does not exist", status.HTTP_406_NOT_ACCEPTABLE
+            reviews = course.reviews.all()
+            reviewsJson = {}
+            termSet = set()
+            for review in reviews:
+                termSet.add(review.sem_code)
+            for term in termSet:
+                reviews = course.reviews.filter_by(sem_code=term).all()
+                reviewsJson[term] = {}
+                reviewsJson[term]['reviews'] = []
+                termCode = str(term)[1:]
+                if termCode[2:3] == "2":
+                    termString = "Fall "
+                else:
+                    termString = "Spring "
+                termString += str(int(termCode[:2]) - 1) + "-" + termCode[:2]
+                reviewsJson[term]['term_string'] = termString
+                for review in reviews:
+                    reviewDict = {}
+                    reviewDict['sem_code'] = review.sem_code
+                    reviewDict['overall_rating'] = review.overall_rating
+                    reviewDict['lecture_rating'] = review.lecture_rating
+                    reviewDict['student_advice'] = review.student_advice
+                    reviewsJson[term]['reviews'].append(reviewDict)
+            return json.dumps(reviewsJson)
+        return "", status.HTTP_400_BAD_REQUEST
 
     # Add an error handler. This is useful for debugging the live application,
     # however, you should disable the output of the exception for production
