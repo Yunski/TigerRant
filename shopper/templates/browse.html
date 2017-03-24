@@ -62,17 +62,11 @@
   <div id="browse-results-info">
     <span>{% if courses|count == 1 %}{{ num_results }}{% else %}{{ 1 + (current-1) * 12 }} - {% if num_results < current * 12 %}{{ num_results }}{% else %}{{ current * 12 }}{% endif %}{% endif %} of {{ num_results }} results for "{{ search }}"</span>
     <div class="browse-sort">
-      <div class="sort-container">
-        <span>Sort by:</span>
-        <select class="sort-options">
-          <option value="recent">Avg. Rating</option>
-          <option value="positive">Relevance</option>
-        </select>
-        <!--
-        <select class="resizing-sort-select">
-          <option class="resizing-sort-option"></option>
-        </select>-->
-      </div>
+      <span>Sort by:</span>
+      <select class="sort-options">
+        <option value="recent">Avg. Rating</option>
+        <option value="positive">Relevance</option>
+      </select>
     </div>
   </div>
 {% else %}
