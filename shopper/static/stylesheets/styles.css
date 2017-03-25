@@ -487,6 +487,10 @@ select.resizing-search-select, select.resizing-sort-select {
   font-weight: 300;
 }
 
+.course-instructors span {
+  padding: 0.2rem;
+}
+
 .course-description {
   color: gray;
 }

@@ -106,8 +106,13 @@
         <div class="card bg-clear">
           <h3 class="card-title"><a href="#myModal" data-toggle="modal">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</a></h3>
           <div class="course-instructors">
-            {% for instructor in course.instructors %}
-              <span>{{ instructor.first_name }} {{ instructor.last_name }}</span>
+            {% for i in range(0, course.instructors|length) %}
+            {% if i != course.instructors|length-1 %}
+              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+              <span>/</span>
+            {% else %}
+              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+            {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -196,7 +201,6 @@
         <div class="reviews-sort" ng-if="selectedTerm.length > 0">
           <span>Sort by:</span>
           <select class="sort-options">
-            <option value="recent">Most recent</option>
             <option value="positive">Most positive</option>
             <option value="negative">Most negative</option>
             <option value="upvotes">Most upvotes</option>
