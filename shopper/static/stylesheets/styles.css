@@ -478,6 +478,11 @@ select.resizing-search-select, select.resizing-sort-select {
   text-align: center;
 }
 
+.course-banner .card-title {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .course-banner a:hover {
   border-bottom: 3px solid #303030;
 }
