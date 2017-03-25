@@ -16,6 +16,12 @@ def populateDB():
     for course in courses:
         num = 0
         dept = course["dept"]
+        d = sql.Department(code=dept)
+        foundDept = sql.Department.query.filter_by(code=dept).first()
+        if foundDept == None:
+            sql.db.session.add(d)
+        else:
+            d = foundDept
         #print("dept: {}".format(dept))
         course_id = course["c_id"]
         #print("course_id: {}".format(course_id))
@@ -36,6 +42,7 @@ def populateDB():
         else:
             c = foundCourse
 
+        d.courses.append(c)
         for instructor in course["instructors"]:
             #print("emplid: {}".format(instructor["emplid"]))
             emplid = instructor["emplid"]

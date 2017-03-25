@@ -181,7 +181,7 @@
     <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true" ng-if="selectedTerm.length > 0">
       <ul class="nav nav-tabs d-flex justify-content-center">
         <li class="nav-item" ng-repeat="(key, value) in terms">
-          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)">
+          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
             {{ value['term_string'] }}</a>
         </li>
       </ul>

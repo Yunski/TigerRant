@@ -318,17 +318,21 @@ select.resizing-search-select, select.resizing-sort-select {
 
 /* home page */
 
-#home-feature-carousel .carousel-inner {
-  background: black;
-  height: 20rem;
+#departments {
+  margin: 2rem 6rem;
 }
 
-#home-feature-carousel .carousel-inner a {
-  color: rgba(255, 255, 255, 0.8);
+#departments .btn {
+  width: 100%;
+  font-size: 2rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
-#home-feature-carousel img {
-  height: 100%;
+#departments .btn-secondary:hover {
+  background-color: #303030;
+  color: white;
 }
 
 /* browse page */
@@ -510,6 +514,9 @@ select.resizing-search-select, select.resizing-sort-select {
   color: white;
   font-size: 5rem;
   font-weight: 300;
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 
 .rating-total {

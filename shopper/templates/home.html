@@ -64,5 +64,23 @@
 </nav>
 {% endblock %}
 {% block content %}
-<!-- TODO: browse page home -->
+<div id="departments">
+{% for i in range(0, departments|length // display_per_row) %}
+  <div class="row">
+    {% for j in range(display_per_row) %}
+    <div class="col d-flex align-items-center"><a href="/browse?search={{ departments[j + display_per_row * i].code }}&amp;page=1" class="btn btn-secondary">{{ departments[j + display_per_row * i].code }}</a></div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  {% if departments|length % display_per_row > 0 %}
+  <div class="row">
+  {% for j in range((departments|length // display_per_row) * display_per_row, departments|length) %}
+    <div class="col d-flex align-items-center"><a href="/browse?search={{ departments[j].code }}&amp;page=1" class="btn btn-secondary">{{ departments[j].code }}</a></div>
+  {% endfor %}
+  {% for j in range(display_per_row - departments|length % display_per_row) %}
+    <div class="col"></div>
+  {% endfor %}
+  </div>
+  {% endif %}
+</div>
 {% endblock %}

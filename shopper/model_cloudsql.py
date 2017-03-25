@@ -22,7 +22,7 @@ instructors = db.Table("instructors",
 class Course(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
     c_id = db.Column(db.Integer, index=True, unique=True)
-    dept = db.Column(db.String(3), index=True)
+    dept = db.Column(db.String(3), db.ForeignKey('department.code'), index=True)
     catalog_number = db.Column(db.String(4), index=True)
     title = db.Column(db.UnicodeText())
     track = db.Column(db.UnicodeText())
@@ -38,6 +38,14 @@ class Course(db.Model):
     def __repr__(self):
         return "<Course {}{}>".format(self.code, self.catalog_number)
 
+class Department(db.Model):
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
+    code = db.Column(db.String(3), index=True, unique=True)
+    courses = db.relationship('Course', backref='department',
+                                lazy='dynamic')
+    def __repr__(self):
+        return "<Department {}>".format(self.dept_code)
+
 class Instructor(db.Model):
     id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
     emplid = db.Column(db.Integer, index=True, unique = True)
@@ -46,13 +54,6 @@ class Instructor(db.Model):
 
     def __repr__(self):
         return "<Instructor {} {}>".format(self.first_name, self.last_name)
-
-class User(db.Model):
-    id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
-    netid = db.Column(db.Unicode(32), index=True, unique = True)
-    ticket = db.Column(db.UnicodeText())
-    first_name = db.Column(db.UnicodeText())
-    last_name = db.Column(db.UnicodeText())
 
 class Review(db.Model):
     id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
@@ -67,6 +68,13 @@ class Review(db.Model):
 
     def __repr__(self):
         return "<Review {} {}>".format(self.course_id, self.sem_code)
+
+class User(db.Model):
+    id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
+    netid = db.Column(db.Unicode(32), index=True, unique = True)
+    ticket = db.Column(db.UnicodeText())
+    first_name = db.Column(db.UnicodeText())
+    last_name = db.Column(db.UnicodeText())
 
 # [END model]
 

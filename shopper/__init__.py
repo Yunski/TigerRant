@@ -76,7 +76,9 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if search is not None:
             fields = search.split()
         if page is None or search is None:
-            return render_template('home.html', netid=netid)
+            departments = sql.Department.query.order_by(sql.Department.code).all()
+            display_per_row = 4
+            return render_template('home.html', netid=netid, departments=departments, display_per_row=display_per_row)
         pageInt = 0
         if page.isdigit():
             pageInt = int(page)
