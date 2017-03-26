@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block navbar %}
+<nav id="navbar-browse" class="navbar navbar-light bg-clear">
+  <div class="row" id="navbar-main">
+    <div class="col-md-2 text-center">
+      <div class="navbar-col-content"><a class="navbar-brand" href="/browse">TigerShop</a></div>
+    </div>
+    <div class="col-md-7 text-center">
+      <div class="navbar-col-content">
+        <form class="form-inline">
+          <select class="search-options">
+            <option value="0">All</option>
+            <!--
+            <option value="1">Distribution</option>
+            <option value="2">Description</option>
+            <option value="3">Start Time</option>
+            <option value="4">End Time</option>-->
+          </select>
+          <select class="resizing-search-select">
+            <option class="resizing-search-option"></option>
+          </select>
+          <input class="search-text-field" type="text" placeholder="search courses"></input>
+          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+  <div class="row" id="navbar-footer">
+    <div class="col-md-4">
+      <div class="nav-section">
+        <div class="nav">
+          <a href="/browse" class="nav-link">Departments</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="nav-section">
+        <div class="nav">
+          <a class="nav-link disabled">Distributions</a>
+          <a class="nav-link disabled">Easy PDFs</a>
+          <a class="nav-link disabled">GPA Boosters</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="nav-section">
+        <div class="nav justify-content-end">
+          <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
+          <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
+            <div class="dropdown-menu" aria-labelledby="nav-account-button">
+              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+            </div>
+          </div>
+          <a class="nav-link disabled" id="cart-button" class="btn nav-button">
+            <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
+            <span id="num-items-in-cart"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+<div id="departments">
+{% for i in range(0, departments|length // display_per_row) %}
+  <div class="row">
+    {% for j in range(display_per_row) %}
+    <div class="col d-flex align-items-center"><a href="/browse?search={{ departments[j + display_per_row * i].code }}&amp;page=1" class="btn btn-secondary">{{ departments[j + display_per_row * i].code }}</a></div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  {% if departments|length % display_per_row > 0 %}
+  <div class="row">
+  {% for j in range((departments|length // display_per_row) * display_per_row, departments|length) %}
+    <div class="col d-flex align-items-center"><a href="/browse?search={{ departments[j].code }}&amp;page=1" class="btn btn-secondary">{{ departments[j].code }}</a></div>
+  {% endfor %}
+  {% for j in range(display_per_row - departments|length % display_per_row) %}
+    <div class="col"></div>
+  {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

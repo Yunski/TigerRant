@@ -42,9 +42,13 @@ a:hover {
 }
 
 a, a:link, a:active, a:visited {
-  color: inherit;
   text-decoration: none;
   outline: none;
+}
+
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
 }
 
 select:focus {
@@ -52,7 +56,7 @@ select:focus {
 }
 
 .select {
-  border: 1px solid #303030;
+
 }
 
 button:hover {
@@ -101,6 +105,10 @@ button:focus, textarea:focus {
   box-shadow:none;
 }
 
+.btn-primary {
+  color: white !important;
+}
+
 .btn-primary:hover {
   background-color: #303030;
   border-color: #303030;
@@ -110,6 +118,9 @@ button:focus, textarea:focus {
   background-color: #303030;
 }
 
+.page-item a {
+  color: #303030;
+}
 /* Font Awesome */
 
 /* AOS extras */
@@ -175,6 +186,7 @@ button:focus, textarea:focus {
 #navbar-footer .nav-link {
   font-weight: 200;
   height: 2.8rem;
+  color: white;
 }
 
 #navbar-home.shrink {
@@ -216,22 +228,34 @@ button:focus, textarea:focus {
   margin: 0 auto;
 }
 
-.search-text-field {
-  float: left;
-  width: 80%;
-  max-width: 80%;
+select.search-options {
   height: 2.5rem;
-  line-height: 1.5rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
   padding-left: 1rem;
-  border-top: 1px solid #cccccc;
-  border-left: 1px solid #cccccc;
+  padding-right: 1rem;
+  border-color: rgba(0, 0, 0, 0.25);
+  background: url("/static/icons/svg/arrow-down.svg") no-repeat center;
+  background-size: 0.5rem 0.5rem;
+}
+
+select.resizing-search-select, select.resizing-sort-select {
+  display: none;
+}
+
+.search-text-field {
+  height: 2.5rem;
+  padding-left: 1rem;
+  line-height: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  border-left: none;
   border-right: none;
-  border-bottom: 1px solid #cccccc;
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 0;
   font-size: 1rem;
   color: #303030;
   background-color: white;
+  flex-grow: 1;
 }
 
 .search-text-field:focus, .search-text-field:hover {
@@ -240,13 +264,15 @@ button:focus, textarea:focus {
   border-color: #303030;
 }
 
-.search-text-field::-webkit-input-placeholder { color: #cccccc; font-weight: 100; }
-.search-text-field::-moz-placeholder          { color: #cccccc; font-weight: 100; }
-.search-text-field:-moz-placeholder           { color: #cccccc; font-weight: 100; }
-.search-text-field:-ms-input-placeholder      { color: #cccccc; font-weight: 100; }
+.search-text-field::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
+.search-text-field::-moz-placeholder          { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
+.search-text-field:-moz-placeholder           { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
+.search-text-field:-ms-input-placeholder      { color: rgba(0, 0, 0, 0.25); font-weight: 100; }
 
 .search-button {
   float: left;
+  width: 3rem;
+  max-width: 3rem;
   height: 2.5rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -259,7 +285,7 @@ button:focus, textarea:focus {
   background-color: black;
 }
 
-/* Home Content */
+/* Index Content */
 
 .hero-wrapper {
   padding-top: 6rem;
@@ -290,10 +316,32 @@ button:focus, textarea:focus {
   font-weight: 200;
 }
 
+/* home page */
+
+#departments {
+  margin: 2rem 6rem;
+}
+
+#departments .btn {
+  width: 100%;
+  font-size: 2rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 1rem;
+}
+
+#departments .btn-secondary:hover {
+  background-color: #303030;
+  color: white;
+}
+
 /* browse page */
 
 #browse-results-info {
-  padding: 0.2rem;
+  position: relative;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.2rem;
   height: 2rem;
   border-bottom: 1px solid rgba(0,0,0,.125);
   box-shadow: 0px 1px #F6F6F6;
@@ -301,7 +349,6 @@ button:focus, textarea:focus {
 }
 
 #browse-results-info span {
-  padding-left: 1rem;
   line-height: 1.6rem;
   height: 1.6rem;
   font-weight: 300;
@@ -309,15 +356,25 @@ button:focus, textarea:focus {
 }
 
 #browse-results-info .browse-sort {
-  height: 1.6rem;
-  float: right;
-  padding-right: 1rem;
+  position: absolute;
+  top: 0;
+  right: 2rem;
+  width: 12rem;
 }
 
-#browse-results-info .browse-sort select {
+.sort-options {
   width: 8rem;
-  vertical-align:middle;
+  max-width: 8rem;
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 0.2rem;
   margin-bottom: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-color: rgba(0, 0, 0, 0.25);
+  background: url("/static/icons/svg/sort-arrows.svg") no-repeat center;
+  background-size: 0.6rem 0.6rem;
+  background-position-x: 7rem;
 }
 
 #browse-page-content {
@@ -329,24 +386,23 @@ button:focus, textarea:focus {
   margin-bottom: 0.5rem;
 }
 
-#browse-page-content .card {
+#browse-page-content .card, #cart .card {
   width: 100%;
 }
 
-#browse-page-content .card-title {
+#browse-page-content .card-title, #cart .card-title {
   width: 50%;
 }
 
-#browse-page-content .card-title a:hover {
-  color: black;
-  border-bottom: 0.2rem solid black;
+#browse-page-content .card-title a:hover, #cart .card-title a:hover {
+  border-bottom: 0.2rem solid #004A8B;
 }
 
-#browse-page-content .card-link:hover {
+#browse-page-content .card-link:hover, #cart .card-link:hover {
   color: #3E8DED;
 }
 
-#browse-page-content .badges {
+#browse-page-content .badges, #cart .badges {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -356,13 +412,13 @@ button:focus, textarea:focus {
   user-select: none;
 }
 
-#browse-page-content .badges img {
+#browse-page-content .badges img, #cart .badges img {
   width: 2rem;
   height: 2rem;
   margin-left: 1rem;
 }
 
-#browse-page-content .browse-item-rating {
+#browse-page-content .browse-item-rating, #cart .cart-item-rating {
   color: #DEB202;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -374,6 +430,15 @@ button:focus, textarea:focus {
   padding-left: 0.5rem;
 }
 
+.no-match-container {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.no-match-container span {
+  padding-right: 0.5rem;
+}
+
 /* course page */
 
 #course-page-content {
@@ -381,14 +446,24 @@ button:focus, textarea:focus {
 }
 
 #course-page-content .return-link {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   width: 100%;
+}
+
+#course-page-content .return-link a {
+  color: #303030;
+}
+
+#course-page-content .return-link span {
+  margin-right: 0.5rem;
 }
 
 /* Reviews Wrapper */
 
 .row-outline-bottom {
   border-bottom: 1px solid #303030;
-  box-shadow: 0 1px 0px #cccccc;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.125);
 }
 
 .course-banner .card {
@@ -403,6 +478,11 @@ button:focus, textarea:focus {
   text-align: center;
 }
 
+.course-banner .card-title {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .course-banner a:hover {
   border-bottom: 3px solid #303030;
 }
@@ -410,6 +490,10 @@ button:focus, textarea:focus {
 .course-instructors {
   color: #555555;
   font-weight: 300;
+}
+
+.course-instructors span {
+  padding: 0.2rem;
 }
 
 .course-description {
@@ -420,7 +504,7 @@ button:focus, textarea:focus {
   position: relative;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  height: 15rem;
+  height: 12rem;
   width: 100%;
   background-color: #303030;
   border-radius: 0.5rem;
@@ -439,6 +523,9 @@ button:focus, textarea:focus {
   color: white;
   font-size: 5rem;
   font-weight: 300;
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 
 .rating-total {
@@ -470,7 +557,7 @@ button:focus, textarea:focus {
 .initial-rating {
   position: absolute;
   top: 40%;
-  color: #cccccc;
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .initial-rating span {
@@ -494,7 +581,7 @@ button:focus, textarea:focus {
 
 .rating-bars {
   color: white;
-  height: 13rem;
+  height: 10rem;
 }
 
 .rating-bars .row {
@@ -542,6 +629,41 @@ button:focus, textarea:focus {
   transition: width 0.6s linear;
 }
 
+/* term tabs */
+
+.terms {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #303030;
+  border-radius: 0.5rem;
+}
+
+.terms .nav-tabs {
+  border-bottom: none;
+}
+
+.terms .nav-tabs .nav-link {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.terms .nav-tabs .nav-link:hover {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid #f6f6f6;
+  background-color: #f6f6f6;
+}
+
+.terms .nav-tabs .active {
+  color: white;
+  background-color: #303030;
+}
+
+.terms .nav-tabs .active:hover {
+  color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #303030;
+}
+
 /* reviews */
 
 .reviews {
@@ -551,7 +673,7 @@ button:focus, textarea:focus {
 
 .reviews .reviews-header {
   padding-top: 2rem;
-  padding-bottom: 4rem;
+  padding-bottom: 2rem;
   width: 100%;
 }
 
@@ -559,7 +681,7 @@ button:focus, textarea:focus {
   float: left;
   padding-left: 0.2rem;
   padding-top: 0.2rem;
-  width: 10rem;
+  width: 15rem;
 }
 .reviews .reviews-title h4 {
   margin: 0;
@@ -613,6 +735,14 @@ button:focus, textarea:focus {
 
 /* course page tool panel */
 
+#course-page-content {
+  padding-bottom: 1rem;
+}
+
+#course-page-content .card-title a {
+  color: #303030;
+}
+
 #course-page-content .tool-panel {
   margin-top: 1rem;
 }
@@ -638,10 +768,11 @@ button:focus, textarea:focus {
   padding: 0.2rem;
   margin: 0 auto 2rem;
   width: 90%;
+  height: 2rem;
   border-radius: 0.2rem;
   background-color: #f6f6f6;
-  border: 1px solid #cccccc;
-  height: 2rem;
+  color: #303030;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 #course-page-content .tool-panel .add-to-cart-button i {
@@ -657,6 +788,33 @@ button:focus, textarea:focus {
   height: 1.6rem;
   top: 0.2rem;
   left: 25%;
+}
+
+/* Cart */
+
+#cart {
+  padding: 2rem;
+}
+
+#cart .cart-title {
+  width: 100%;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#cart .list-group-item {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#cart .card-title {
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#cart .card-text {
+  margin-top: 1rem;
 }
 
 /* Rant Space */
@@ -678,7 +836,7 @@ button:focus, textarea:focus {
 .rant-course {
   font-size: 1.5rem;
   text-align: center;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   box-shadow: 0 2px #f6f6f6;
 }
 

@@ -3,31 +3,43 @@
 <nav id="navbar-browse" class="navbar navbar-light bg-clear">
   <div class="row" id="navbar-main">
     <div class="col-md-2 text-center">
-      <div class="navbar-col-content"><a class="navbar-brand" href="/browse">Navbar</a></div>
+      <div class="navbar-col-content"><a class="navbar-brand" href="/browse" target="_self">TigerShop</a></div>
     </div>
     <div class="col-md-7 text-center">
       <div class="navbar-col-content">
-        <input class="search-text-field" type="text" placeholder="search courses"></input>
-        <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <form class="form-inline">
+          <select class="search-options">
+            <option value="0">All</option>
+            <!--
+            <option value="1">Distribution</option>
+            <option value="2">Description</option>
+            <option value="3">Start Time</option>
+            <option value="4">End Time</option>-->
+          </select>
+          <select class="resizing-search-select">
+            <option class="resizing-search-option"></option>
+          </select>
+          <input class="search-text-field" type="text" placeholder="search courses"></input>
+          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
       </div>
     </div>
-    <div class="col-md-3">
-    </div>
+    <div class="col-md-3"></div>
   </div>
   <div class="row" id="navbar-footer">
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Departmentals</a>
+          <a href="/browse" class="nav-link" target="_self">Departments</a>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a href="#" class="nav-link">Distributions</a>
-          <a href="#" class="nav-link">Easy PDFs</a>
-          <a href="#" class="nav-link">GPA Boosters</a>
+          <a class="nav-link disabled" target="_self">Distributions</a>
+          <a class="nav-link disabled" target="_self">Easy PDFs</a>
+          <a class="nav-link disabled" target="_self">GPA Boosters</a>
         </div>
       </div>
     </div>
@@ -35,10 +47,15 @@
       <div class="nav-section">
         <div class="nav justify-content-end">
           <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
-          <a href="#" class="nav-link" id="nav-account" class="btn nav-button">Your Account</a>
-          <a href="/cart" class="nav-link" id="cart-button" class="btn nav-button">
+          <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
+            <div class="dropdown-menu" aria-labelledby="nav-account-button">
+              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+            </div>
+          </div>
+          <a class="nav-link disabled" id="cart-button" target="_self">
             <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-            <span id="num-items-in-cart">1</span>
+            <span id="num-items-in-cart"></span>
           </a>
         </div>
       </div>
@@ -52,7 +69,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ORF 307 - Optimization</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -64,13 +81,7 @@
           <li class="course-location">Location: Friend Center 101</li>
         </ul>
         <p class="course-description">
-          Many real-world problems involve maximizing a linear function subject to linear
-          inequality constraints. Such problems are called Linear Programming (LP) problems.
-          Examples include min-cost network flows, portfolio optimization, options pricing,
-          assignment problems and two-person zero-sumgames to name but a few.
-          The theory of linear programming will be developed with a special emphasis on
-          duality theory. Attention will be devoted to efficient solution algorithms.
-          These algorithms will be illustrated on real-world examples such as those mentioned.
+          {{ course.description }}
         </p>
       </div>
       <div class="modal-footer">
@@ -79,29 +90,52 @@
     </div>
   </div>
 </div>
-<div id="course-page-content" class="row">
+<div id="course-page-content" class="row" ng-init="getReviews()">
   <div class="col-md-2">
-    <a href="/browse?search=ORF&amp;page=1" class="return-link">
-      <span>Back to search results for:</span>
-      <span>"ORF"</span>
-    </a>
+    {% raw %}
+    <div class="return-link">
+      <a href="{{ returnURL }}" target="_self">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
+      </a>
+    </div>
+    {% endraw %}
   </div>
   <div class="col-md-8">
-    <div class="course-banner" data-aos="zoom-in" data-aos-once="true">
+    <div class="course-banner" data-aos="zoom-in" data-aos-once="true" ng-non-bindable>
       <div class="row">
         <div class="card bg-clear">
-          <h3 class="card-title"><a href="#myModal" data-toggle="modal">ORF307 - Optimization</a></h3>
-          <div class="course-instructors">Robert Joseph Vanderbei</div>
+          <h3 class="card-title"><a href="#myModal" data-toggle="modal">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</a></h3>
+          <div class="course-instructors">
+            {% for i in range(0, course.instructors|length) %}
+            {% if i != course.instructors|length-1 %}
+              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+              <span>/</span>
+            {% else %}
+              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+            {% endif %}
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
+    {% raw %}
+
     <div class="row reviews-summary" data-aos="zoom-in" data-aos-once="true">
       <div class="col-sm-6 rating-display">
-        <div class="rating-lg-average">3.0</div>
-        <span class="rating-description">based on <span class="rating-total">48</span> reviews</span>
-        <span class="rating-smart">see <a href="#">Smart Rating</a></span>
+        <div class="rating-lg-average">
+          {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
+        </div>
+        <span class="rating-description" ng-if="selectedTerm.length > 0">
+          based on
+          <span class="rating-total">
+            {{ terms[selectedTerm]['reviews'].length }}</span> reviews
+        </span>
+        <span class="rating-description" ng-if="selectedTerm.length <= 0">
+          Be the first to write a review!
+        </span>
       </div>
-      <div class="col-sm-6"> <!-- rating-bars -->
+      <div class="col-sm-6">
+        <!-- rating-bars -->
         <div class="initial-rating">
           <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
           <span id="star2"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
@@ -149,26 +183,37 @@
         </div>
       </div>
     </div>
+    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true" ng-if="selectedTerm.length > 0">
+      <ul class="nav nav-tabs d-flex justify-content-center">
+        <li class="nav-item" ng-repeat="(key, value) in terms">
+          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
+            {{ value['term_string'] }}</a>
+        </li>
+      </ul>
+    </div>
     <!-- Review Section -->
     <div class="reviews" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
       <div class="reviews-header">
         <div class="reviews-title">
-          <h4>All Reviews</h4>
+          <h4>Student Reviews</h4>
         </div>
-        <div class="reviews-sort">
+        <a class="btn btn-primary disabled">Write a Review</a>
+        <div class="reviews-sort" ng-if="selectedTerm.length > 0">
           <span>Sort by:</span>
-          <select class="form-control select">
-            <option value="recent">Most recent</option>
+          <select class="sort-options">
             <option value="positive">Most positive</option>
             <option value="negative">Most negative</option>
             <option value="upvotes">Most upvotes</option>
           </select>
         </div>
       </div>
-      <div class="reviews-listing">
-        <div class="row">
+      <div class="no-reviews" ng-if="selectedTerm.length <= 0">
+        <p>There are no student reviews yet.</p>
+      </div>
+      <div class="reviews-listing" ng-if="selectedTerm.length > 0">
+        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true" ng-repeat="review in reviews">
           <blockquote class="blockquote">
-            <p>Boring course. The material is very easy, so everyone does well on exams, making grading rather arbitrary.</p>
+            <p>{{ review.student_advice }}</p>
           </blockquote>
           <div class="like">
             <div class="sentiment">
@@ -178,69 +223,40 @@
               <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
               <span class="num-likes">3</span>
             </div>
-          </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>DON'T TAKE IT unless you're ORFE. It looks like less work than it is because Vanderbei decides throughout the semester to add multiple AMPL homeworks (code), additional questions to existing homeworks, and even a final, "Big Homework." The material is boring and you will never use it again. Don't waste your time.</p>
-          </blockquote>
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
-            </div>
-          </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>Don't take if you don't need to.</p>
-          </blockquote>
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
-            </div>
-          </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>Don't take it unless you have to.</p>
-          </blockquote>
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
-            </div>
-          </div>
-        </div>
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true">
-          <blockquote class="blockquote">
-            <p>Don't take this class. It's boring and Vanderbei is not a very good lecturer. It's useful, but if you can learn the methods elsewhere without having to take this class, do so. There will probably be some reviewers that say "Take it!" but those are the same sort of people that rated COS 323 (Fall 2011) and ORF 245 (of Spring 2011) well. If you have to take this class, then just suck it up and do it. Otherwise, avoid it. You only have 36 (or 31 for AB students) classes here, so don't waste any of them on this.</p>
-          </blockquote>
-          <div class="sentiment">
-            <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-          </div>
-          <div class="thumbs-up">
-            <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-            <span class="num-likes">3</span>
           </div>
         </div>
       </div>
     </div>
+    <nav class="page-navigation" aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Previous</a></li>
+        <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+
+        <li class="page-item" ng-if="pages >= 10 && currentPage < 5 && pageNum < 5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+        <li class="page-item disabled" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link">...</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
+
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
+        <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage - 1}}</a></li>
+        <li class="page-item active" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage + 1}}</a></li>
+        <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
+
+        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
+        <li class="page-item disabled" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link">...</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4 && pageNum >= pages-5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+
+        <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage >= pages }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Next</a></li>
+      </ul>
+    </nav>
+    {% endraw %}
   </div>
   <div class="col-md-2">
     <div class="tool-panel" data-aos="zoom-in" data-aos-once="true">
       <div class="card">
-        <a href="/rant" class="btn rant-space-button">
+        <a href="/rant" class="btn disabled rant-space-button">
           <img class="card-img-top" src="/static/icons/svg/door.svg" alt="Card image cap">
         </a>
         <div class="card-block">
@@ -251,7 +267,7 @@
         <div class="card-block">
           <h7 class="card-subtitle"></h7>
         </div>
-        <a href="/cart" class="btn add-to-cart-button">
+        <a class="btn add-to-cart-button disabled" target="_self">
           <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
           <span>Add to Cart</span>
         </a>
@@ -259,4 +275,6 @@
     </div>
   </div>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="/static/js/course_controller.js"></script>
 {% endblock %}
