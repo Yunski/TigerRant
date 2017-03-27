@@ -22,7 +22,6 @@ $(window).scroll(function() {
 });
 
 $(document).ready(function() {
-
     $('.search-options').change(function() {
         $(".resizing-search-option").html($('.search-options option:selected').text());
         $(this).width($(".resizing-search-select").width() + 4);

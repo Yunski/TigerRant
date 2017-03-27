@@ -4,7 +4,6 @@ import config
 import html
 import shopper
 import shopper.model_cloudsql as sql
-from scrape.createReview import newCourse
 
 def populateDB():
     shopper.create_app(config).app_context().push()
@@ -15,14 +14,16 @@ def populateDB():
     courses = data['courses']
     for course in courses:
         num = 0
-        dept = course["dept"]
-        d = sql.Department(code=dept)
-        foundDept = sql.Department.query.filter_by(code=dept).first()
+        dept_code = course["dept_code"]
+        dept_name = course['dept_name']
+        d = sql.Department(code=dept_code, name=dept_name)
+        foundDept = sql.Department.query.filter_by(code=dept_code).first()
         if foundDept == None:
             sql.db.session.add(d)
         else:
             d = foundDept
-        #print("dept: {}".format(dept))
+            d.code = dept_code
+            d.name = dept_name
         course_id = course["c_id"]
         #print("course_id: {}".format(course_id))
         catalog_number = course["catalog_number"]
@@ -34,7 +35,7 @@ def populateDB():
         description = html.unescape(course["description"])
 
         url = "/course?id={}".format(course_id)
-        c = sql.Course(c_id=int(course_id), dept=dept, catalog_number=catalog_number,
+        c = sql.Course(c_id=int(course_id), dept=dept_code, catalog_number=catalog_number,
                           title=title, track=track, description=description, url=url)
         foundCourse = sql.Course.query.filter_by(c_id=int(course_id)).first()
         if foundCourse == None:
@@ -43,6 +44,7 @@ def populateDB():
             c = foundCourse
 
         d.courses.append(c)
+        c.distribution = course["distribution"]
         for instructor in course["instructors"]:
             #print("emplid: {}".format(instructor["emplid"]))
             emplid = instructor["emplid"]
@@ -80,7 +82,7 @@ def populateDB():
             c.avg_rating = sum(ratings) / len(ratings)
         else:
             c.avg_rating = 0
-        print("Added {} {}".format(course["dept"], course["catalog_number"]))
+        print("Added {} {}".format(course["dept_code"], course["catalog_number"]))
 
     sql.db.session.commit()
 populateDB()

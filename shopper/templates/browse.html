@@ -37,7 +37,7 @@
     <div class="col-md-4">
       <div class="nav-section">
         <div class="nav">
-          <a class="nav-link disabled">Distributions</a>
+          <a href="/distributions" class="nav-link">Distributions</a>
           <a class="nav-link disabled">Easy PDFs</a>
           <a class="nav-link disabled">GPA Boosters</a>
         </div>
@@ -83,7 +83,7 @@
       <li class="list-group-item justify-content-between" data-aos="zoom-in" data-aos-once="true" data-aos-offset="-2000">
         <div class="card">
           <div class="card-block">
-            <h4 class="card-title"><a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}">{{ course.dept }} {{ course.catalog_number }}</a></h4>
+            <h4 class="card-title"><a href="{{ course.url }}&amp;search={{ search }}&amp;page={{ current }}">{{ course.dept }} {{ course.catalog_number }}</a>{% if course.distribution|length > 0 %}<span>({{ course.distribution }})</span>{% endif %}</h4>
             <h6 class="card-subtitle mb-2">{{ course.title|striptags }}</h6>
             <div class="badges">
               <!-- TODO: need Department model <img src="/static/icons/svg/trophy.svg" />-->

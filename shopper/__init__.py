@@ -77,7 +77,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             fields = search.split()
         if page is None or search is None:
             departments = sql.Department.query.order_by(sql.Department.code).all()
-            display_per_row = 4
+            display_per_row = 6
             return render_template('home.html', netid=netid, departments=departments, display_per_row=display_per_row)
         pageInt = 0
         if page.isdigit():
@@ -98,9 +98,14 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             for field in fields:
                 if len(field) == 3:
                     if not field.isdigit():
-                        baseQuery = baseQuery.filter(sql.Course.dept == field)
+                        if field == "STN" or field == "STL":
+                            baseQuery = baseQuery.filter(sql.Course.distribution == field)
+                        else:
+                            baseQuery = baseQuery.filter(sql.Course.dept == field)
                     else:
                         baseQuery = baseQuery.filter(sql.Course.catalog_number == field)
+                elif len(field) == 2 and not field.isdigit():
+                    baseQuery = baseQuery.filter(sql.Course.distribution == field)
                 else:
                     baseQuery = baseQuery.filter(sql.Course.description.contains(field))
             length = len(baseQuery.all())
@@ -136,6 +141,15 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             return redirect(url_for('index'))
         netid = session['netid']
         return render_template('cart.html', netid=netid)
+
+
+    @app.route('/distributions')
+    def distributions():
+        if 'netid' not in session:
+            return redirect(url_for('index'))
+        netid = session['netid']
+        return render_template('distributions.html', netid=netid)
+
 
     @app.route('/rant')
     def rant():
