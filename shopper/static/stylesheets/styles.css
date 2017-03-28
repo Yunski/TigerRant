@@ -12,6 +12,10 @@ body {
   color: #303030;
 }
 
+.footer a {
+  color: #303030;
+}
+
 .footer span {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -318,21 +322,27 @@ select.resizing-search-select, select.resizing-sort-select {
 
 /* home page */
 
-#departments {
+#departments, #distributions {
   margin: 2rem 6rem;
 }
 
-#departments .btn {
+#departments .btn, #distributions .btn {
   width: 100%;
   font-size: 2rem;
   padding-top: 3rem;
   padding-bottom: 3rem;
   margin-bottom: 1rem;
+  word-wrap:break-word;
 }
 
-#departments .btn-secondary:hover {
+#departments .btn-secondary:hover, #distributions .btn-secondary:hover {
   background-color: #303030;
   color: white;
+}
+
+#departments .dept-name {
+  display: block;
+  font-size: 1rem;
 }
 
 /* browse page */
@@ -396,6 +406,10 @@ select.resizing-search-select, select.resizing-sort-select {
 
 #browse-page-content .card-title a:hover, #cart .card-title a:hover {
   border-bottom: 0.2rem solid #004A8B;
+}
+
+#browse-page-content .card-title span {
+  padding-left: 0.5rem;
 }
 
 #browse-page-content .card-link:hover, #cart .card-link:hover {

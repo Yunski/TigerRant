@@ -24,6 +24,7 @@ class Course(db.Model):
     c_id = db.Column(db.Integer, index=True, unique=True)
     dept = db.Column(db.String(3), db.ForeignKey('department.code'), index=True)
     catalog_number = db.Column(db.String(4), index=True)
+    distribution = db.Column(db.String(3), index=True)
     title = db.Column(db.UnicodeText())
     track = db.Column(db.UnicodeText())
     description = db.Column(db.UnicodeText())
@@ -43,6 +44,7 @@ class Department(db.Model):
     code = db.Column(db.String(3), index=True, unique=True)
     courses = db.relationship('Course', backref='department',
                                 lazy='dynamic')
+    name = db.Column(db.UnicodeText())
     def __repr__(self):
         return "<Department {}>".format(self.dept_code)
 

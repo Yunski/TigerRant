@@ -3,6 +3,7 @@ import json
 import html
 import re
 from createReview import newCourse
+from distribution import fetchDistribution
 
 def fetchCourses(term, subject):
     courseURL = "http://etcweb.princeton.edu/webfeeds/courseofferings/?term={}&subject={}&fmt=json".format(term, subject)
@@ -14,12 +15,13 @@ def fetchCourses(term, subject):
     print("fetched data from course offerings web feed")
     subjects = data['term'][0]['subjects']
     for subject in subjects:
-        dept = subject['code']
+        dept_code = subject['code']
+        dept_name = html.unescape(subject['name'])
         #print("dept: {}".format(dept))
         courses = subject['courses']
 
         for course in courses:
-            print("Start course_id: {}, {} {}".format(course['course_id'], dept, course['catalog_number']))
+            print("Start course_id: {}, {} {}".format(course['course_id'], dept_code, course['catalog_number']))
             #print("course_id: {}".format(course['course_id']))
             course_id = course['course_id']
             #print("catalog_number: {}".format(course['catalog_number']))
@@ -32,11 +34,13 @@ def fetchCourses(term, subject):
             description = html.unescape(course['detail']['description'])
             courseObj = {}
             courseObj['c_id'] = course_id
-            courseObj['dept'] = dept
+            courseObj['dept_code'] = dept_code
+            courseObj['dept_name'] = dept_name
             courseObj['catalog_number'] = catalog_number
             courseObj['title'] = title
             courseObj['track'] = track
             courseObj['description'] = description
+            courseObj['distribution'] = fetchDistribution(course_id)
             courseObj['instructors'] = []
             for instructor in course['instructors']:
                 #print("emplid: {}".format(instructor['emplid']))
@@ -81,7 +85,7 @@ def fetchCourses(term, subject):
 
             courseObj['reviews'] = newCourse(course_id)['reviews']
             courseList['courses'].append(courseObj)
-            print("Finished course_id: {}, {} {}".format(course['course_id'], dept, course['catalog_number']))
+            print("Finished course_id: {}, {} {}".format(course['course_id'], dept_code, course['catalog_number']))
 
         with open('courses.json', 'w') as courseFile:
             json.dump(courseList, courseFile, indent=4, separators=(',', ': '))
