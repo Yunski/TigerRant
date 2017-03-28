@@ -12,6 +12,10 @@ body {
   color: #303030;
 }
 
+.footer a {
+  color: #303030;
+}
+
 .footer span {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -328,7 +332,7 @@ select.resizing-search-select, select.resizing-sort-select {
   padding-top: 3rem;
   padding-bottom: 3rem;
   margin-bottom: 1rem;
-  word-wrap:break-word; 
+  word-wrap:break-word;
 }
 
 #departments .btn-secondary:hover, #distributions .btn-secondary:hover {
