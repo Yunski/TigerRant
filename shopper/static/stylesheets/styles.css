@@ -2,7 +2,360 @@ body {
   font-family: "Lato";
   font-size: 16px;
   overflow-x: hidden;
+  background-color: black;
 }
+
+/*New course.html*/
+#write-review-modal .modal-content {
+  background-color: black
+}
+
+#write-review-modal .modal-dialog {
+  background-color: white;
+}
+
+#write-review-modal .modal-header, #write-review-modal .modal-header .close {
+  color: white;
+}
+
+.modal-input-vert {
+  height: 200px;
+}
+
+.vert {
+  height: 350px;
+}
+
+.initial-rating .initial-rating-message {
+  margin: 1rem 0;
+  font-weight: 300;
+  text-align: center;
+  color: white;
+}
+.initial-rating {
+  justify-content: center;
+  position: absolute;
+  color: white;
+  bottom: 1%;
+  left: 30%;
+}
+
+.initial-rating span {
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+.initial-rating span.active {
+  padding-left: 1rem;
+  color: #ee7f2d;
+  cursor: pointer;
+}
+
+#name-desc-panel {
+  border: 2px solid #ee7f2d;
+  border-top: none;
+}
+
+#review-ratings-container {
+  border: 4px solid #ee7f2d;
+  width: 100%;
+}
+
+#desc-header {
+  padding: 0.75rem;
+  color: white;
+  background-color: #ee7f2d;
+  font-weight: 400;
+  font-size: 1.85rem;
+  text-align: center;
+}
+
+#desc-entry-container {
+  border-bottom: 2px solid #ee7f2d;
+}
+
+#name-desc-container {
+  margin-bottom: 1.0rem;
+}
+
+#terms-container {
+  color: white;
+  background-color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+  width: 100%;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+#terms-container .nav-tabs .nav-link:hover {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid #f6f6f6;
+  background-color: #f6f6f6;
+  color: black;
+}
+
+#terms-container .nav-tabs .nav-item {
+  border: 1px solid white;
+}
+
+#terms-container .nav-tabs .active {
+  color: white;
+  background-color: black;
+  border: 1px solid black;
+}
+
+#vote-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  padding: 0.5rem 0;
+}
+
+#reply-vote-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  padding: 0.25rem 0;
+}
+
+.votes {
+  justify-content: right;
+}
+
+.center {
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#reveal-desc {
+  color: #2d67ee;
+  font-size: 1.5rem;
+  font-weight: 400;
+  padding: 0 0 1.0rem 0;
+}
+
+.back-to .return-link {
+  color: #2d67ee;
+  font-size: 1.0rem;
+  font-weight: 500;
+}
+
+.review-footer {
+  color: #2d67ee;
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+#modal-link {
+  color: #2d67ee;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+#sort-container {
+  position: absolute;
+  left: 1.0rem;
+}
+
+#sort-container .dropdown .btn {
+  background-color: black;
+  border: 1px solid #ee7f2d;
+  color: white;
+}
+
+#write-review-modal .modal-footer .btn {
+  background-color: #ee7f2d;
+  color: white;
+  font-weight: 500;
+}
+
+#sort-container .dropdown-menu {
+  background-color: black;
+  color: white;
+  border: 1px solid #ee7f2d;
+}
+
+.reviews-listing .panel {
+  color: white;
+  border-bottom: 2px solid #ee7f2d;
+  width: 100%;
+}
+
+#replies-content {
+  width: 100%;
+}
+
+.reviews-listing #replies-content .panel {
+  color: white;
+  border-bottom: 2px solid #ee7f2d;
+  border-left: 3rem solid #ee7f2d;
+  width: 100%;
+}
+
+.reviews-listing .col-md-11 {
+  text-align: left;
+  padding: 1.0rem;
+  font-size: 1.15rem;
+}
+
+#new-review-sorting .panel {
+  margin: 1.0rem 0 1.0rem 0;
+  width: 100%;
+}
+
+#new-review-sorting .panel .panel-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#new-review-sorting {
+  border-top: 2px solid #ee7f2d;
+  border-bottom: 2px solid #ee7f2d;
+  justify-content: center;
+}
+
+#desc-entry-container a:hover {
+  color: #77b0fc;
+}
+
+#upvote, #downvote, #re-upvote, #re-downvote {
+  color: white;
+}
+
+#upvote .fa-chevron-up:hover, #downvote .fa-chevron-down:hover, #re-upvote .fa-chevron-up:hover, #re-downvote .fa-chevron-down:hover {
+  color: #ee7f2d;
+}
+
+#curr-vote {
+  color: white;
+  font-weight: 300;
+  font-size: 1.50rem;
+}
+
+#re-curr-vote {
+    color: white;
+  font-weight: 300;
+  font-size: 1.15rem;
+}
+
+#instructors {
+  border-bottom: 2px solid #ee7f2d;
+  color: white;
+  font-weight: 300;
+  font-size: 1.50rem;
+  padding: 0.5rem;
+  justify-content: center;
+}
+
+#other-desc {
+  width: 100%
+}
+
+.description {
+  color: white;
+  font-weight: 200;
+  font-size: 1.25rem;
+  padding: 1.5rem 0.75rem 1.5rem 1.5rem;
+  text-align: left;
+}
+
+.rating-bar {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  margin-right: 0.5rem;
+  width: 90%;
+  float: right;
+}
+
+.rating-bars {
+  color: white;
+  height: 10rem;
+  margin: 1.5rem 0 0.5rem 0;
+}
+
+.rating-bars .row {
+  height: 10%;
+  margin-bottom: 2%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pagination {
+  background-color: #ee7f2d;
+  justify-content: center;
+}
+
+.page-item a {
+  background-color: #ee7f2d;
+  color: white;
+}
+
+.page-item:hover {
+  color: black;
+  background-color: white;
+}
+
+.page-item:active {
+  background-color: white;
+  color: black;
+}
+
+.new-rating-average {
+  color: white;
+  font-size: 3.5rem;
+  font-weight: 300;
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+}
+
+.new-rating-description {
+  font-weight: 300;
+  font-size: 1.0rem;
+  color: white;
+}
+
+.new-rating-total {
+  font-size: 1.50rem;
+  font-weight: 300;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+  color: white;
+}
+
+#navbar-main .nav-section .nav {
+  height:100%;
+}
+
+.back-to {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#navbar-footer .nav-link {
+  font-weight: 500;
+  height: 2.8rem;
+  color: white;
+}
+
+.page-item .ng-scope .disabled {
+  background-color: #f99952
+}
+
+/************/
 
 .footer {
   height: 16rem;
@@ -183,15 +536,12 @@ button:focus, textarea:focus {
 
 #navbar-footer {
   height: 3rem;
-  background-color: #303030;
+  background-color: black;
   color: white;
+  border-top: 2px solid #ee7f2d;
+  border-bottom: 2px solid #ee7f2d;
 }
 
-#navbar-footer .nav-link {
-  font-weight: 200;
-  height: 2.8rem;
-  color: white;
-}
 
 #navbar-home.shrink {
   background: rgba(0, 0, 0, 0.3);
@@ -566,43 +916,7 @@ select.resizing-search-select, select.resizing-sort-select {
   color: white;
 }
 
-/* initial ratings */
-
-.initial-rating {
-  position: absolute;
-  top: 40%;
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.initial-rating span {
-  padding-left: 1rem;
-  cursor: pointer;
-}
-
-.initial-rating span.active {
-  padding-left: 1rem;
-  color: white;
-  cursor: pointer;
-}
-
-.initial-rating .initial-rating-message {
-  padding-top: 1rem;
-  font-weight: 300;
-  text-align: center;
-  color: white;
-}
 /* rating bars */
-
-.rating-bars {
-  color: white;
-  height: 10rem;
-}
-
-.rating-bars .row {
-  height: 18%;
-  margin-bottom: 2%;
-}
-
 .rating-num {
   font-size: 1.7rem;
   font-weight: 300;
@@ -622,14 +936,6 @@ select.resizing-search-select, select.resizing-sort-select {
   font-size: 1.2rem;
   height: 70%;
   top: 15%;
-}
-
-.rating-bar {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 80%;
-  float: right;
 }
 
 .rating-bar-inner {

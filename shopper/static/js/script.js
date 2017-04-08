@@ -113,6 +113,6 @@ $.fn.extend({
 
 function scrollToReviewsTop() {
     $('html, body').animate({
-        scrollTop: $(".terms").offset().top
+        scrollTop: $("#reviews-container").offset().top
     }, 500);
 }

@@ -1,281 +1,364 @@
 {% extends "base.html" %}
+<div id="page-content" class="container-fluid">
 {% block navbar %}
-<nav id="navbar-browse" class="navbar navbar-light bg-clear">
-  <div class="row" id="navbar-main">
-    <div class="col-md-2 text-center">
-      <div class="navbar-col-content"><a class="navbar-brand" href="/browse" target="_self">TigerShop</a></div>
-    </div>
-    <div class="col-md-7 text-center">
-      <div class="navbar-col-content">
-        <form class="form-inline">
-          <select class="search-options">
-            <option value="0">All</option>
-            <!--
-            <option value="1">Distribution</option>
-            <option value="2">Description</option>
-            <option value="3">Start Time</option>
-            <option value="4">End Time</option>-->
-          </select>
-          <select class="resizing-search-select">
-            <option class="resizing-search-option"></option>
-          </select>
-          <input class="search-text-field" type="text" placeholder="search courses"></input>
-          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
+  <nav id="navbar-browse" class="navbar navbar-light bg-clear">
+    <div class="row" id="navbar-main">
+      <div class="col-md-2 text-center">
+        <div class="navbar-col-content"><a class="navbar-brand" href="/browse" target="_self">TigerShop</a></div>
       </div>
-    </div>
-    <div class="col-md-3"></div>
-  </div>
-  <div class="row" id="navbar-footer">
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav">
-          <a href="/browse" class="nav-link" target="_self">Departments</a>
+      <div class="col-md-7 text-center">
+        <div class="navbar-col-content">
+          <form class="form-inline">
+            <select class="search-options">
+              <option value="0">All</option>
+              <!--
+              <option value="1">Distribution</option>
+              <option value="2">Description</option>
+              <option value="3">Start Time</option>
+              <option value="4">End Time</option>-->
+            </select>
+            <select class="resizing-search-select">
+              <option class="resizing-search-option"></option>
+            </select>
+            <input class="search-text-field" type="text" placeholder="search courses"></input>
+            <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </form>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav">
-          <a href="/distributions" class="nav-link" target="_self">Distributions</a>
-          <a class="nav-link disabled" target="_self">Easy PDFs</a>
-          <a class="nav-link disabled" target="_self">GPA Boosters</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav justify-content-end">
-          <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
-          <div class="dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
-            <div class="dropdown-menu" aria-labelledby="nav-account-button">
-              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+      <div class="col-md-3">
+        <div class="nav-section">
+          <div class="nav justify-content-end">
+            <div class="dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
+              <div class="dropdown-menu" aria-labelledby="nav-account-button">
+                <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+              </div>
             </div>
+            <a class="nav-link disabled" id="caHi, {{ netid }}t-button" target="_self">
+              <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
+              <span id="num-items-in-cart"></span>
+            </a>
           </div>
-          <a class="nav-link disabled" id="cart-button" target="_self">
-            <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-            <span id="num-items-in-cart"></span>
-          </a>
         </div>
       </div>
     </div>
-  </div>
-</nav>
+    <div class="row" id="navbar-footer">
+      <div class="col-md-4">
+        <div class="nav-section">
+          <div class="nav back-to">
+            {% raw %}
+            <div class="return-link">
+              <a href="{{ returnURL }}" target="_self">
+                <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
+              </a>
+            </div>
+            {% endraw %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="nav-section">
+          <div class="nav">
+            <a href="/browse" class="nav-link center" target="_self">Departments</a>
+            <a href="/distributions" class="nav-link center" target="_self">Distributions</a>
+            <!--<a class="nav-link disabled" target="_self">Easy PDFs</a>-->
+            <!--<a class="nav-link disabled" target="_self">GPA Boosters</a>-->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+  </nav>
 {% endblock %}
 {% block content %}
-<!-- Course Description Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <div id="name-desc-container" class="row" ng-init="getReviews()">
+    <div class="row">
+      <div class="col-md-1">
       </div>
-      <div class="modal-body">
-        <ul class="course-details">
-          <li class="course-sections">Sections: L01, P01</li>
-          <li class="course-meetings">Meetings: T Th 1:30 PM - 2:50 PM</li>
-          <li class="course-location">Location: Friend Center 101</li>
-        </ul>
-        <p class="course-description">
-          {{ course.description }}
-        </p>
+      <div class="col-md-10">
+        <div id="name-desc-panel" class="panel panel-default">
+          <div id="desc-header" class="panel-heading">
+            {{ course.dept }} {{ course.catalog_number }} - {{ course.title }}
+          </div>
+          <div id="desc-container" class="panel-body">
+            <div id="instructors" class="row">
+              {% for i in range(0, course.instructors|length) %}
+                {% if i != course.instructors|length-1 %}
+                  <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+                  <span>/</span>
+                {% else %}
+                  <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div id="desc-content-votes" class="row">
+              <div id="desc-entry-container">
+                <div class="row">
+                  <div id="desc-content" class="col-md-10 description">
+                    All that computer science has to offer packed into one course. All video lectures I'm running out of ideas lorem ipsum dolores fantasia. Dr. Java sucks but hopefully a COS 333 group is working to create a better editor. Blahblahblah Blahblahblah Blahblahblah Blahblahblah Blahblahblah BlahblahblahBlahblahblahBlahblahblah Blahblahblah Blahblahblah Blahblahblah BlahblahblahBlahblahblahBlahblahblah
+                  </div>
+                  <div id="vote-container" class="col-md-2 votes">
+                    <a href="#" id="upvote"><i class="fa fa-chevron-up fa-3x"></i></a>
+                    <div id="curr-vote">567</div>
+                    <a href="#" id="downvote"><i class="fa fa-chevron-down fa-3x"></i></a>
+                  </div>
+                  <div class="row center">
+                    <a href="#" data-toggle="collapse" data-target="#other-desc" id="reveal-desc">
+                      See More
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div id="other-desc" class="collapse">
+                <div id="desc-entry-container">
+                  <div class="row">
+                    <div id="desc-content" class="col-md-10 description">
+                      It is a class where you learn a lot really quickly and its exciting.
+                    </div>
+                    <div id="vote-container" class="col-md-2 votes">
+                      <a href="#" id="upvote"><i class="fa fa-chevron-up fa-3x"></i></a>
+                      <div id="curr-vote">250</div>
+                      <a href="#" id="downvote"><i class="fa fa-chevron-down fa-3x"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <div class="col-md-1">
       </div>
     </div>
   </div>
-</div>
-<div id="course-page-content" class="row" ng-init="getReviews()">
-  <div class="col-md-2">
-    {% raw %}
-    <div class="return-link">
-      <a href="{{ returnURL }}" target="_self">
-        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
-      </a>
+  {% raw %}
+  <div id="reviews-rating-container" class="row" ng-init="getReviews()">
+    <div class="panel panel-default center">
+      <div class="panel-heading center">
+        <div id="terms-container" class="row center" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
+          <ul class="nav nav-tabs d-flex justify-content-center">
+            <li class="nav-item" ng-repeat="(key, value) in terms">
+              <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
+                {{ value['term_string'] }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="reviews-overview" class="row">
+          <div class="col-md-6 center">
+            <div class="new-rating-average">
+              {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
+            </div>
+            <span class="new-rating-description">
+            based on
+            <span class="new-rating-total" ng-if="selectedTerm.length > 0">
+              {{ terms[selectedTerm]['reviews'].length }}</span>
+            <span class="new-rating-description" ng-if="selectedTerm.length == 0">0</span>
+            reviews
+            </span>
+          </div>
+          <div class="col-md-6">
+            <div class="rating-bars">
+              <div class="row">
+                <div class="rating-num">5</div>
+                <span class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></span>
+                <span class="rating-bar">
+                  <span class="rating-bar-inner"></span>
+                </span>
+              </div>
+              <div class="row">
+                <div class="rating-num">4</div>
+                <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
+                <div class="rating-bar">
+                  <div class="rating-bar-inner"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="rating-num">3</div>
+                <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
+                <div class="rating-bar">
+                  <div class="rating-bar-inner"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="rating-num">2</div>
+                <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
+                <div class="rating-bar">
+                  <div class="rating-bar-inner"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="rating-num">1</div>
+                <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
+                <div class="rating-bar">
+                  <div class="rating-bar-inner"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="new-review-sorting" class="row">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <!--<div class="row">-->
+                <!--<div class="col-md-11">-->
+                  <div id="write-review-modal">
+                    <a href="#" id="modal-link" data-toggle="modal" data-target="#modal-content">Write a Review</a>
+                    <div class="modal fade" id="modal-content" tabindex="-1" role="dialog" aria-labelledby="modal-content" aria-hidden="true">
+                      <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <div id="modal-title" class="center">
+                              Write a Review
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body vert">
+                            <form>
+                              <div class="form-group">
+                                <textarea class="form-control modal-input-vert" id="message-text"></textarea>
+                              </div>
+                            </form>
+                            <form>
+                              <div class="form-group">
+                                <div class="initial-rating">
+                                  <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
+                                  <span id="star2"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
+                                  <span id="star3"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
+                                  <span id="star4"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
+                                  <span id="star5"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
+                                  <div class="initial-rating-message">Rate this course</div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn">Send Review</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <!--</div>-->
+                <!--<div class="col-md-1">-->
+                  <div id="sort-container">
+                    <div class="dropdown">
+                      <button class="btn" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort By
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <option value="positive">Most Positive</option>
+                        <option value="negative">Most Negative</option>
+                        <option value="upvotes">Most Upvotes</option>
+                      </div>
+                    </div>
+                  </div>
+                <!--</div>-->
+              <!--</div>-->
+            </div>
+          </div>
+        </div>
+        <div id="reviews-container">
+          <div id="review-panels" class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-body">
+              </div>
+              <div class="panel-footer">
+              </div>
+            </div>
+            <div class="no-reviews" ng-if="selectedTerm.length <= 0">
+              <p>There are no student reviews yet.</p>
+            </div>
+            <div class="reviews-listing" ng-if="selectedTerm.length > 0">
+              <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true" ng-repeat="review in reviews">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-11">
+                        {{ review.student_advice }}
+                      </div>
+                      <div id="reply-vote-container" class="col-md-1">
+                        <a href="#" id="re-upvote"><i class="fa fa-chevron-up fa-2x"></i></a>
+                        <div id="re-curr-vote">567</div>
+                        <a href="#" id="re-downvote"><i class="fa fa-chevron-down fa-2x"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-footer review-footer">
+                    <a href="#" data-toggle="collapse" data-target="#replies-content" id="reveal-reply">
+                      See Replies
+                    </a>
+                  </div>
+                </div>
+                <div id="replies-content" class="collapse panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-11">
+                          Wow.
+                        </div>
+                        <div id="reply-vote-container" class="col-md-1">
+                          <a href="#" id="re-upvote"><i class="fa fa-chevron-up fa-2x"></i></a>
+                          <div id="re-curr-vote">567</div>
+                          <a href="#" id="re-downvote"><i class="fa fa-chevron-down fa-2x"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-11">
+                          Fantastic.
+                        </div>
+                        <div id="reply-vote-container" class="col-md-1">
+                          <a href="#" id="re-upvote"><i class="fa fa-chevron-up fa-2x"></i></a>
+                          <div id="re-curr-vote">567</div>
+                          <a href="#" id="re-downvote"><i class="fa fa-chevron-down fa-2x"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav class="page-navigation" aria-label="Page navigation">
+            <ul class="pagination">
+              <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Previous</a></li>
+              <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+
+              <li class="page-item" ng-if="pages >= 10 && currentPage < 5 && pageNum < 5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+              <li class="page-item disabled" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link">...</a></li>
+              <li class="page-item" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
+
+              <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
+              <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
+              <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage - 1}}</a></li>
+              <li class="page-item active" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage }}</a></li>
+              <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage + 1}}</a></li>
+              <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
+              <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
+
+              <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
+              <li class="page-item disabled" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link">...</a></li>
+              <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4 && pageNum >= pages-5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+
+              <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage >= pages }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
-    {% endraw %}
   </div>
-  <div class="col-md-8">
-    <div class="course-banner" data-aos="zoom-in" data-aos-once="true" ng-non-bindable>
-      <div class="row">
-        <div class="card bg-clear">
-          <h3 class="card-title"><a href="#myModal" data-toggle="modal">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</a></h3>
-          <div class="course-instructors">
-            {% for i in range(0, course.instructors|length) %}
-            {% if i != course.instructors|length-1 %}
-              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-              <span>/</span>
-            {% else %}
-              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-            {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-    {% raw %}
-
-    <div class="row reviews-summary" data-aos="zoom-in" data-aos-once="true">
-      <div class="col-sm-6 rating-display">
-        <div class="rating-lg-average">
-          {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
-        </div>
-        <span class="rating-description" ng-if="selectedTerm.length > 0">
-          based on
-          <span class="rating-total">
-            {{ terms[selectedTerm]['reviews'].length }}</span> reviews
-        </span>
-        <span class="rating-description" ng-if="selectedTerm.length <= 0">
-          Be the first to write a review!
-        </span>
-      </div>
-      <div class="col-sm-6">
-        <!-- rating-bars -->
-        <div class="initial-rating">
-          <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star2"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star3"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star4"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star5"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <div class="initial-rating-message">Rate this course</div>
-        </div>
-        <div class="rating-bars" style="display: none;">
-          <div class="row">
-            <div class="rating-num">5</div>
-            <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
-            <div class="rating-bar">
-              <div class="rating-bar-inner"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="rating-num">4</div>
-            <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
-            <div class="rating-bar">
-              <div class="rating-bar-inner"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="rating-num">3</div>
-            <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
-            <div class="rating-bar">
-              <div class="rating-bar-inner"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="rating-num">2</div>
-            <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
-            <div class="rating-bar">
-              <div class="rating-bar-inner"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="rating-num">1</div>
-            <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
-            <div class="rating-bar">
-              <div class="rating-bar-inner"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true" ng-if="selectedTerm.length > 0">
-      <ul class="nav nav-tabs d-flex justify-content-center">
-        <li class="nav-item" ng-repeat="(key, value) in terms">
-          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
-            {{ value['term_string'] }}</a>
-        </li>
-      </ul>
-    </div>
-    <!-- Review Section -->
-    <div class="reviews" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
-      <div class="reviews-header">
-        <div class="reviews-title">
-          <h4>Student Reviews</h4>
-        </div>
-        <a class="btn btn-primary disabled">Write a Review</a>
-        <div class="reviews-sort" ng-if="selectedTerm.length > 0">
-          <span>Sort by:</span>
-          <select class="sort-options">
-            <option value="positive">Most positive</option>
-            <option value="negative">Most negative</option>
-            <option value="upvotes">Most upvotes</option>
-          </select>
-        </div>
-      </div>
-      <div class="no-reviews" ng-if="selectedTerm.length <= 0">
-        <p>There are no student reviews yet.</p>
-      </div>
-      <div class="reviews-listing" ng-if="selectedTerm.length > 0">
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true" ng-repeat="review in reviews">
-          <blockquote class="blockquote">
-            <p>{{ review.student_advice }}</p>
-          </blockquote>
-          <!--
-          <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
-            <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
-            </div>
-          </div>-->
-        </div>
-      </div>
-    </div>
-    <nav class="page-navigation" aria-label="Page navigation">
-      <ul class="pagination">
-        <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Previous</a></li>
-        <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
-
-        <li class="page-item" ng-if="pages >= 10 && currentPage < 5 && pageNum < 5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
-        <li class="page-item disabled" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
-
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
-        <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage - 1}}</a></li>
-        <li class="page-item active" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage }}</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage + 1}}</a></li>
-        <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
-
-        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
-        <li class="page-item disabled" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4 && pageNum >= pages-5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
-
-        <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage >= pages }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Next</a></li>
-      </ul>
-    </nav>
-    {% endraw %}
-  </div>
-  <div class="col-md-2">
-    <div class="tool-panel" data-aos="zoom-in" data-aos-once="true">
-      <div class="card">
-        <a href="/rant" class="btn disabled rant-space-button">
-          <img class="card-img-top" src="/static/icons/svg/door.svg" alt="Card image cap">
-        </a>
-        <div class="card-block">
-          <h7 class="card-subtitle">Enter Rant Space</h7>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-block">
-          <h7 class="card-subtitle"></h7>
-        </div>
-        <a class="btn add-to-cart-button disabled" target="_self">
-          <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
-          <span>Add to Cart</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-<script src="/static/js/course_controller.js"></script>
+  {% endraw %}
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src="/static/js/course_controller.js"></script>
 {% endblock %}

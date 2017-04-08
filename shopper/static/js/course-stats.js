@@ -17,14 +17,10 @@ function detectStarHover() {
 }
 
 function selectStar() {
-    $(".initial-rating span").click(function() {
-        $(".initial-rating").hide();
-        $(".rating-bars").show();
-        var mockRatings = [0, 15, 60, 5, 10];
-        /* rating bar animation */
-        $(".rating-bars .rating-bar-inner").each(function(index) {
-            $(this).width(mockRatings[index] + '%');
-        });
+    var mockRatings = [0, 15, 60, 5, 10];
+    /* rating bar animation */
+    $(".rating-bars .rating-bar-inner").each(function(index) {
+        $(this).width(mockRatings[index] + '%');
     });
 }
 
