@@ -3,7 +3,7 @@ import json
 import html
 import re
 from createReview import newCourse
-from distribution import fetchDistribution
+from distribution import fetchData
 
 def fetchCourses(term, subject):
     courseURL = "http://etcweb.princeton.edu/webfeeds/courseofferings/?term={}&subject={}&fmt=json".format(term, subject)
@@ -40,7 +40,9 @@ def fetchCourses(term, subject):
             courseObj['title'] = title
             courseObj['track'] = track
             courseObj['description'] = description
-            courseObj['distribution'] = fetchDistribution(course_id)
+            courseData = fetchData(course_id)
+            courseObj['distribution'] = courseData['distr']
+            courseObj['grade_options'] = courseData['grade_options']
             courseObj['instructors'] = []
             for instructor in course['instructors']:
                 #print("emplid: {}".format(instructor['emplid']))

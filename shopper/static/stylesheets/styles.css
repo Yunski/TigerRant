@@ -2,6 +2,7 @@ body {
   font-family: "Lato";
   font-size: 16px;
   overflow-x: hidden;
+  background-color: black;
 }
 
 .footer {
@@ -456,7 +457,20 @@ select.resizing-search-select, select.resizing-sort-select {
 /* course page */
 
 #course-page-content {
+  margin-top: 5rem;
   background-color: #F6F6F6;
+  position: relative;
+  padding-right: 0;
+  overflow-y: auto;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  height: 100%;
+}
+
+#course-page-content.toggled {
+  padding-right: 40%;
 }
 
 #course-page-content .return-link {
@@ -591,6 +605,7 @@ select.resizing-search-select, select.resizing-sort-select {
   text-align: center;
   color: white;
 }
+
 /* rating bars */
 
 .rating-bars {

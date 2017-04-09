@@ -22,6 +22,11 @@ $(window).scroll(function() {
 });
 
 $(document).ready(function() {
+    $("#sidebar-btn").click(function(e) {
+        e.preventDefault();
+        $("#course-page-content").toggleClass("toggled");
+    });
+
     $('.search-options').change(function() {
         $(".resizing-search-option").html($('.search-options option:selected').text());
         $(this).width($(".resizing-search-select").width() + 4);

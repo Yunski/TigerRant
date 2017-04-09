@@ -1,4 +1,4 @@
-import requests
+import requests as req
 from bs4 import BeautifulSoup
 
 _1314SPR  = '1144'
@@ -8,34 +8,42 @@ _1516FALL = '1162'
 _1516SPR  = '1164'
 _1617FALL = '1172'
 _1617SPR  = '1174'
+_1718FALL = '1182'
 
-def fetchDistribution(courseid):
+def fetchData(courseid):
 
-	dummyid = _1617SPR
+	dummyid = _1718FALL
 	url = "https://registrar.princeton.edu/course-offerings/course_details.xml?courseid={}&term={}".format(courseid, dummyid)
 
-	response = requests.get(url)
+	response = req.get(url)
 	html = response.text
 	soup = BeautifulSoup(html, 'html.parser')
 
+	data = {}
+	data["distr"] = ""
+	data["grade_options"] = ""
+
 	for string in soup.stripped_strings:
 		if string == "(HA)":
-			return "HA"
+			data["distr"] = "HA"
 		if string == "(LA)":
-			return "LA"
+			data["distr"] = "LA"
 		if string == "(SA)":
-			return "SA"
+			data["distr"] = "SA"
 		if string == "(EM)":
-			return "EM"
+			data["distr"] = "EM"
 		if string == "(EC)":
-			return "EC"
+			data["distr"] = "EC"
 		if string == "(SA)":
-			return "SA"
+			data["distr"] = "SA"
 		if string == "(QR)":
-			return "QR"
+			data["distr"] = "QR"
 		if string == "(STL)":
-			return "STL"
+			data["distr"] = "STL"
 		if string == "(STN)":
-			return "STN"
+			data["distr"] = "STN"
 
-	return ""
+	if soup.em != None:
+		data["grade_options"] = soup.em.text.strip()
+
+	return data

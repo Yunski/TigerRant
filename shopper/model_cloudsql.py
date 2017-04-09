@@ -19,31 +19,46 @@ instructors = db.Table("instructors",
     db.Column("review_id", db.Integer, db.ForeignKey("review.id"))
 )
 
+cart = db.Table("cart",
+    db.Column("c_id", db.Integer, db.ForeignKey("course.c_id")),
+    db.Column("user_id", db.Unicode(32), db.ForeignKey("user.netid"))
+)
+
 class Course(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
     c_id = db.Column(db.Integer, index=True, unique=True)
     dept = db.Column(db.String(3), db.ForeignKey('department.code'), index=True)
     catalog_number = db.Column(db.String(4), index=True)
     distribution = db.Column(db.String(3), index=True)
+    grade_options = db.Column(db.UnicodeText())
     title = db.Column(db.UnicodeText())
     track = db.Column(db.UnicodeText())
     description = db.Column(db.UnicodeText())
     crosslistings = db.Column(db.UnicodeText())
     avg_rating = db.Column(db.Float, index=True)
+    definitions = db.relationship('Definition', backref='course', lazy='dynamic')
     instructors = db.relationship("Instructor", secondary=instructors,
         backref=db.backref('courses', lazy='dynamic'))
-    reviews = db.relationship('Review', backref='course',
-                                lazy='dynamic')
-    url = db.Column(db.UnicodeText())
+    reviews = db.relationship('Review', backref='course', lazy='dynamic')
+    rants = db.relationship('Rant', backref='course', lazy='dynamic')
 
     def __repr__(self):
         return "<Course {}{}>".format(self.code, self.catalog_number)
 
+class Definition(db.Model):
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
+    c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
+    text = db.Column(db.UnicodeText())
+    upvotes = db.Column(db.Integer)
+    date_posted = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return "<Definition {} {}>".format(self.date_posted, self.text)
+
 class Department(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
     code = db.Column(db.String(3), index=True, unique=True)
-    courses = db.relationship('Course', backref='department',
-                                lazy='dynamic')
+    courses = db.relationship('Course', backref='department', lazy='dynamic')
     name = db.Column(db.UnicodeText())
     def __repr__(self):
         return "<Department {}>".format(self.dept_code)
@@ -57,19 +72,29 @@ class Instructor(db.Model):
     def __repr__(self):
         return "<Instructor {} {}>".format(self.first_name, self.last_name)
 
+class Rant(db.Model):
+	id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
+	c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
+	text = db.Column(db.UnicodeText())
+	upvotes = db.Column(db.Integer)
+	date_posted = db.Column(db.DateTime)
+
+	def __repr__(self):
+		return "<Rant {} {}>".format(self.text, self.date_posted)
+
 class Review(db.Model):
     id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
     num = db.Column(db.Integer)
-    course_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
+    c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
     sem_code = db.Column(db.Integer, index=True)
     overall_rating = db.Column(db.Float, index=True)
     lecture_rating = db.Column(db.Float)
-    student_advice = db.Column(db.UnicodeText())
-    instructors = db.relationship("Instructor", secondary=instructors,
+    text = db.Column(db.UnicodeText())
+    instructors = db.relationship('Instructor', secondary=instructors,
         backref=db.backref('reviews', lazy='dynamic'))
 
     def __repr__(self):
-        return "<Review {} {}>".format(self.course_id, self.sem_code)
+        return "<Review {} {}>".format(self.c_id, self.sem_code)
 
 class User(db.Model):
     id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
@@ -77,6 +102,8 @@ class User(db.Model):
     ticket = db.Column(db.UnicodeText())
     first_name = db.Column(db.UnicodeText())
     last_name = db.Column(db.UnicodeText())
+    cart = db.relationship("Course", secondary=cart,
+        backref=db.backref('users', lazy='dynamic'))
 
 # [END model]
 

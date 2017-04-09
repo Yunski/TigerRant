@@ -1,59 +1,32 @@
-{% extends "base.html" %}
+{% extends "base_course.html" %}
 {% block navbar %}
-<nav id="navbar-browse" class="navbar navbar-light bg-clear">
-  <div class="row" id="navbar-main">
-    <div class="col-md-2 text-center">
-      <div class="navbar-col-content"><a class="navbar-brand" href="/browse" target="_self">TigerShop</a></div>
+<nav id="navbar-top" class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-black">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="row">
+    <div class="col-md-2 d-flex align-items-center p-0">
+      <div class="tiger"></div>
+      <a class="navbar-brand" href="/home">LOGO</a>
     </div>
-    <div class="col-md-7 text-center">
-      <div class="navbar-col-content">
-        <form class="form-inline">
-          <select class="search-options">
-            <option value="0">All</option>
-            <!--
-            <option value="1">Distribution</option>
-            <option value="2">Description</option>
-            <option value="3">Start Time</option>
-            <option value="4">End Time</option>-->
-          </select>
-          <select class="resizing-search-select">
-            <option class="resizing-search-option"></option>
-          </select>
-          <input class="search-text-field" type="text" placeholder="search courses"></input>
-          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
+    <div class="col-md-7 d-flex align-items-center">
+      <div class="search-bar input-group">
+        <span class="input-group-addon input-label mb-0">Find</span>
+        <input class="search-text-field" type="text" placeholder="search courses"></input>
+        <span class="input-group-addon search-button"><i class="fa fa-search" aria-hidden="true"></i></span>
       </div>
     </div>
-    <div class="col-md-3"></div>
-  </div>
-  <div class="row" id="navbar-footer">
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav">
-          <a href="/browse" class="nav-link" target="_self">Departments</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav">
-          <a href="/distributions" class="nav-link" target="_self">Distributions</a>
-          <a class="nav-link disabled" target="_self">Easy PDFs</a>
-          <a class="nav-link disabled" target="_self">GPA Boosters</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav justify-content-end">
-          <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
+    <div class="col-md-3 d-flex align-items-center">
+      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+        <div class="navbar-nav">
           <div class="dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
+            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
             <div class="dropdown-menu" aria-labelledby="nav-account-button">
+              <a id="account-link" class="dropdown-item" href="/">My Account</a>
               <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
             </div>
           </div>
-          <a class="nav-link disabled" id="cart-button" target="_self">
+          <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
             <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
             <span id="num-items-in-cart"></span>
           </a>
@@ -64,33 +37,48 @@
 </nav>
 {% endblock %}
 {% block content %}
-<!-- Course Description Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <ul class="course-details">
-          <li class="course-sections">Sections: L01, P01</li>
-          <li class="course-meetings">Meetings: T Th 1:30 PM - 2:50 PM</li>
-          <li class="course-location">Location: Friend Center 101</li>
-        </ul>
-        <p class="course-description">
-          {{ course.description }}
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
+<div id="course-page-content" class="row toggled" ng-init="getReviews()">
+  <!-- Sidebar -->
+  <div id="sidebar-btn">
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
-</div>
-<div id="course-page-content" class="row" ng-init="getReviews()">
+  <div id="sidebar-wrapper">
+    <div class="sidebar-top d-flex align-items-center">
+      <h1>Rant Space</h1>
+      <button class="refresh"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+    </div>
+    <ul class="list-group rants">
+      <li class="list-group-item rant-post">
+        <div class="card">
+          <div class="card-block d-flex align-items-center">
+            <p class="card-text">A LOT of work, but be careful of falling asleep if Appel is teaching it.</p>
+            <div class="vote-container" class="col-md-1">
+              <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div class="score">42</div>
+              <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item rant-post">
+        <div class="card">
+          <div class="card-block">
+            <p class="card-text">Be prepared to spend a lot of time on this course 20-30 hours per week.</p>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item rant-post">
+        <div class="card">
+          <div class="card-block">
+            <p class="card-text">Better than 226. You're mostly coding by yourself, but the preceptors are super accessable. Too bad Iasonas isn't teaching next year! Take this class.</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!--
   <div class="col-md-2">
     {% raw %}
     <div class="return-link">
@@ -99,29 +87,64 @@
       </a>
     </div>
     {% endraw %}
-  </div>
-  <div class="col-md-8">
+  </div>-->
+  <div class="col-md p-3">
     <div class="course-banner" data-aos="zoom-in" data-aos-once="true" ng-non-bindable>
-      <div class="row">
-        <div class="card bg-clear">
-          <h3 class="card-title"><a href="#myModal" data-toggle="modal">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</a></h3>
-          <div class="course-instructors">
-            {% for i in range(0, course.instructors|length) %}
-            {% if i != course.instructors|length-1 %}
-              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-              <span>/</span>
-            {% else %}
-              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-            {% endif %}
-            {% endfor %}
-          </div>
+      <div class="card">
+        <h3 class="card-title">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
+        <div class="course-instructors">
+          {% for i in range(0, course.instructors|length) %}
+          {% if i != course.instructors|length-1 %}
+            <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+            <span>/</span>
+          {% else %}
+            <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+          {% endif %}
+          {% endfor %}
         </div>
+        <ul class="list-group definitions">
+          <li class="list-group-item definition">
+            <div class="card">
+              <div class="card-block d-flex align-items-center">
+                <h3 class="card-title">Top Definition</h3>
+                <p class="card-text">All that computer science has to offer packed in one course.</p>
+                <div class="vote-container" class="col-md-1">
+                  <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div class="score">42</div>
+                  <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <div class="collapse" id="more-definitions">
+            <li class="list-group-item definition">
+              <div class="card">
+                <div class="card-block d-flex align-items-center">
+                  <p class="card-text">All that computer science has to offer packed in one course.</p>
+                  <div class="vote-container" class="col-md-1">
+                    <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+                    <div class="score">42</div>
+                    <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </div>
+        </ul>
+        <a data-toggle="collapse" href="#more-definitions" aria-expanded="false" aria-controls="collapseExample">See More</a>
       </div>
     </div>
     {% raw %}
-
+    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true" ng-if="selectedTerm.length > 0">
+      <ul class="nav nav-tabs nav-justified d-flex justify-content-center">
+        <li class="nav-item" ng-repeat="(key, value) in terms">
+          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
+            {{ value['term_string'] }}</a>
+        </li>
+      </ul>
+    </div>
     <div class="row reviews-summary" data-aos="zoom-in" data-aos-once="true">
-      <div class="col-sm-6 rating-display">
+      <div class="col-md rating-display">
         <div class="rating-lg-average">
           {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
         </div>
@@ -134,7 +157,7 @@
           Be the first to write a review!
         </span>
       </div>
-      <div class="col-sm-6">
+      <div class="col-md">
         <!-- rating-bars -->
         <div class="initial-rating">
           <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
@@ -183,21 +206,13 @@
         </div>
       </div>
     </div>
-    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true" ng-if="selectedTerm.length > 0">
-      <ul class="nav nav-tabs d-flex justify-content-center">
-        <li class="nav-item" ng-repeat="(key, value) in terms">
-          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
-            {{ value['term_string'] }}</a>
-        </li>
-      </ul>
-    </div>
     <!-- Review Section -->
-    <div class="reviews" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
+    <div class="reviews">
       <div class="reviews-header">
         <div class="reviews-title">
           <h4>Student Reviews</h4>
         </div>
-        <a class="btn btn-primary disabled">Write a Review</a>
+        <a id="write-review-button" class="btn btn-primary">Write a Review</a>
         <div class="reviews-sort" ng-if="selectedTerm.length > 0">
           <span>Sort by:</span>
           <select class="sort-options">
@@ -211,25 +226,24 @@
         <p>There are no student reviews yet.</p>
       </div>
       <div class="reviews-listing" ng-if="selectedTerm.length > 0">
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true" ng-repeat="review in reviews">
+        <div class="row" ng-repeat="review in reviews">
           <blockquote class="blockquote">
-            <p>{{ review.student_advice }}</p>
+            <p>{{ review.text }}</p>
           </blockquote>
-          <!--
           <div class="like">
             <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
+              <span><i class="fa fa-lg fa-2x fa-meh-o fa-fw" aria-hidden="true"></i></span>
             </div>
             <div class="thumbs-up">
               <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
               <span class="num-likes">3</span>
             </div>
-          </div>-->
+          </div>
         </div>
       </div>
     </div>
     <nav class="page-navigation" aria-label="Page navigation">
-      <ul class="pagination">
+      <ul class="pagination justify-content-center">
         <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Previous</a></li>
         <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
 
@@ -254,6 +268,7 @@
     </nav>
     {% endraw %}
   </div>
+  <!--
   <div class="col-md-2">
     <div class="tool-panel" data-aos="zoom-in" data-aos-once="true">
       <div class="card">
@@ -274,7 +289,7 @@
         </a>
       </div>
     </div>
-  </div>
+  </div>-->
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 <script src="/static/js/course_controller.js"></script>
