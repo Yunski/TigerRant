@@ -1,0 +1,123 @@
+{% extends "base_rant.html" %}
+{% block navbar %}
+<nav id="navbar-main" class="navbar navbar-light justify-content-center">
+  <a class="navbar-brand" href="/rant">Rant Space</a>
+</nav>
+<div id="navbar-footer"class="row">
+  <div class="col-md-9">
+    <div class="nav">
+      <div class="navbar-item">
+        <a href="/course" class="nav-link">ORF 307</a>
+      </div>
+      <div class="navbar-item">
+        <a href="#" class="nav-link active">Shenanigans<span class="badge badge-default badge-pill">3</span></a>
+      </div>
+      <div class="navbar-item">
+        <a href="#" class="nav-link">Midterm<span class="badge badge-default badge-pill">2</span></a>
+      </div>
+      <div class="navbar-item">
+        <a href="#" class="nav-link">Final<span class="badge badge-default badge-pill">2</span></a>
+      </div>
+      <div class="navbar-item">
+        <a class="nav-link">More</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3"></div>
+</div>
+{% endblock %}
+{% block content %}
+<div id="rant-space">
+  <ul class="list-group">
+    <li class="rant list-group-item justify-content-between">
+      <blockquote class="blockquote">
+        <p>DON'T TAKE IT unless you're ORFE. Don't waste your time.</p>
+      </blockquote>
+      <div class="upvote">
+        <span><i class="fa fa-lg fa-3x fa-angle-up fa-fw" aria-hidden="true"></i></span>
+        <div class="num-upvotes">30</div>
+        <span><i class="fa fa-lg fa-3x fa-angle-down fa-fw" aria-hidden="true"></i></span>
+      </div>
+      <div class="reply-button">
+        <a data-toggle="collapse" href="#your-reply-0" aria-expanded="false" aria-controls="collapseExample">
+          <i class="fa fa-lg fa-3x fa-reply fa-fw" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="num-replies">
+        <a data-toggle="collapse" href="#replies-0" aria-expanded="false" aria-controls="collapseExample">2 Replies</a>
+      </div>
+    </li>
+    <div class="your-reply collapse" id="your-reply-0">
+      <textarea placeholder="Add your reply..." id="your-reply-text" rows="3"></textarea>
+    </div>
+    <div class="replies-wrapper collapse" id="replies-0">
+      <ul class="list-group">
+        <li class="reply list-group-item justify-content-between">
+          <blockquote class="blockquote">
+            <p class="reply-text">Sample reply.</p>
+          </blockquote>
+          <div class="upvote">
+            <span><i class="fa fa-lg fa-2x fa-angle-up fa-fw" aria-hidden="true"></i></span>
+            <div class="num-upvotes">5</div>
+            <span><i class="fa fa-lg fa-2x fa-angle-down fa-fw" aria-hidden="true"></i></span>
+          </div>
+          <span class="reply-time">2 minutes ago</span>
+        </li>
+        <li class="reply list-group-item justify-content-between">
+          <blockquote class="blockquote">
+            <p class="reply-text">Another reply.</p>
+          </blockquote>
+          <div class="upvote">
+            <span><i class="fa fa-lg fa-2x fa-angle-up fa-fw" aria-hidden="true"></i></span>
+            <div class="num-upvotes">10</div>
+            <span><i class="fa fa-lg fa-2x fa-angle-down fa-fw" aria-hidden="true"></i></span>
+          </div>
+          <span class="reply-time">10 minutes ago</span>
+        </li>
+      </ul>
+    </div>
+    <li class="rant list-group-item justify-content-between">
+      <blockquote class="blockquote">
+        <p>DON'T TAKE IT unless you're ORFE. It looks like less work than it is because Vanderbei decides throughout the semester to add multiple AMPL homeworks (code), additional questions to existing homeworks, and even a final, "Big Homework." The material is boring and you will never use it again. Don't waste your time.</p>
+      </blockquote>
+      <div class="upvote">
+        <span><i class="fa fa-lg fa-3x fa-angle-up fa-fw" aria-hidden="true"></i></span>
+        <div class="num-upvotes">3</div>
+        <span><i class="fa fa-lg fa-3x fa-angle-down fa-fw" aria-hidden="true"></i></span>
+      </div>
+      <div class="reply-button">
+        <a data-toggle="collapse" href="#your-reply-1" aria-expanded="false" aria-controls="collapseExample">
+          <i class="fa fa-lg fa-3x fa-reply fa-fw" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="num-replies">
+        <a data-toggle="collapse" href="#replies-1" aria-expanded="false" aria-controls="collapseExample">1 Reply</a>
+      </div>
+    </li>
+    <div class="your-reply collapse" id="your-reply-1">
+      <textarea placeholder="Add your reply..." id="your-reply-text" rows="3"></textarea>
+    </div>
+    <li class="rant list-group-item justify-content-between">
+      <blockquote class="blockquote">
+        <p>
+          DON'T TAKE IT unless you're ORFE. It looks like less work than it is because Vanderbei decides throughout the semester to add multiple AMPL homeworks (code), additional questions to existing homeworks, and even a final, "Big Homework." The material is boring and you will never use it again. Don't waste your time.
+          DON'T TAKE IT unless you're ORFE. It looks like less work than it is because Vanderbei decides throughout the semester to add multiple AMPL homeworks (code), additional questions to existing homeworks, and even a final, "Big Homework." The material is boring and you will never use it again. Don't waste your time.
+        </p>
+      </blockquote>
+      <div class="upvote">
+        <span><i class="fa fa-lg fa-3x fa-angle-up fa-fw" aria-hidden="true"></i></span>
+        <div class="num-upvotes">3</div>
+        <span><i class="fa fa-lg fa-3x fa-angle-down fa-fw" aria-hidden="true"></i></span>
+      </div>
+      <div class="reply-button">
+        <a data-toggle="collapse" href="#your-reply-2" aria-expanded="false" aria-controls="collapseExample">
+          <i class="fa fa-lg fa-3x fa-reply fa-fw" aria-hidden="true"></i>
+        </a>
+      </div>
+    </li>
+    <div class="your-reply collapse" id="your-reply-2">
+      <textarea placeholder="Add your reply..." id="your-reply-text" rows="3"></textarea>
+    </div>
+  </ul>
+</div>
+{% endblock %}

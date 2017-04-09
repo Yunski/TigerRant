@@ -1,0 +1,102 @@
+/* bootstrap overrides */
+
+.rant-post .card-text {
+  padding-right: 5%;
+  margin: 0;
+}
+
+.card-block {
+  padding: 0;
+}
+
+.list-group-item {
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+}
+
+#sidebar-btn {
+  z-index: 1000;
+  position: fixed;
+  right: 0px;
+  height: 3rem;
+  width: 3rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  -webkit-transition: right 0.2s ease-out;
+  -moz-transition: right 0.2s ease-out;
+  -o-transition: right 0.2s ease-out;
+  transition: right 0.2s ease-out;
+}
+
+#sidebar-btn span {
+  display: block;
+  border-top: 0.2rem solid #ee7f2d;
+  height: 1rem;
+}
+
+#sidebar-btn span:nth-child(2) {
+  display: block;
+  border-top: 0.2rem solid #ee7f2d;
+  margin-left: 40%;
+  height: 1rem;
+}
+
+#sidebar-btn span:nth-child(3) {
+  display: block;
+  border-top: 0.2rem solid #ee7f2d;
+  margin-left: 80%;
+  height: 1rem;
+}
+
+#course-page-content.toggled #sidebar-btn {
+  position: fixed;
+  right: 40%;
+}
+
+#sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  right: -40%;
+  width: 40%;
+  height: 100%;
+  overflow-y: auto;
+  background: white;
+  -webkit-transition: right 0.2s ease-out;
+  -moz-transition: right 0.2s ease-out;
+  -o-transition: right 0.2s ease-out;
+  transition: right 0.2s ease-out;
+}
+
+#course-page-content.toggled #sidebar-wrapper {
+  right: 0px;
+}
+
+#sidebar-wrapper .sidebar-top {
+  position: relative;
+  height: 3rem;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 2px -2px #cccccc;
+}
+
+#sidebar-wrapper h1 {
+  display: inline-block;
+  font-size: 1.5rem;
+  height: 2rem;
+  width: 70%;
+  margin: 0 2rem;
+}
+
+.refresh {
+  position: absolute;
+  right: 2rem;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+}
+
+.rants {
+  height: 100%;
+  padding: 2rem;
+  background-color: #FAFAFA;
+}

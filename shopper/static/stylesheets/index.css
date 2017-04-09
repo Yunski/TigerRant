@@ -1,0 +1,137 @@
+body {
+  height: 100%;
+  font-family: "Lato";
+  font-size: 16px;
+  overflow-x: hidden;
+  background-color: black;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+a, a:link, a:active, a:visited {
+  text-decoration: none;
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:focus, textarea:focus {
+  outline: none;
+}
+
+/* Bootstrap Overrides */
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-nav {
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.navbar-toggleable-md .navbar-nav .nav-link {
+  width: 4rem;
+  text-align: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: white;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: white;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: white;
+  border-bottom: 3px solid white;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.btn:focus, .btn:hover, .btn:active, .btn:active:focus {
+  outline: none;
+  box-shadow:none;
+}
+
+.btn-primary {
+  color: white !important;
+}
+
+.btn-primary:hover {
+  background-color: #303030;
+  border-color: #303030;
+}
+
+.badge-default {
+  background-color: #303030;
+}
+
+.page-item a {
+  color: #303030;
+}
+/* Font Awesome */
+
+/* AOS extras */
+[data-aos='fade-up-little'] {
+  transform: translate(0, 10%);
+}
+
+#navbar-index {
+  height: 6rem;
+}
+
+.landing {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 4rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: white;
+}
+
+.contact {
+  padding: 0;
+  position: relative;
+  top: 48%;
+}
+
+.footer-text {
+  font-size: 0.8rem;
+}
+
+.footer a {
+  color: white;
+}
+
+.footer span {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.footer-col-content {
+  padding: 0;
+  position: relative;
+  top: 50%;
+}

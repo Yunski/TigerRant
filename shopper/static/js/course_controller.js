@@ -13,6 +13,7 @@
             var id = -1;
             var search = "";
             var page = "";
+            var order = "";
             var maxPerPage = 20;
             if ( $location.search().hasOwnProperty('id')) {
                 id = $location.search().id;
@@ -23,9 +24,12 @@
             if ( $location.search().hasOwnProperty('page')) {
                 page = $location.search().page;
             }
-            $scope.returnURL = "/browse?search=" + search + "&page=" + page;
+            if ( $location.search().hasOwnProperty('order')) {
+                order = $location.search().order;
+            }
+            $scope.returnURL = "/browse?search=" + search + "&page=" + page + "&order=" + order;
             $scope.getReviews = function() {
-                $http.post('/reviews', {"cid": id}).
+                $http.get('/api/reviews/' + id).
                       success(function(reviews) {
                             var termInts = []
                             $scope.terms = {}
