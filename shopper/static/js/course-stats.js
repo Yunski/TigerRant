@@ -1,22 +1,32 @@
 function detectStarHover() {
-    $(".initial-rating span").mouseover(function() {
-        id = this.id.split("star")[1];
-        for (var i = 1; i <= 5; i++) {
-            if (i <= id) {
-                $("#star"+i).addClass("active");
-            } else {
-                $("#star"+i).removeClass("active");
+    $(".initial-rating span").bind('mouseover mouseleave click', function(event) {
+        if (event.type == 'click') {
+            activeItem = this;
+        }
+        else if (event.type == 'mouseover') {
+            id = this.id.split("star")[1];
+            for (var i = 1; i <= 5; i++) {
+                if (i <= id) {
+                    $("#star"+i).addClass("active");
+                } else {
+                    $("#star"+i).removeClass("active");
+                }
             }
         }
-    });
-    $(".initial-rating span").mouseleave(function() {
-        for (var i = 1; i <= 5; i++) {
-            $("#star"+i).removeClass("active");
+        else if (event.type == 'mouseleave') {
+          if (typeof activeItem != 'undefined') {
+              if (activeItem != this) {
+                  for (var i = 1; i <= 5; i++) {
+                    $("#star"+i).removeClass("active");
+                  }
+                  activeItem = 'undefined'
+              }
+          }
         }
     });
 }
 
-function selectStar() {
+function animateRatingBars() {
     var mockRatings = [0, 15, 60, 5, 10];
     /* rating bar animation */
     $(".rating-bars .rating-bar-inner").each(function(index) {
@@ -26,7 +36,7 @@ function selectStar() {
 
 $(document).ready(function() {
     detectStarHover();
-    selectStar();
+    animateRatingBars();
 
     /*
     // Load the Visualization API and the corechart package.

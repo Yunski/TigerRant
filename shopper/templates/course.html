@@ -78,8 +78,10 @@
       </div>
       <div class="col-md-10">
         <div id="name-desc-panel" class="panel panel-default">
-          <div id="desc-header" class="panel-heading">
-            {{ course.dept }} {{ course.catalog_number }} - {{ course.title }}
+          <div class="panel-heading">
+            <div id="desc-header">
+              {{ course.dept }} {{ course.catalog_number }} - {{ course.title }}
+            </div>
           </div>
           <div id="desc-container" class="panel-body">
             <div id="instructors" class="row">
@@ -103,10 +105,10 @@
                     <div id="curr-vote">567</div>
                     <a href="#" id="downvote"><i class="fa fa-chevron-down fa-3x"></i></a>
                   </div>
-                  <div class="row center">
-                    <a href="#" data-toggle="collapse" data-target="#other-desc" id="reveal-desc">
-                      See More
-                    </a>
+                  <div class="row desc-center">
+                    <button type="button" class="btn desc-left">Create a Description</button>
+                    <a href="#" data-toggle="collapse" data-target="#other-desc" id="reveal-desc">See More</a>
+                    <button type="button" class="btn desc-right">Add Course to Cart</button>
                   </div>
                 </div>
               </div>
@@ -209,11 +211,11 @@
                   <div id="write-review-modal">
                     <a href="#" id="modal-link" data-toggle="modal" data-target="#modal-content">Write a Review</a>
                     <div class="modal fade" id="modal-content" tabindex="-1" role="dialog" aria-labelledby="modal-content" aria-hidden="true">
-                      <div class="modal-dialog modal-lg" role="document">
+                      <div class="modal-dialog modal-md" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
                             <div id="modal-title" class="center">
-                              Write a Review
+                              Your Review for {{ course.dept }} {{ course.catalog_number }}
                             </div>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
@@ -228,12 +230,12 @@
                             <form>
                               <div class="form-group">
                                 <div class="initial-rating">
+                                  <div class="initial-rating-message">Rate this course and write a review!</div>
                                   <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
                                   <span id="star2"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
                                   <span id="star3"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
                                   <span id="star4"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
                                   <span id="star5"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-                                  <div class="initial-rating-message">Rate this course</div>
                                 </div>
                               </div>
                             </form>
@@ -291,42 +293,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="panel-footer review-footer">
-                    <a href="#" data-toggle="collapse" data-target="#replies-content" id="reveal-reply">
-                      See Replies
-                    </a>
-                  </div>
-                </div>
-                <div id="replies-content" class="collapse panel-group">
-                  <div class="panel panel-default">
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="col-md-11">
-                          Wow.
-                        </div>
-                        <div id="reply-vote-container" class="col-md-1">
-                          <a href="#" id="re-upvote"><i class="fa fa-chevron-up fa-2x"></i></a>
-                          <div id="re-curr-vote">567</div>
-                          <a href="#" id="re-downvote"><i class="fa fa-chevron-down fa-2x"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="panel panel-default">
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="col-md-11">
-                          Fantastic.
-                        </div>
-                        <div id="reply-vote-container" class="col-md-1">
-                          <a href="#" id="re-upvote"><i class="fa fa-chevron-up fa-2x"></i></a>
-                          <div id="re-curr-vote">567</div>
-                          <a href="#" id="re-downvote"><i class="fa fa-chevron-down fa-2x"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </div>   
               </div>
             </div>
           </div>
