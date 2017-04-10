@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-md-2 d-flex align-items-center p-0">
       <div class="tiger"></div>
-      <a class="navbar-brand" href="/home">LOGO</a>
+      <a class="navbar-brand" href="/home" target="_self">LOGO</a>
     </div>
     <div class="col-md-7 d-flex align-items-center">
       <div class="search-bar input-group">
@@ -17,24 +17,36 @@
       </div>
     </div>
     <div class="col-md-3 d-flex align-items-center">
-      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-        <div class="navbar-nav">
-          <div class="dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
-            <div class="dropdown-menu" aria-labelledby="nav-account-button">
-              <a id="account-link" class="dropdown-item" href="/">My Account</a>
-              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
-            </div>
-          </div>
-          <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
-            <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-            <span id="num-items-in-cart"></span>
-          </a>
-        </div>
-      </div>
+      <a class="nav-link" data-toggle="modal" data-target="#descriptionModal">Submit a Course Description!</a>
     </div>
   </div>
 </nav>
+<div id="navbar-footer" class="row">
+  <div class="col-md">
+    {% raw %}
+    <nav class="nav">
+      <a href="{{ returnURL }}" class="nav-link active" target="_self">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
+      </a>
+    </nav>
+    {% endraw %}
+  </div>
+  <div class="col-md">
+    <nav class="nav justify-content-end">
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
+        <div class="dropdown-menu" aria-labelledby="nav-account-button">
+          <a id="account-link" class="dropdown-item" href="/" target="_self">My Account</a>
+          <a id="logout-link" class="dropdown-item" href="/" target="_self">Sign Out</a>
+        </div>
+      </div>
+      <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
+        <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
+        <span id="num-items-in-cart"></span>
+      </a>
+    </nav>
+  </div>
+</div>
 {% endblock %}
 {% block content %}
 <div id="course-page-content" class="row toggled" ng-init="getReviews()">
@@ -64,31 +76,31 @@
       </li>
       <li class="list-group-item rant-post">
         <div class="card">
-          <div class="card-block">
+          <div class="card-block d-flex align-items-center">
             <p class="card-text">Be prepared to spend a lot of time on this course 20-30 hours per week.</p>
+            <div class="vote-container" class="col-md-1">
+              <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div class="score">42</div>
+              <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+            </div>
           </div>
         </div>
       </li>
       <li class="list-group-item rant-post">
         <div class="card">
-          <div class="card-block">
+          <div class="card-block d-flex align-items-center">
             <p class="card-text">Better than 226. You're mostly coding by yourself, but the preceptors are super accessable. Too bad Iasonas isn't teaching next year! Take this class.</p>
+            <div class="vote-container" class="col-md-1">
+              <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div class="score">42</div>
+              <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+            </div>
           </div>
         </div>
       </li>
     </ul>
   </div>
-  <!--
-  <div class="col-md-2">
-    {% raw %}
-    <div class="return-link">
-      <a href="{{ returnURL }}" target="_self">
-        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
-      </a>
-    </div>
-    {% endraw %}
-  </div>-->
-  <div class="col-md p-3">
+  <div class="col-md">
     <div class="course-banner" data-aos="zoom-in" data-aos-once="true" ng-non-bindable>
       <div class="card">
         <h3 class="card-title">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
@@ -102,11 +114,11 @@
           {% endif %}
           {% endfor %}
         </div>
-        <ul class="list-group definitions">
-          <li class="list-group-item definition">
+        <ul class="list-group descriptions">
+          <li class="list-group-item description">
             <div class="card">
               <div class="card-block d-flex align-items-center">
-                <h3 class="card-title">Top Definition</h3>
+                <h3 class="card-title">Top Description</h3>
                 <p class="card-text">All that computer science has to offer packed in one course.</p>
                 <div class="vote-container" class="col-md-1">
                   <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
@@ -116,8 +128,8 @@
               </div>
             </div>
           </li>
-          <div class="collapse" id="more-definitions">
-            <li class="list-group-item definition">
+          <div class="collapse" id="more-descriptions">
+            <li class="list-group-item description">
               <div class="card">
                 <div class="card-block d-flex align-items-center">
                   <p class="card-text">All that computer science has to offer packed in one course.</p>
@@ -131,7 +143,7 @@
             </li>
           </div>
         </ul>
-        <a data-toggle="collapse" href="#more-definitions" aria-expanded="false" aria-controls="collapseExample">See More</a>
+        <a data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">See More</a>
       </div>
     </div>
     {% raw %}
@@ -159,15 +171,7 @@
       </div>
       <div class="col-md">
         <!-- rating-bars -->
-        <div class="initial-rating">
-          <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star2"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star3"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star4"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star5"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <div class="initial-rating-message">Rate this course</div>
-        </div>
-        <div class="rating-bars" style="display: none;">
+        <div class="rating-bars">
           <div class="row">
             <div class="rating-num">5</div>
             <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
@@ -212,7 +216,7 @@
         <div class="reviews-title">
           <h4>Student Reviews</h4>
         </div>
-        <a id="write-review-button" class="btn btn-primary">Write a Review</a>
+        <a id="write-review-button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">Write a Review</a>
         <div class="reviews-sort" ng-if="selectedTerm.length > 0">
           <span>Sort by:</span>
           <select class="sort-options">
@@ -235,8 +239,8 @@
               <span><i class="fa fa-lg fa-2x fa-meh-o fa-fw" aria-hidden="true"></i></span>
             </div>
             <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
+              <span><i class="fa fa-lg fa-thumbs-up fa-fw" aria-hidden="true"></i></span>
+              <span class="num-likes">{{ review.score }}</span>
             </div>
           </div>
         </div>
@@ -290,6 +294,59 @@
       </div>
     </div>
   </div>-->
+</div>
+<div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Your Course Description</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <textarea class="form-control" id="description-text" placeholder="Let Princeton students know the truth"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a id="description-cancel-button" data-dismiss="modal">CANCEL</a>
+        <a id="description-post-button">POST</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rate and Review</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            {% raw %}
+            <h3 id="term" data-term="{{ selectedTerm }}">{{ terms[selectedTerm]['term_string'] }}</h3>
+            {% endraw %}
+            <label for="disclaimer" class="form-control-label">This review will be anonymous.</label>
+            <div class="initial-rating d-flex align-items-center">
+              <span id="star1"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star2"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star3"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star4"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star5"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" id="review-text" placeholder="Write about your experience in this course"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a id="review-cancel-button" data-dismiss="modal">CANCEL</a>
+        <a id="review-post-button">POST</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 <script src="/static/js/course_controller.js"></script>

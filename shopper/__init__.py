@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 import sys
@@ -178,10 +179,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if course == None:
             abort(404)
         text = request.form['text']
-        rant = Rant(text=text, upvotes=0, date_posted=datetime.datetime.utcnow(), course=course)
+        rant = Rant(text=text, upvotes=0, timestamp=datetime.datetime.utcnow(), course=course)
         sql.db.session.add(review)
         sql.db.session.commit()
-        return jsonify({'rant': rant}), 201
+        return json.dumps({'rant': rant}), 201
 
 
     @app.route('/api/rantspace/<int:c_id>', methods=['GET'])
@@ -196,7 +197,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         for rant in rants:
             rantDict = {}
             rantDict['text'] = rant.text
-            rantDict['date_posted'] = rant.date_posted
+            rantDict['timestamp'] = rant.timestamp
             rantDict['upvotes'] = rant.upvotes
             rantsJson.append(rantDict)
         return json.dumps(rantsJson)
@@ -212,15 +213,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sem_code = request.form['sem_code']
         rating = request.form['rating']
         text = request.form['text']
+        print(sem_code)
+        print(rating)
+        print(text)
         num = len(course.reviews.all())
         review = sql.Review(sem_code=sem_code,
                        overall_rating=rating,
                        text=text,
                        num=num,
-                       course=course)
+                       course=course,
+                       score=0)
         sql.db.session.add(review)
         sql.db.session.commit()
-        return jsonify({'review': review}), 201
+        return json.dumps({'sem_code': sem_code, 'rating': rating, 'text': text}), 201
 
 
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
@@ -236,7 +241,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         for review in reviews:
             termSet.add(review.sem_code)
         for term in termSet:
-            reviews = course.reviews.filter_by(sem_code=term).all()
+            reviews = course.reviews.filter_by(sem_code=term).order_by(sql.Review.timestamp).all()
             reviewsJson[term] = {}
             reviewsJson[term]['reviews'] = []
             termCode = str(term)[1:]
@@ -252,6 +257,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 reviewDict['overall_rating'] = review.overall_rating
                 reviewDict['lecture_rating'] = review.lecture_rating
                 reviewDict['text'] = review.text
+                reviewDict['score'] = review.score
                 reviewsJson[term]['reviews'].append(reviewDict)
         return json.dumps(reviewsJson)
 

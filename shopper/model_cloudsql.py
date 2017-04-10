@@ -36,7 +36,7 @@ class Course(db.Model):
     description = db.Column(db.UnicodeText())
     crosslistings = db.Column(db.UnicodeText())
     avg_rating = db.Column(db.Float, index=True)
-    definitions = db.relationship('Definition', backref='course', lazy='dynamic')
+    descriptions = db.relationship('Description', backref='course', lazy='dynamic')
     instructors = db.relationship("Instructor", secondary=instructors,
         backref=db.backref('courses', lazy='dynamic'))
     reviews = db.relationship('Review', backref='course', lazy='dynamic')
@@ -45,15 +45,15 @@ class Course(db.Model):
     def __repr__(self):
         return "<Course {}{}>".format(self.code, self.catalog_number)
 
-class Definition(db.Model):
+class Description(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
     c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
     text = db.Column(db.UnicodeText())
     upvotes = db.Column(db.Integer)
-    date_posted = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
 
     def __repr__(self):
-        return "<Definition {} {}>".format(self.date_posted, self.text)
+        return "<Description {} {}>".format(self.timestamp, self.text)
 
 class Department(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -77,10 +77,10 @@ class Rant(db.Model):
 	c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
 	text = db.Column(db.UnicodeText())
 	upvotes = db.Column(db.Integer)
-	date_posted = db.Column(db.DateTime)
+	timestamp = db.Column(db.DateTime)
 
 	def __repr__(self):
-		return "<Rant {} {}>".format(self.text, self.date_posted)
+		return "<Rant {} {}>".format(self.text, self.timestamp)
 
 class Review(db.Model):
     id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
@@ -90,9 +90,11 @@ class Review(db.Model):
     overall_rating = db.Column(db.Float, index=True)
     lecture_rating = db.Column(db.Float)
     text = db.Column(db.UnicodeText())
+    score = db.Column(db.Integer, index=True)
     instructors = db.relationship('Instructor', secondary=instructors,
         backref=db.backref('reviews', lazy='dynamic'))
-
+    timestamp = db.Column(db.DateTime)
+    
     def __repr__(self):
         return "<Review {} {}>".format(self.c_id, self.sem_code)
 

@@ -15,12 +15,11 @@
 }
 
 #sidebar-btn {
-  z-index: 1000;
+  z-index: 999;
   position: fixed;
   right: 0px;
   height: 3rem;
   width: 3rem;
-  padding: 0.2rem;
   cursor: pointer;
   -webkit-transition: right 0.2s ease-out;
   -moz-transition: right 0.2s ease-out;
@@ -30,20 +29,21 @@
 
 #sidebar-btn span {
   display: block;
-  border-top: 0.2rem solid #ee7f2d;
+  border-top: 0.2rem solid white;
   height: 1rem;
+  margin-left: 20%;
 }
 
 #sidebar-btn span:nth-child(2) {
   display: block;
-  border-top: 0.2rem solid #ee7f2d;
-  margin-left: 40%;
+  border-top: 0.2rem solid white;
+  margin-left: 50%;
   height: 1rem;
 }
 
 #sidebar-btn span:nth-child(3) {
   display: block;
-  border-top: 0.2rem solid #ee7f2d;
+  border-top: 0.2rem solid white;
   margin-left: 80%;
   height: 1rem;
 }
@@ -54,7 +54,7 @@
 }
 
 #sidebar-wrapper {
-  z-index: 1000;
+  z-index: 999;
   position: fixed;
   right: -40%;
   width: 40%;
@@ -74,9 +74,9 @@
 #sidebar-wrapper .sidebar-top {
   position: relative;
   height: 3rem;
-  background-color: white;
-  color: black;
-  box-shadow: 0 4px 2px -2px #cccccc;
+  background-color: black;
+  color: #ee7f2d;
+  box-shadow: 0 4px 2px -2px black;
 }
 
 #sidebar-wrapper h1 {
@@ -93,10 +93,13 @@
   display: inline-block;
   width: 2rem;
   height: 2rem;
+  color: #ee7f2d;
+  background-color: transparent;
+  border: 1px solid #ee7f2d;
 }
 
 .rants {
   height: 100%;
   padding: 2rem;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }

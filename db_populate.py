@@ -1,3 +1,4 @@
+import datetime
 import requests as req
 import json
 import config
@@ -11,6 +12,7 @@ def populateDB():
     with open('courses.json') as data_file:
         data = json.load(data_file)
     print("data loaded from courses.json")
+    current_time = datetime.datetime.utcnow()
     courses = data['courses']
     for course in courses:
         num = 0
@@ -67,7 +69,9 @@ def populateDB():
                                overall_rating=float(review['overall_rating']),
                                lecture_rating=float(review['lecture_rating']),
                                text=review['student_advice'],
-                               num=num)
+                               num=num,
+                               score=0,
+                               timestamp=current_time)
                 c.reviews.append(r)
                 sql.db.session.add(r)
             else:

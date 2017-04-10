@@ -32,6 +32,11 @@ select:focus {
   outline: none;
 }
 
+textarea {
+  height: 56px;
+  resize: none;
+}
+
 /* Bootstrap Overrides */
 
 .navbar {
@@ -141,6 +146,7 @@ a.page-link:hover {
 
 .dropdown-menu {
   padding: 0;
+  margin: 0;
   border: 1px solid white;
   background-color: black;
 }
@@ -148,6 +154,23 @@ a.page-link:hover {
 .dropdown-item {
   color: white;
 }
+
+.dropdown-item:hover {
+  background-color: #ee7f2d;
+}
+
+.form-control, .form-control:focus {
+  color: white;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px solid white;
+  border-radius: 0;
+}
+
+.form-control::-webkit-input-placeholder { color: #e6e6e6; font-weight: 300; }
+.form-control::-moz-placeholder          { color: #e6e6e6; font-weight: 300; }
+.form-control:-moz-placeholder           { color: #e6e6e6; font-weight: 300; }
+.form-control:-ms-input-placeholder      { color: #e6e6e6; font-weight: 300; }
 
 /* navbar */
 
@@ -166,7 +189,29 @@ a.page-link:hover {
   height: 5rem;
 }
 
+#navbar-footer {
+  position: absolute;
+  top: 5rem;
+  left: 0rem;
+  width: 100%;
+  height: 2.5rem;
+  background-color: #202020;
+}
+
+#navbar-footer .nav-link {
+  margin-right: 2rem;
+}
+
+#navbar-footer span {
+  margin-right: 0.5rem;
+}
+
+#navbar-top a.nav-link, #navbar-footer a.nav-link {
+  color: #ee7f2d;
+}
+
 #nav-account {
+  color: #ee7f2d;
   padding-left: 0;
   padding-right: 0;
   font-size: 1rem;
@@ -230,16 +275,17 @@ a.page-link:hover {
 /* course page */
 
 #course-page-content {
-  margin-top: 5rem;
+  margin-top: 7.5rem;
   position: relative;
   padding-left: 5rem;
   padding-right: 5rem;
+  padding-bottom: 1rem;
   overflow-y: auto;
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
-  height: 90%;
+  height: 80%;
 }
 
 #course-page-content.toggled {
@@ -249,18 +295,55 @@ a.page-link:hover {
   margin-right: 0rem;
 }
 
-#course-page-content .return-link {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  width: 100%;
-}
-
-#course-page-content .return-link a {
+#course-page-content .card-title a {
   color: #303030;
 }
 
-#course-page-content .return-link span {
-  margin-right: 0.5rem;
+#course-page-content .tool-panel {
+  margin-top: 1rem;
+}
+
+#course-page-content .tool-panel .card {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #303030;
+}
+
+#course-page-content .tool-panel .card .card-block {
+  padding: 0.5rem;
+}
+
+#course-page-content .tool-panel .rant-space-button img {
+  height: 5rem;
+}
+
+#course-page-content .tool-panel .add-to-cart-button {
+  position: relative;
+  padding: 0.2rem;
+  margin: 0 auto 2rem;
+  width: 90%;
+  height: 2rem;
+  border-radius: 0.2rem;
+  background-color: #f6f6f6;
+  color: #303030;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#course-page-content .tool-panel .add-to-cart-button i {
+  position: absolute;
+  left: 5%;
+  top: 20%;
+  height: 60%;
+}
+
+#course-page-content .tool-panel .add-to-cart-button span {
+  position: absolute;
+  width: 50%;
+  height: 1.6rem;
+  top: 0.2rem;
+  left: 25%;
 }
 
 /* Reviews Wrapper */
@@ -271,9 +354,10 @@ a.page-link:hover {
 }
 
 .course-banner .card {
-  padding: 1rem 0.2rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+  margin-top: 1.5rem;
   width: 100%;
   background-color: #ee7f2d;
   text-align: center;
@@ -300,20 +384,20 @@ a.page-link:hover {
   padding: 0.2rem;
 }
 
-.definitions {
+.descriptions {
   padding-top: 0.5rem;
 }
 
-.definitions .list-group-item {
+.descriptions .list-group-item {
   margin-bottom: 0.2rem;
 }
 
-.definition {
+.description {
   padding: 0;
   background-color: black;
 }
 
-.definition .card {
+.description .card {
   position: relative;
   color: white;
   background-color: black;
@@ -322,7 +406,7 @@ a.page-link:hover {
   margin: 0;
 }
 
-.definition .card-title {
+.description .card-title {
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
@@ -333,11 +417,11 @@ a.page-link:hover {
   border-radius: 0.25rem;
 }
 
-#course-page-content.toggled .definition .card-title {
+#course-page-content.toggled .description .card-title {
   font-size: 1rem;
 }
 
-.definition .card-text {
+.description .card-text {
   width: 95%;
   margin: 0;
 }
@@ -411,27 +495,17 @@ a.page-link:hover {
 /* initial ratings */
 
 .initial-rating {
-  position: absolute;
-  top: 40%;
-  color: rgba(255, 255, 255, 0.3);
+  padding-top: 0.5rem;
+  color: #e6e6e6;
 }
 
 .initial-rating span {
-  padding-left: 1rem;
+  padding-right: 1rem;
   cursor: pointer;
 }
 
 .initial-rating span.active {
-  padding-left: 1rem;
-  color: white;
-  cursor: pointer;
-}
-
-.initial-rating .initial-rating-message {
-  padding-top: 1rem;
-  font-weight: 300;
-  text-align: center;
-  color: white;
+  color: #ee7f2d;
 }
 
 /* rating bars */
@@ -606,59 +680,40 @@ a.page-link:hover {
   cursor: pointer;
 }
 
-/* course page tool panel */
-
-#course-page-content {
-  padding-bottom: 1rem;
+/* forms */
+label {
+  font-weight: 300;
 }
 
-#course-page-content .card-title a {
-  color: #303030;
+.modal-content {
+  border: 1px solid white;
 }
 
-#course-page-content .tool-panel {
-  margin-top: 1rem;
+.modal-header {
+  color: black;
+  background-color: #ee7f2d;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom: none;
 }
 
-#course-page-content .tool-panel .card {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #303030;
+.modal-body {
+  color: white;
+  background-color: black;
 }
 
-#course-page-content .tool-panel .card .card-block {
-  padding: 0.5rem;
+.modal-footer {
+  border-top: none;
+  background-color: #ee7f2d;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
 }
 
-#course-page-content .tool-panel .rant-space-button img {
-  height: 5rem;
+.modal-footer a {
+  color: black !important;
+  font-weight: bold;
 }
 
-#course-page-content .tool-panel .add-to-cart-button {
-  position: relative;
-  padding: 0.2rem;
-  margin: 0 auto 2rem;
-  width: 90%;
-  height: 2rem;
-  border-radius: 0.2rem;
-  background-color: #f6f6f6;
-  color: #303030;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-}
-
-#course-page-content .tool-panel .add-to-cart-button i {
-  position: absolute;
-  left: 5%;
-  top: 20%;
-  height: 60%;
-}
-
-#course-page-content .tool-panel .add-to-cart-button span {
-  position: absolute;
-  width: 50%;
-  height: 1.6rem;
-  top: 0.2rem;
-  left: 25%;
+.modal-footer a:hover {
+  color: white !important;
 }
