@@ -126,6 +126,9 @@
                       <a href="#" id="downvote"><i class="fa fa-chevron-down fa-3x"></i></a>
                     </div>
                   </div>
+                  <div class="row">
+                    <a href="#" id="to-desc" class="center">View All Descriptions</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -141,12 +144,17 @@
     <div class="panel panel-default center">
       <div class="panel-heading center">
         <div id="terms-container" class="row center" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
+          <div ng-if="reviews.length > 0">
           <ul class="nav nav-tabs d-flex justify-content-center">
             <li class="nav-item" ng-repeat="(key, value) in terms">
               <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
                 {{ value['term_string'] }}</a>
             </li>
           </ul>
+          </div>
+          <div ng-if="!(reviews.length > 0)" class="no-reviews">
+            Be the first to write a review!
+          </div>
         </div>
       </div>
       <div class="panel-body">
@@ -274,9 +282,6 @@
               </div>
               <div class="panel-footer">
               </div>
-            </div>
-            <div class="no-reviews" ng-if="selectedTerm.length <= 0">
-              <p>There are no student reviews yet.</p>
             </div>
             <div class="reviews-listing" ng-if="selectedTerm.length > 0">
               <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true" ng-repeat="review in reviews">

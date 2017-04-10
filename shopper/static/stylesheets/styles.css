@@ -173,7 +173,7 @@ body {
   margin-right: 0.80rem;
 }
 
-#reveal-desc {
+#reveal-desc, #to-desc {
   color: #2d67ee;
   font-size: 1.5rem;
   font-weight: 400;
@@ -277,6 +277,12 @@ body {
 #curr-vote {
   color: white;
   font-weight: 300;
+  font-size: 1.50rem;
+}
+
+.no-reviews {
+  color: white;
+  font-weight: 500;
   font-size: 1.50rem;
 }
 
