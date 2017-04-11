@@ -3,15 +3,16 @@ import requests as req
 import json
 import config
 import html
+import sys
 import shopper
 import shopper.model_cloudsql as sql
 
-def populateDB():
+def populateDB(filename):
     shopper.create_app(config).app_context().push()
 
-    with open('courses.json') as data_file:
+    with open(filename) as data_file:
         data = json.load(data_file)
-    print("data loaded from courses.json")
+    print("data loaded from file")
     current_time = datetime.datetime.utcnow()
     courses = data['courses']
     for course in courses:
@@ -89,4 +90,4 @@ def populateDB():
         print("Added {} {}".format(course["dept_code"], course["catalog_number"]))
 
     sql.db.session.commit()
-populateDB()
+populateDB(sys.argv[1])
