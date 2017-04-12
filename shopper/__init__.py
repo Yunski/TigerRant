@@ -120,7 +120,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 elif len(field) == 2 and not field.isdigit():
                     baseQuery = baseQuery.filter(sql.Course.distribution == field)
                 else:
-                    baseQuery = baseQuery.filter(sql.Course.description.contains(field))
+                    baseQuery = baseQuery.filter(sql.Course.title.contains(field) | sql.Course.description.contains(field))
             length = len(baseQuery.all())
             if length < end:
                 end = length
@@ -170,8 +170,36 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             return redirect(url_for('index'))
         return render_template('rant.html')"""
 
+    @app.route('/api/descriptions/<int:c_id>', methods=['POST'])
+    def post_description(c_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        text = request.form['text']
+        description = sql.Description(text=text, upvotes=0, course=course)
+        sql.db.session.add(description)
+        sql.db.session.commit()
+        return json.dumps({'description': text}), 201
 
-    @app.route('/api/rantspace/<int:c_id>', methods=['POST'])
+    @app.route('/api/descriptions/<int:c_id>', methods=['GET'])
+    def get_descriptions(c_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        descriptions = course.descriptions.all()
+        descriptionsJson = []
+        for description in descriptions:
+            dDict = {}
+            dDict['text'] = description.text
+            dDict['upvotes'] = description.upvotes
+            descriptionsJson.append(dDict)
+        return json.dumps(descriptionsJson)
+
+    @app.route('/api/rants/<int:c_id>', methods=['POST'])
     def post_rant(c_id):
         if 'netid' not in session:
             abort(401)
@@ -179,13 +207,13 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if course == None:
             abort(404)
         text = request.form['text']
-        rant = Rant(text=text, upvotes=0, timestamp=datetime.datetime.utcnow(), course=course)
+        rant = sql.Rant(text=text, upvotes=0, course=course)
         sql.db.session.add(review)
         sql.db.session.commit()
-        return json.dumps({'rant': rant}), 201
+        return json.dumps({'rant': text}), 201
 
 
-    @app.route('/api/rantspace/<int:c_id>', methods=['GET'])
+    @app.route('/api/rants/<int:c_id>', methods=['GET'])
     def get_rants(c_id):
         if 'netid' not in session:
             abort(401)
@@ -197,7 +225,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         for rant in rants:
             rantDict = {}
             rantDict['text'] = rant.text
-            rantDict['timestamp'] = rant.timestamp
             rantDict['upvotes'] = rant.upvotes
             rantsJson.append(rantDict)
         return json.dumps(rantsJson)
@@ -221,8 +248,9 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                        overall_rating=rating,
                        text=text,
                        num=num,
-                       course=course,
-                       score=0)
+                       score=0,
+                       scraped=False,
+                       course=course)
         sql.db.session.add(review)
         sql.db.session.commit()
         return json.dumps({'sem_code': sem_code, 'rating': rating, 'text': text}), 201

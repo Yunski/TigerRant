@@ -49,50 +49,27 @@
 </div>
 {% endblock %}
 {% block content %}
-<div id="course-page-content" class="row toggled" ng-init="getReviews()">
+<div id="course-page-content" class="row toggled">
+  {% raw %}
   <!-- Sidebar -->
-  <div id="sidebar-btn">
-    <span></span>
-    <span></span>
-    <span></span>
+  <div id="sidebar-btn" class="d-flex align-items-center justify-content-center"
+       data-toggle="tooltip" data-placement="left" title="Preview of Rant Space">
+       R
   </div>
   <div id="sidebar-wrapper">
-    <div class="sidebar-top d-flex align-items-center">
+    <div id="sidebar-top" class="d-flex align-items-center">
       <h1>Rant Space</h1>
-      <button class="refresh"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+      <button class="add"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      <button class="refresh"><i class="fa fa-refresh" aria-hidden="true" ng-click="getRants()"></i></button>
     </div>
-    <ul class="list-group rants">
-      <li class="list-group-item rant-post">
+    <ul class="list-group rants" ng-if="rants.length > 0">
+      <li class="list-group-item rant-post" ng-repeat="rant in rants">
         <div class="card">
           <div class="card-block d-flex align-items-center">
-            <p class="card-text">A LOT of work, but be careful of falling asleep if Appel is teaching it.</p>
+            <p class="card-text">{{ rant.text }}</p>
             <div class="vote-container" class="col-md-1">
               <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
-              <div class="score">42</div>
-              <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item rant-post">
-        <div class="card">
-          <div class="card-block d-flex align-items-center">
-            <p class="card-text">Be prepared to spend a lot of time on this course 20-30 hours per week.</p>
-            <div class="vote-container" class="col-md-1">
-              <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
-              <div class="score">42</div>
-              <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item rant-post">
-        <div class="card">
-          <div class="card-block d-flex align-items-center">
-            <p class="card-text">Better than 226. You're mostly coding by yourself, but the preceptors are super accessable. Too bad Iasonas isn't teaching next year! Take this class.</p>
-            <div class="vote-container" class="col-md-1">
-              <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
-              <div class="score">42</div>
+              <div class="score">{{ rant.upvotes }}</div>
               <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
             </div>
           </div>
@@ -100,11 +77,12 @@
       </li>
     </ul>
   </div>
+  {% endraw %}
   <div class="col-md">
-    <div class="course-banner" data-aos="zoom-in" data-aos-once="true" ng-non-bindable>
+    <div class="course-banner" data-aos="zoom-in" data-aos-once="true">
       <div class="card">
-        <h3 class="card-title">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
-        <div class="course-instructors">
+        <h3 class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
+        <div class="course-instructors" ng-non-bindable>
           {% for i in range(0, course.instructors|length) %}
           {% if i != course.instructors|length-1 %}
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
@@ -114,28 +92,32 @@
           {% endif %}
           {% endfor %}
         </div>
+        {% raw %}
         <ul class="list-group descriptions">
           <li class="list-group-item description">
             <div class="card">
-              <div class="card-block d-flex align-items-center">
-                <h3 class="card-title">Top Description</h3>
-                <p class="card-text">All that computer science has to offer packed in one course.</p>
+              <div class="card-block d-flex align-items-center" ng-if="descriptions.length > 0">
+                <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
+                <p class="card-text">{{ descriptions[0].text }}</p>
                 <div class="vote-container" class="col-md-1">
                   <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div class="score">42</div>
+                  <div class="score">{{ descriptions[0].upvotes }}</div>
                   <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
+              <div class="card-block d-flex align-items-center" ng-if="descriptions.length <= 0">
+                <a class="card-text" data-toggle="modal" data-target="#descriptionModal">Be the first to write a description!</a>
+              </div>
             </div>
           </li>
-          <div class="collapse" id="more-descriptions">
-            <li class="list-group-item description">
+          <div class="collapse" id="more-descriptions" ng-if="descriptions.length > 1">
+            <li class="list-group-item description" ng-repeat="description in descriptions" ng-if="!$first">
               <div class="card">
                 <div class="card-block d-flex align-items-center">
-                  <p class="card-text">All that computer science has to offer packed in one course.</p>
+                  <p class="card-text">{{ description.text }}</p>
                   <div class="vote-container" class="col-md-1">
                     <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
-                    <div class="score">42</div>
+                    <div class="score">{{ description.upvotes }}</div>
                     <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
                   </div>
                 </div>
@@ -143,13 +125,18 @@
             </li>
           </div>
         </ul>
-        <a data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">See More</a>
+        {% endraw %}
+        <div id="more-button-container" class="d-flex justify-content-center" ng-if="descriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">Show More</a></div>
       </div>
     </div>
     {% raw %}
-    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true" ng-if="selectedTerm.length > 0">
+    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
       <ul class="nav nav-tabs nav-justified d-flex justify-content-center">
-        <li class="nav-item" ng-repeat="(key, value) in terms">
+        <li class="nav-item" ng-if="selectedTerm.length <= 0">
+          <a class="nav-link empty">
+            No Content Available</a>
+        </li>
+        <li class="nav-item" ng-repeat="(key, value) in terms" ng-if="selectedTerm.length > 0">
           <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
             {{ value['term_string'] }}</a>
         </li>
@@ -165,9 +152,7 @@
           <span class="rating-total">
             {{ terms[selectedTerm]['reviews'].length }}</span> reviews
         </span>
-        <span class="rating-description" ng-if="selectedTerm.length <= 0">
-          Be the first to write a review!
-        </span>
+        <button id="rate-course-button" class="btn btn-secondary" data-toggle="modal" data-target="#reviewModal" ng-if="selectedTerm.length <= 0">Rate this course!</button>
       </div>
       <div class="col-md">
         <!-- rating-bars -->
@@ -229,22 +214,20 @@
       <div class="no-reviews" ng-if="selectedTerm.length <= 0">
         <p>There are no student reviews yet.</p>
       </div>
-      <div class="reviews-listing" ng-if="selectedTerm.length > 0">
-        <div class="row" ng-repeat="review in reviews">
+      <ul class="reviews-listing list-group" ng-if="selectedTerm.length > 0">
+        <li class="list-group-item" ng-repeat="review in reviews">
           <blockquote class="blockquote">
             <p>{{ review.text }}</p>
           </blockquote>
           <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-2x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
+            <div class="sentiment"><i class="fa fa-lg fa-2x fa-meh-o" aria-hidden="true"></i></div>
             <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-thumbs-up fa-fw" aria-hidden="true"></i></span>
+              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
               <span class="num-likes">{{ review.score }}</span>
             </div>
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
     <nav class="page-navigation" aria-label="Page navigation">
       <ul class="pagination justify-content-center">

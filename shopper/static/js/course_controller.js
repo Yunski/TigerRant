@@ -28,6 +28,24 @@
                 order = $location.search().order;
             }
             $scope.returnURL = "/browse?search=" + search + "&page=" + page + "&order=" + order;
+            $scope.getDescriptions = function() {
+                $http.get('/api/descriptions/' + id).
+                      success(function(descriptions) {
+                          $scope.descriptions = descriptions;
+                      }).
+                      error(function(error) {
+                        $log.log(error);
+                      });
+            };
+            $scope.getRants = function() {
+                $http.get('/api/rants/' + id).
+                      success(function(rants) {
+                          $scope.rants = rants;
+                      }).
+                      error(function(error) {
+                        $log.log(error);
+                      });
+            };
             $scope.getReviews = function() {
                 $http.get('/api/reviews/' + id).
                       success(function(reviews) {
@@ -120,6 +138,9 @@
                 $scope.reviews = $scope.terms[$scope.selectedTerm]['reviews'].slice(start, end);
                 $scope.pageLinks = pageLinks;
             };
+            $scope.getDescriptions();
+            $scope.getRants();
+            $scope.getReviews();
         }
     ]);
 }());

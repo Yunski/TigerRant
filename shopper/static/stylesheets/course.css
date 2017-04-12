@@ -80,14 +80,19 @@ textarea {
 
 .btn-primary {
   background-color: #ee7f2d;
-  border-color: black;
+  border: none;
   color: black;
 }
 
 .btn-primary:hover {
   background-color: #ee7f2d;
-  border-color: #ee7f2d;
   color: white;
+}
+
+.btn-secondary, .btn-secondary:hover {
+  color: white;
+  background-color: transparent;
+  border: 1px solid white;
 }
 
 .input-group-addon {
@@ -354,42 +359,40 @@ a.page-link:hover {
 }
 
 .course-banner .card {
-  padding-top: 1rem;
-  padding-left: 0.2rem;
-  padding-right: 0.2rem;
+  padding: 1rem 0.2rem 0.2rem 0.2rem;
   margin-top: 1.5rem;
   width: 100%;
   background-color: #ee7f2d;
+  border-radius: 0.5rem;
   text-align: center;
 }
 
 .course-banner .card-title {
   color: white;
-  padding: 0.5rem 2rem;
-}
-
-#course-page-content.toggled .course-banner .card-title {
-  font-size: 1.4rem;
+  padding: 0.2rem 2rem;
 }
 
 .course-instructors {
   color: white;
   padding: 0.5rem 0;
-  border-radius: 0.25rem;
   background-color: black;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
   font-weight: 300;
+}
+
+.course-banner a {
+  color: black;
 }
 
 .course-instructors span {
   padding: 0.2rem;
 }
 
-.descriptions {
-  padding-top: 0.5rem;
-}
-
 .descriptions .list-group-item {
-  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0rem;
+  border-radius: 0rem;
 }
 
 .description {
@@ -411,14 +414,15 @@ a.page-link:hover {
   top: 0.5rem;
   left: 0.5rem;
   margin: 0;
-  padding: 0.1rem;
-  font-size: 1.4rem;
-  border: 1px solid white;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  border: 1px solid #ee7f2d;
   border-radius: 0.25rem;
 }
 
-#course-page-content.toggled .description .card-title {
-  font-size: 1rem;
+.description .card-title .top-star {
+  color: #ee7f2d;
+  padding-right: 0.2rem;
 }
 
 .description .card-text {
@@ -426,8 +430,24 @@ a.page-link:hover {
   margin: 0;
 }
 
-.course-banner a {
-  color: black;
+#more-button-container {
+  z-index: 1;
+  padding-top: 0.1rem;
+  margin-top: -1rem;
+  background-color: black;
+  border-bottom-left-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+}
+
+#more-descriptions-button {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  padding-left: 0.5em;
+  padding-right: 0.5rem;
+  color: white;
+  background-color: #ee7f2d;
+  display: block;
+  width: 6.2rem;
 }
 
 .vote-container {
@@ -490,6 +510,12 @@ a.page-link:hover {
   font-weight: 300;
   font-size: 1rem;
   color: white;
+}
+
+#rate-course-button:hover {
+  -ms-transform: scale(1.05, 1.05);
+  -webkit-transform: scale(1.05, 1.05);
+  transform: scale(1.05, 1.05);
 }
 
 /* initial ratings */
@@ -577,11 +603,23 @@ a.page-link:hover {
   color: white;
   background-color: #ee7f2d;
   border: 1px solid white;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
 .terms .nav-tabs .nav-link:hover {
   color: white;
   background-color: black;
+}
+
+.terms .nav-tabs .nav-link.empty {
+  color: white;
+  background-color: black;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 .terms .nav-tabs .active {
@@ -637,6 +675,12 @@ a.page-link:hover {
   font-weight: 300;
 }
 
+#write-review-button:hover {
+  -ms-transform: scale(1.05, 1.05);
+  -webkit-transform: scale(1.05, 1.05);
+  transform: scale(1.05, 1.05);
+}
+
 .reviews .reviews-sort {
   float: right;
 }
@@ -645,9 +689,11 @@ a.page-link:hover {
   display: inline-block;
 }
 
-.reviews .row {
+.reviews .list-group-item {
   margin-bottom: 0.5rem;
   padding-bottom: 0.5rem;
+  color: white;
+  background-color: transparent;
   border-radius: 0.5rem;
   border: 1px solid #ee7f2d;
   position: relative;
@@ -666,8 +712,8 @@ a.page-link:hover {
 
 .reviews .sentiment {
   position: absolute;
-  top: 1rem;
-  right: 0.5rem;
+  bottom: 0.5rem;
+  right: 5rem;
 }
 
 .reviews .thumbs-up {

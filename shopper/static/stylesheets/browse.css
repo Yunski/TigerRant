@@ -108,8 +108,12 @@ select:focus {
 }
 
 .page-link {
-  color: white;
+  border: 1px solid white !important;
   background-color: black;
+}
+
+a.page-link {
+  color: white !important;
 }
 
 .page-item.active .page-link {
@@ -118,8 +122,21 @@ select:focus {
   border-color: white;
 }
 
-.page-item:hover a {
-  color: black;
+.page-link:hover {
+  background-color: white;
+}
+
+a.page-link:hover {
+  color: black !important;
+}
+
+.page-item.disabled .page-link {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  color: white;
+  background-color: black;
 }
 
 .dropdown-menu {

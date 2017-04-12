@@ -58,6 +58,14 @@ $(document).ready(function() {
       this.style.height = (this.scrollHeight) + "px";
     });
 
+    $("#more-descriptions-button").click(function () {
+        if ($("#more-button-container a").hasClass("collapsed")) {
+            $("#more-button-container a").text("Show Less");
+        } else {
+            $("#more-button-container a").text("Show More");
+        }
+    });
+
     $("#review-cancel-button").click(function() {
         rating = 0;
     });
@@ -74,6 +82,21 @@ $(document).ready(function() {
             url: "/api/reviews/" + c_id,
             type: "POST",
             data: {sem_code: sem_code, rating: rating, text: text},
+            success: function(data) {
+                console.log("Response " + JSON.stringify(data));
+                location.reload();
+            }
+        });
+    });
+
+    $("#description-post-button").click(function() {
+        var text = $("#description-text").val();
+        if (text == "") return;
+        c_id = parseInt(window.location.href.split("id=")[1]);
+        $.ajax({
+            url: "/api/descriptions/" + c_id,
+            type: "POST",
+            data: {text: text},
             success: function(data) {
                 console.log("Response " + JSON.stringify(data));
                 location.reload();

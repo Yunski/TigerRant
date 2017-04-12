@@ -63,16 +63,19 @@ def populateDB(filename):
 
         ratings = []
         for review in course['reviews']:
+            text = review['student_advice']
+            if len(text) < 10:
+                continue
             foundReview = sql.Review.query.filter_by(c_id=int(course_id)).filter_by(num=num).first()
             if foundReview == None:
                 r = sql.Review(c_id=int(course_id),
                                sem_code=int(review['semester_code']),
                                overall_rating=float(review['overall_rating']),
                                lecture_rating=float(review['lecture_rating']),
-                               text=review['student_advice'],
+                               text=text,
                                num=num,
                                score=0,
-                               timestamp=current_time)
+                               scraped=True)
                 c.reviews.append(r)
                 sql.db.session.add(r)
             else:
