@@ -3,7 +3,7 @@ import json
 import logging
 import sys
 
-from flask import current_app, Flask, request, redirect, url_for, render_template, session
+from flask import abort, current_app, Flask, request, redirect, url_for, render_template, session
 from flask_api import status
 
 from . import model_cloudsql as sql
@@ -170,6 +170,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             return redirect(url_for('index'))
         return render_template('rant.html')"""
 
+
     @app.route('/api/descriptions/<int:c_id>', methods=['POST'])
     def post_description(c_id):
         if 'netid' not in session:
@@ -183,6 +184,26 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.commit()
         return json.dumps({'description': text}), 201
 
+
+    @app.route('/api/descriptions/<int:c_id>/<int:description_id>', methods=['PUT'])
+    def update_description(c_id, description_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        vote = 0
+        paramVote = request.form['vote']
+        try:
+            vote = int(paramVote)
+        except ValueError:
+            abort(401)
+        description = sql.Description.query.get(description_id)
+        description.upvotes += vote
+        sql.db.session.commit()
+        return json.dumps({'description score modified by': vote}), 201
+
+
     @app.route('/api/descriptions/<int:c_id>', methods=['GET'])
     def get_descriptions(c_id):
         if 'netid' not in session:
@@ -194,10 +215,12 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         descriptionsJson = []
         for description in descriptions:
             dDict = {}
+            dDict['id'] = description.id
             dDict['text'] = description.text
             dDict['upvotes'] = description.upvotes
             descriptionsJson.append(dDict)
         return json.dumps(descriptionsJson)
+
 
     @app.route('/api/rants/<int:c_id>', methods=['POST'])
     def post_rant(c_id):
@@ -208,9 +231,28 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             abort(404)
         text = request.form['text']
         rant = sql.Rant(text=text, upvotes=0, course=course)
-        sql.db.session.add(review)
+        sql.db.session.add(rant)
         sql.db.session.commit()
         return json.dumps({'rant': text}), 201
+
+
+    @app.route('/api/rants/<int:c_id>/<int:rant_id>', methods=['PUT'])
+    def update_rant(c_id, rant_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        vote = 0
+        paramVote = request.form['vote']
+        try:
+            vote = int(paramVote)
+        except ValueError:
+            abort(401)
+        rant = sql.Rant.query.get(rant_id)
+        rant.upvotes += vote
+        sql.db.session.commit()
+        return json.dumps({'rant upvote modified by': vote}), 201
 
 
     @app.route('/api/rants/<int:c_id>', methods=['GET'])
@@ -224,6 +266,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         rantsJson = []
         for rant in rants:
             rantDict = {}
+            rantDict['id'] = rant.id
             rantDict['text'] = rant.text
             rantDict['upvotes'] = rant.upvotes
             rantsJson.append(rantDict)
@@ -240,9 +283,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sem_code = request.form['sem_code']
         rating = request.form['rating']
         text = request.form['text']
-        print(sem_code)
-        print(rating)
-        print(text)
         num = len(course.reviews.all())
         review = sql.Review(sem_code=sem_code,
                        overall_rating=rating,
@@ -254,6 +294,25 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.add(review)
         sql.db.session.commit()
         return json.dumps({'sem_code': sem_code, 'rating': rating, 'text': text}), 201
+
+
+    @app.route('/api/reviews/<int:c_id>/<int:review_id>', methods=['PUT'])
+    def update_review(c_id, review_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        score = 0
+        paramScore = request.form['score']
+        try:
+            score = int(paramScore)
+        except ValueError:
+            abort(401)
+        review = sql.Review.query.get(review_id)
+        review.score += score
+        sql.db.session.commit()
+        return json.dumps({'review score modified by': score}), 201
 
 
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
@@ -281,6 +340,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             reviewsJson[term]['term_string'] = termString
             for review in reviews:
                 reviewDict = {}
+                reviewDict['id'] = review.id
                 reviewDict['sem_code'] = review.sem_code
                 reviewDict['overall_rating'] = review.overall_rating
                 reviewDict['lecture_rating'] = review.lecture_rating

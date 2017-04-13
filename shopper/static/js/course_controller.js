@@ -34,7 +34,7 @@
                           $scope.descriptions = descriptions;
                       }).
                       error(function(error) {
-                        $log.log(error);
+                          $log.log(error);
                       });
             };
             $scope.getRants = function() {
@@ -43,7 +43,7 @@
                           $scope.rants = rants;
                       }).
                       error(function(error) {
-                        $log.log(error);
+                          $log.log(error);
                       });
             };
             $scope.getReviews = function() {
@@ -90,7 +90,7 @@
                             }
                       }).
                       error(function(error) {
-                        $log.log(error);
+                          $log.log(error);
                       });
             };
             $scope.getCourseData = function(term) {
@@ -138,6 +138,63 @@
                 $scope.reviews = $scope.terms[$scope.selectedTerm]['reviews'].slice(start, end);
                 $scope.pageLinks = pageLinks;
             };
+            $scope.updateDescription = function(descriptionId, vote) {
+                var data = $.param({
+                    vote: vote
+                });
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
+                }
+                $http.put('/api/descriptions/' + id + '/' + descriptionId, data, config).
+                      success(function(response, status) {
+                          if (status == 201) {
+                              $scope.getDescriptions();
+                          }
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            }
+            $scope.updateRant = function(rantId, vote) {
+                var data = $.param({
+                    vote: vote
+                });
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
+                }
+                $http.put('/api/rants/' + id + "/" + rantId, data, config).
+                      success(function(response, status) {
+                          if (status == 201) {
+                              $scope.getRants();
+                          }
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            }
+            $scope.updateReview = function(reviewId, score) {
+                var data = $.param({
+                    score: score
+                });
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
+                }
+                $http.put('/api/reviews/' + id + '/' + reviewId, data, config).
+                      success(function(response, status) {
+                          if (status == 201) {
+                              $scope.getReviews();
+                          }
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            }
             $scope.getDescriptions();
             $scope.getRants();
             $scope.getReviews();

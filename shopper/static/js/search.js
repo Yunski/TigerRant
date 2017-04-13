@@ -1,6 +1,10 @@
 var ENTER_KEY = 13;
 
 $(document).ready(function() {
+    if (window.location.href.split("search=").length > 1) {
+        var search = decodeURIComponent(window.location.href.split("search=")[1].split("&page=")[0]);
+        $(".search-text-field").val(search);
+    }
     $(".search-text-field").mouseover(function() {
         $(".search-text-field").css("border-top", "1px solid #ee7f2d");
         $(".search-text-field").css("border-bottom", "1px solid #ee7f2d");

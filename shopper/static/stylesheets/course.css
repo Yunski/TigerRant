@@ -453,6 +453,7 @@ a.page-link:hover {
 .vote-container {
   width: 5%;
   display: inline-block;
+  text-align: center;
 }
 
 .upvote, .downvote {

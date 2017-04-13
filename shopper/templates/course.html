@@ -59,18 +59,18 @@
   <div id="sidebar-wrapper">
     <div id="sidebar-top" class="d-flex align-items-center">
       <h1>Rant Space</h1>
-      <button class="add"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
       <button class="refresh"><i class="fa fa-refresh" aria-hidden="true" ng-click="getRants()"></i></button>
     </div>
     <ul class="list-group rants" ng-if="rants.length > 0">
-      <li class="list-group-item rant-post" ng-repeat="rant in rants">
+      <li class="list-group-item rant-post" ng-repeat="rant in rants" data-aos="flip-right" data-aos-once="true">
         <div class="card">
           <div class="card-block d-flex align-items-center">
             <p class="card-text">{{ rant.text }}</p>
             <div class="vote-container" class="col-md-1">
-              <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div class="upvote" ng-click="updateRant(rant.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
               <div class="score">{{ rant.upvotes }}</div>
-              <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+              <div class="downvote" ng-click="updateRant(rant.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
             </div>
           </div>
         </div>
@@ -100,13 +100,13 @@
                 <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
                 <p class="card-text">{{ descriptions[0].text }}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div class="upvote" ng-click="updateDescription(descriptions[0].id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
                   <div class="score">{{ descriptions[0].upvotes }}</div>
-                  <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div class="downvote" ng-click="updateDescription(descriptions[0].id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
-              <div class="card-block d-flex align-items-center" ng-if="descriptions.length <= 0">
-                <a class="card-text" data-toggle="modal" data-target="#descriptionModal">Be the first to write a description!</a>
+              <div class="card-block d-flex align-items-center justify-content-center" ng-if="descriptions.length <= 0">
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#descriptionModal">Be the first to write a description!</button>
               </div>
             </div>
           </li>
@@ -116,9 +116,9 @@
                 <div class="card-block d-flex align-items-center">
                   <p class="card-text">{{ description.text }}</p>
                   <div class="vote-container" class="col-md-1">
-                    <div class="upvote"><i class="fa fa-lg fa-chevron-up"></i></div>
+                    <div class="upvote" ng-click="updateDescription(description.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
                     <div class="score">{{ description.upvotes }}</div>
-                    <div class="downvote"><i class="fa fa-lg fa-chevron-down"></i></div>
+                    <div class="downvote" ng-click="updateDescription(description.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
                   </div>
                 </div>
               </div>
@@ -222,7 +222,7 @@
           <div class="like">
             <div class="sentiment"><i class="fa fa-lg fa-2x fa-meh-o" aria-hidden="true"></i></div>
             <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
+              <span ng-click="updateReview(review.id, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
               <span class="num-likes">{{ review.score }}</span>
             </div>
           </div>
@@ -294,6 +294,26 @@
       <div class="modal-footer">
         <a id="description-cancel-button" data-dismiss="modal">CANCEL</a>
         <a id="description-post-button">POST</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="rantModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rant Space</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <textarea class="form-control" id="rant-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a id="rant-cancel-button" data-dismiss="modal">CANCEL</a>
+        <a id="rant-post-button">POST</button>
       </div>
     </div>
   </div>

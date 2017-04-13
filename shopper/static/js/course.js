@@ -74,9 +74,6 @@ $(document).ready(function() {
         var text = $("#review-text").val();
         if (text == "" || rating == 0) return;
         sem_code = $("#term").attr("data-term");
-        console.log(sem_code);
-        console.log(rating);
-        console.log(text);
         c_id = parseInt(window.location.href.split("id=")[1]);
         $.ajax({
             url: "/api/reviews/" + c_id,
@@ -103,6 +100,21 @@ $(document).ready(function() {
             }
         });
     });
+
+    $("#rant-post-button").click(function() {
+        var text = $("#rant-text").val();
+        if (text == "") return;
+        c_id = parseInt(window.location.href.split("id=")[1]);
+        $.ajax({
+            url: "/api/rants/" + c_id,
+            type: "POST",
+            data: {text: text},
+            success: function(data) {
+                console.log("Response " + JSON.stringify(data));
+                location.reload();
+            }
+        });
+    });
 });
 
 $.fn.extend({
@@ -117,6 +129,6 @@ $.fn.extend({
 function scrollToReviewsTop() {
     console.log($("#course-page-content").offset().top);
     $("#course-page-content").animate({
-        scrollTop: 520
+        scrollTop: 560
     }, 500);
 }
