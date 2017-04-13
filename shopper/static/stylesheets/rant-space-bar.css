@@ -110,6 +110,21 @@
   color: red;
 }
 
+#empty-rantspace-message {
+  padding: 1rem;
+  text-align: center;
+  color: black;
+}
+
+#empty-rantspace-message a {
+  border-bottom: 1px solid black;
+}
+
+#empty-rantspace-message a:hover {
+  color: #ee7f2d;
+  border-bottom: 1px solid #ee7f2d;
+}
+
 .rants {
   padding: 2rem;
   background-color: #fafafa;

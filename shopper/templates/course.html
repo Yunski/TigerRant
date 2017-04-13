@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-md-2 d-flex align-items-center p-0">
       <div class="tiger"></div>
-      <a class="navbar-brand" href="/home" target="_self">LOGO</a>
+      <a class="navbar-brand" href="/home" target="_self">TigerShop</a>
     </div>
     <div class="col-md-7 d-flex align-items-center">
       <div class="search-bar input-group">
@@ -62,6 +62,7 @@
       <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
       <button class="refresh"><i class="fa fa-refresh" aria-hidden="true" ng-click="getRants()"></i></button>
     </div>
+    <div id="empty-rantspace-message" ng-if="rants.length <= 0">It's too quiet! <a data-toggle="modal" data-target="#rantModal">Share something cool or complain about stuff.</a></div>
     <ul class="list-group rants" ng-if="rants.length > 0">
       <li class="list-group-item rant-post" ng-repeat="rant in rants" data-aos="flip-right" data-aos-once="true">
         <div class="card">

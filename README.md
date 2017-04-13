@@ -3,7 +3,12 @@
 ## Overview
 This project is a dedicated course shopping site for Princeton University.
 
-The minimal viable product includes all the information available on the [course registrar](https://registrar.princeton.edu/course-offerings/) (course description, meeting times, etc) along with all the information available on the course evaluation pages (overall ratings per semester, professor who taught it, student comments, etc).
+The goal is provide students with a supplemental information source, such as unfiltered student reviews, an urban dictionary with course descriptions, and a yak-like real-time posting mechanism to keep shoppers and enrolled students up to speed. Students have the option of following courses and getting notifications.
+
+Our website still provides the official course offerings information, but students now have the opportunity to read exclusive content and contribute their own.
+
+We hope that this will make course shopping more fun and informative.
+The final feature of our website is a shopping cart that syncs with a user's ReCal calendar.
 
 Timeline
 - [x] 3/26: (Pre-alpha test) website should be live, complete with CAS login and supporting every search option (dept, distribution, professor, title, meeting times) that Course Offerings has with the addition of course ratings and student reviews. MySQL database is complete with all relevant tables and indices. No interaction features yet.
