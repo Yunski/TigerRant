@@ -1761,33 +1761,6 @@
   animation-name: fadeOutUpBig;
 }
 
-@-webkit-keyframes flip-custom {
-  from {
-    -webkit-transform: rotate3d(0, 1, 0, -360deg);
-    transform: rotate3d(0, 1, 0, -360deg);
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
-  }
-}
-
-@keyframes flip-custom {
-  from {
-    -webkit-transform: rotate3d(0, 1, 0, -360deg);
-    transform: rotate3d(0, 1, 0, -360deg);
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
-  }
-}
-
-.animated.flip-custom {
-  -webkit-backface-visibility: visible;
-  backface-visibility: visible;
-  -webkit-animation-name: flip-custom;
-  animation-name: flip-custom;
-  -webkit-animation-duration: 0.5s;
-  animation-duration: 0.5s;
-}
-
 @-webkit-keyframes flip {
   from {
     -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -360deg);

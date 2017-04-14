@@ -1,0 +1,26 @@
+@-webkit-keyframes flip-custom {
+  from {
+    -webkit-transform: rotate3d(0, 1, 0, -360deg);
+    transform: rotate3d(0, 1, 0, -360deg);
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+  }
+}
+
+@keyframes flip-custom {
+  from {
+    -webkit-transform: rotate3d(0, 1, 0, -360deg);
+    transform: rotate3d(0, 1, 0, -360deg);
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+  }
+}
+
+.animated.flip-custom {
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+  -webkit-animation-name: flip-custom;
+  animation-name: flip-custom;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+}
