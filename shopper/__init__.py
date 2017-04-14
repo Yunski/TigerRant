@@ -1,8 +1,9 @@
+import datetime
 import json
 import logging
 import sys
 
-from flask import current_app, Flask, request, redirect, url_for, render_template, session
+from flask import abort, current_app, Flask, request, redirect, url_for, render_template, session
 from flask_api import status
 
 from . import model_cloudsql as sql
@@ -28,8 +29,8 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/')
     def index():
-        if 'netid' in session:
-            return redirect(url_for('browse'))
+        #if 'netid' in session:
+        #    return redirect(url_for('browse'))
         return render_template('index.html')
 
 
@@ -49,7 +50,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         netid = c.Validate(ticket)
         if netid is None:
             return redirect('/')
-        response = redirect(url_for('browse'), code=status.HTTP_302_FOUND)
+        response = redirect(url_for('home'), code=status.HTTP_302_FOUND)
         session['netid'] = netid
         user = sql.User.query.filter_by(netid=netid).first()
         if user is None:
@@ -64,6 +65,12 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         session.pop('netid', None)
         return redirect(url_for('index'))
 
+    @app.route('/home')
+    def home():
+        if 'netid' not in session:
+            return redirect(url_for('index'))
+        netid = session['netid']
+        return render_template('home.html', netid=netid)
 
     @app.route('/browse')
     def browse():
@@ -72,13 +79,15 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         netid = session['netid']
         page = request.args.get('page')
         search = request.args.get('search')
+        order = request.args.get('order')
+        if order == None:
+            order = "dept"
+
         fields = None
         if search is not None:
             fields = search.split()
         if page is None or search is None:
-            departments = sql.Department.query.order_by(sql.Department.code).all()
-            display_per_row = 6
-            return render_template('home.html', netid=netid, departments=departments, display_per_row=display_per_row)
+            return render_template('home.html', netid=netid)
         pageInt = 0
         if page.isdigit():
             pageInt = int(page)
@@ -92,9 +101,13 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if length < end:
             end = length
         num_pages = length // 12 + (length % 12 > 0)
-        results = sql.Course.query[start:end]
+        results = []
         if fields is not None:
-            baseQuery = sql.Course.query.order_by(sql.Course.dept)
+            baseQuery = sql.Course.query
+            if order == "dept":
+                baseQuery = baseQuery.order_by(sql.Course.dept)
+            elif order == "rating":
+                baseQuery = baseQuery.order_by(sql.Course.avg_rating.desc())
             for field in fields:
                 if len(field) == 3:
                     if not field.isdigit():
@@ -107,13 +120,13 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 elif len(field) == 2 and not field.isdigit():
                     baseQuery = baseQuery.filter(sql.Course.distribution == field)
                 else:
-                    baseQuery = baseQuery.filter(sql.Course.description.contains(field))
+                    baseQuery = baseQuery.filter(sql.Course.title.contains(field) | sql.Course.description.contains(field))
             length = len(baseQuery.all())
             if length < end:
                 end = length
             results = baseQuery.order_by(sql.Course.catalog_number)[start:end]
             num_pages = length // 12 + (length % 12 > 0)
-        return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search)
+        return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search, order=order)
 
 
     @app.route('/course')
@@ -150,54 +163,192 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         netid = session['netid']
         return render_template('distributions.html', netid=netid)
 
-
+        """
     @app.route('/rant')
     def rant():
         if 'netid' not in session:
             return redirect(url_for('index'))
-        return render_template('rant-space.html')
+        return render_template('rant.html')"""
 
 
-    @app.route('/reviews', methods=['POST'])
-    def reviews():
+    @app.route('/api/descriptions/<int:c_id>', methods=['POST'])
+    def post_description(c_id):
         if 'netid' not in session:
-            return redirect(url_for('index'))
-        if request.method == 'POST':
-            data = json.loads(request.data.decode())
-            course_id = data['cid']
-            if course_id == None:
-                return "", status.HTTP_400_BAD_REQUEST
-            if not course_id.isdigit():
-                return "", status.HTTP_400_BAD_REQUEST
-            c_id = int(course_id)
-            course = sql.Course.query.filter_by(c_id=c_id).first()
-            if course == None:
-                return "course does not exist", status.HTTP_406_NOT_ACCEPTABLE
-            reviews = course.reviews.all()
-            reviewsJson = {}
-            termSet = set()
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        text = request.form['text']
+        description = sql.Description(text=text, upvotes=0, course=course)
+        sql.db.session.add(description)
+        sql.db.session.commit()
+        return json.dumps({'description': text}), 201
+
+
+    @app.route('/api/descriptions/<int:c_id>/<int:description_id>', methods=['PUT'])
+    def update_description(c_id, description_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        vote = 0
+        paramVote = request.form['vote']
+        try:
+            vote = int(paramVote)
+        except ValueError:
+            abort(401)
+        description = sql.Description.query.get(description_id)
+        description.upvotes += vote
+        sql.db.session.commit()
+        return json.dumps({'description score modified by': vote}), 201
+
+
+    @app.route('/api/descriptions/<int:c_id>', methods=['GET'])
+    def get_descriptions(c_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        descriptions = course.descriptions.all()
+        descriptionsJson = []
+        for description in descriptions:
+            dDict = {}
+            dDict['id'] = description.id
+            dDict['text'] = description.text
+            dDict['upvotes'] = description.upvotes
+            descriptionsJson.append(dDict)
+        return json.dumps(descriptionsJson)
+
+
+    @app.route('/api/rants/<int:c_id>', methods=['POST'])
+    def post_rant(c_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        text = request.form['text']
+        rant = sql.Rant(text=text, upvotes=0, course=course)
+        sql.db.session.add(rant)
+        sql.db.session.commit()
+        return json.dumps({'rant': text}), 201
+
+
+    @app.route('/api/rants/<int:c_id>/<int:rant_id>', methods=['PUT'])
+    def update_rant(c_id, rant_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        vote = 0
+        paramVote = request.form['vote']
+        try:
+            vote = int(paramVote)
+        except ValueError:
+            abort(401)
+        rant = sql.Rant.query.get(rant_id)
+        rant.upvotes += vote
+        sql.db.session.commit()
+        return json.dumps({'rant upvote modified by': vote}), 201
+
+
+    @app.route('/api/rants/<int:c_id>', methods=['GET'])
+    def get_rants(c_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        rants = course.rants.all()
+        rantsJson = []
+        for rant in rants:
+            rantDict = {}
+            rantDict['id'] = rant.id
+            rantDict['text'] = rant.text
+            rantDict['upvotes'] = rant.upvotes
+            rantsJson.append(rantDict)
+        return json.dumps(rantsJson)
+
+
+    @app.route('/api/reviews/<int:c_id>', methods=['POST'])
+    def post_review(c_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        sem_code = request.form['sem_code']
+        rating = request.form['rating']
+        text = request.form['text']
+        num = len(course.reviews.all())
+        review = sql.Review(sem_code=sem_code,
+                       overall_rating=rating,
+                       text=text,
+                       num=num,
+                       score=0,
+                       scraped=False,
+                       course=course)
+        sql.db.session.add(review)
+        sql.db.session.commit()
+        return json.dumps({'sem_code': sem_code, 'rating': rating, 'text': text}), 201
+
+
+    @app.route('/api/reviews/<int:c_id>/<int:review_id>', methods=['PUT'])
+    def update_review(c_id, review_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        score = 0
+        paramScore = request.form['score']
+        try:
+            score = int(paramScore)
+        except ValueError:
+            abort(401)
+        review = sql.Review.query.get(review_id)
+        review.score += score
+        sql.db.session.commit()
+        return json.dumps({'review score modified by': score}), 201
+
+
+    @app.route('/api/reviews/<int:c_id>', methods=['GET'])
+    def get_reviews(c_id):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        reviews = course.reviews.all()
+        reviewsJson = {}
+        termSet = set()
+        for review in reviews:
+            termSet.add(review.sem_code)
+        for term in termSet:
+            reviews = course.reviews.filter_by(sem_code=term).order_by(sql.Review.timestamp.desc()).all()
+            reviewsJson[term] = {}
+            reviewsJson[term]['reviews'] = []
+            termCode = str(term)[1:]
+            if termCode[2:3] == "2":
+                termString = "Fall "
+            else:
+                termString = "Spring "
+            termString += str(int(termCode[:2]) - 1) + "-" + termCode[:2]
+            reviewsJson[term]['term_string'] = termString
             for review in reviews:
-                termSet.add(review.sem_code)
-            for term in termSet:
-                reviews = course.reviews.filter_by(sem_code=term).all()
-                reviewsJson[term] = {}
-                reviewsJson[term]['reviews'] = []
-                termCode = str(term)[1:]
-                if termCode[2:3] == "2":
-                    termString = "Fall "
-                else:
-                    termString = "Spring "
-                termString += str(int(termCode[:2]) - 1) + "-" + termCode[:2]
-                reviewsJson[term]['term_string'] = termString
-                for review in reviews:
-                    reviewDict = {}
-                    reviewDict['sem_code'] = review.sem_code
-                    reviewDict['overall_rating'] = review.overall_rating
-                    reviewDict['lecture_rating'] = review.lecture_rating
-                    reviewDict['student_advice'] = review.student_advice
-                    reviewsJson[term]['reviews'].append(reviewDict)
-            return json.dumps(reviewsJson)
-        return "", status.HTTP_400_BAD_REQUEST
+                reviewDict = {}
+                reviewDict['id'] = review.id
+                reviewDict['sem_code'] = review.sem_code
+                reviewDict['overall_rating'] = review.overall_rating
+                reviewDict['lecture_rating'] = review.lecture_rating
+                reviewDict['text'] = review.text
+                reviewDict['score'] = review.score
+                reviewsJson[term]['reviews'].append(reviewDict)
+        return json.dumps(reviewsJson)
+
 
     # Add an error handler. This is useful for debugging the live application,
     # however, you should disable the output of the exception for production

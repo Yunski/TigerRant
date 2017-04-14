@@ -1,18 +1,31 @@
-#!flask/bin/python
-import imp
-from migrate.versioning import api
-from shopper.model_cloudsql import db
-from config import SQLALCHEMY_DATABASE_URI
-from config import SQLALCHEMY_MIGRATE_REPO
+import config
+from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.script import Manager
+from flask.ext.migrate import Migrate, MigrateCommand
 
-v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-migration = SQLALCHEMY_MIGRATE_REPO + ('/versions/%03d_migration.py' % (v+1))
-tmp_module = imp.new_module('old_model')
-old_model = api.create_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-exec(old_model, tmp_module.__dict__)
-script = api.make_update_script_for_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, tmp_module.meta, db.metadata)
-open(migration, "wt").write(script)
-api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-print('New migration saved as ' + migration)
-print('Current database version: ' + str(v))
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(128))
+
+if __name__ == '__main__':
+    manager.run()
+
+'''
+Create migration respository:
+python manage.py db init
+Everytime the database models change, repeat the following commands:
+python manage.py db migrate
+python manage.py db upgrade
+For help:
+python manage.py db --help
+'''

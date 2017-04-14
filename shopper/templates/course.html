@@ -1,127 +1,150 @@
-{% extends "base.html" %}
+{% extends "base_course.html" %}
 {% block navbar %}
-<nav id="navbar-browse" class="navbar navbar-light bg-clear">
-  <div class="row" id="navbar-main">
-    <div class="col-md-2 text-center">
-      <div class="navbar-col-content"><a class="navbar-brand" href="/browse" target="_self">TigerShop</a></div>
+<nav id="navbar-top" class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-black">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="row">
+    <div class="col-md-2 d-flex align-items-center p-0">
+      <div class="tiger"></div>
+      <a class="navbar-brand" href="/home" target="_self">TigerShop</a>
     </div>
-    <div class="col-md-7 text-center">
-      <div class="navbar-col-content">
-        <form class="form-inline">
-          <select class="search-options">
-            <option value="0">All</option>
-            <!--
-            <option value="1">Distribution</option>
-            <option value="2">Description</option>
-            <option value="3">Start Time</option>
-            <option value="4">End Time</option>-->
-          </select>
-          <select class="resizing-search-select">
-            <option class="resizing-search-option"></option>
-          </select>
-          <input class="search-text-field" type="text" placeholder="search courses"></input>
-          <button class="btn btn-primary search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
+    <div class="col-md-7 d-flex align-items-center">
+      <div class="search-bar input-group">
+        <span class="input-group-addon input-label mb-0">Find</span>
+        <input class="search-text-field" type="text" placeholder="search courses"></input>
+        <span class="input-group-addon search-button"><i class="fa fa-search" aria-hidden="true"></i></span>
       </div>
     </div>
-    <div class="col-md-3"></div>
-  </div>
-  <div class="row" id="navbar-footer">
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav">
-          <a href="/browse" class="nav-link" target="_self">Departments</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav">
-          <a href="/distributions" class="nav-link" target="_self">Distributions</a>
-          <a class="nav-link disabled" target="_self">Easy PDFs</a>
-          <a class="nav-link disabled" target="_self">GPA Boosters</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="nav-section">
-        <div class="nav justify-content-end">
-          <a class="nav-link" style="cursor: default;" id="account-greeting">Hi, {{ netid }}</a>
-          <div class="dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
-            <div class="dropdown-menu" aria-labelledby="nav-account-button">
-              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
-            </div>
-          </div>
-          <a class="nav-link disabled" id="cart-button" target="_self">
-            <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-            <span id="num-items-in-cart"></span>
-          </a>
-        </div>
-      </div>
+    <div class="col-md-3 d-flex align-items-center">
+      <a class="nav-link" data-toggle="modal" data-target="#descriptionModal">Submit a Course Description!</a>
     </div>
   </div>
 </nav>
-{% endblock %}
-{% block content %}
-<!-- Course Description Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <ul class="course-details">
-          <li class="course-sections">Sections: L01, P01</li>
-          <li class="course-meetings">Meetings: T Th 1:30 PM - 2:50 PM</li>
-          <li class="course-location">Location: Friend Center 101</li>
-        </ul>
-        <p class="course-description">
-          {{ course.description }}
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="course-page-content" class="row" ng-init="getReviews()">
-  <div class="col-md-2">
+<div id="navbar-footer" class="row">
+  <div class="col-md">
     {% raw %}
-    <div class="return-link">
-      <a href="{{ returnURL }}" target="_self">
+    <nav class="nav">
+      <a href="{{ returnURL }}" class="nav-link active" target="_self">
         <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
       </a>
-    </div>
+    </nav>
     {% endraw %}
   </div>
-  <div class="col-md-8">
-    <div class="course-banner" data-aos="zoom-in" data-aos-once="true" ng-non-bindable>
-      <div class="row">
-        <div class="card bg-clear">
-          <h3 class="card-title"><a href="#myModal" data-toggle="modal">{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</a></h3>
-          <div class="course-instructors">
-            {% for i in range(0, course.instructors|length) %}
-            {% if i != course.instructors|length-1 %}
-              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-              <span>/</span>
-            {% else %}
-              <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-            {% endif %}
-            {% endfor %}
+  <div class="col-md">
+    <nav class="nav justify-content-end">
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
+        <div class="dropdown-menu" aria-labelledby="nav-account-button">
+          <a id="account-link" class="dropdown-item" href="/" target="_self">My Account</a>
+          <a id="logout-link" class="dropdown-item" href="/" target="_self">Sign Out</a>
+        </div>
+      </div>
+      <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
+        <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
+        <span id="num-items-in-cart"></span>
+      </a>
+    </nav>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+<div id="course-page-content" class="row toggled">
+  {% raw %}
+  <!-- Sidebar -->
+  <div id="sidebar-btn" class="d-flex align-items-center justify-content-center"
+       data-toggle="tooltip" data-placement="left" title="Preview of Rant Space">
+       R
+  </div>
+  <div id="sidebar-wrapper">
+    <div id="sidebar-top" class="d-flex align-items-center">
+      <h1>Rant Space</h1>
+      <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      <button class="refresh" ng-click="getRants()" onclick="$('.rants').animateCss('flip-custom')"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+    </div>
+    <div id="empty-rantspace-message" ng-if="rants.length <= 0">It's too quiet! <a data-toggle="modal" data-target="#rantModal">Share something cool or complain about stuff.</a></div>
+    <ul class="list-group rants" ng-if="rants.length > 0">
+      <li class="list-group-item rant-post" ng-repeat="rant in rants">
+        <div class="card">
+          <div class="card-block d-flex align-items-center">
+            <p class="card-text">{{ rant.text }}</p>
+            <div class="vote-container" class="col-md-1">
+              <div class="upvote" ng-click="updateRant(rant.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div class="score">{{ rant.upvotes }}</div>
+              <div class="downvote" ng-click="updateRant(rant.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+            </div>
           </div>
         </div>
+      </li>
+    </ul>
+  </div>
+  {% endraw %}
+  <div class="col-md">
+    <div class="course-banner" data-aos="zoom-in" data-aos-once="true">
+      <div class="card">
+        <h3 class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
+        <div class="course-instructors" ng-non-bindable>
+          {% for i in range(0, course.instructors|length) %}
+          {% if i != course.instructors|length-1 %}
+            <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+            <span>/</span>
+          {% else %}
+            <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% raw %}
+        <ul class="list-group descriptions">
+          <li class="list-group-item description">
+            <div class="card">
+              <div class="card-block d-flex align-items-center" ng-if="descriptions.length > 0">
+                <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
+                <p class="card-text">{{ descriptions[0].text }}</p>
+                <div class="vote-container" class="col-md-1">
+                  <div class="upvote" ng-click="updateDescription(descriptions[0].id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div class="score">{{ descriptions[0].upvotes }}</div>
+                  <div class="downvote" ng-click="updateDescription(descriptions[0].id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                </div>
+              </div>
+              <div class="card-block d-flex align-items-center justify-content-center" ng-if="descriptions.length <= 0">
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#descriptionModal">Be the first to write a description!</button>
+              </div>
+            </div>
+          </li>
+          <div class="collapse" id="more-descriptions" ng-if="descriptions.length > 1">
+            <li class="list-group-item description" ng-repeat="description in descriptions" ng-if="!$first">
+              <div class="card">
+                <div class="card-block d-flex align-items-center">
+                  <p class="card-text">{{ description.text }}</p>
+                  <div class="vote-container" class="col-md-1">
+                    <div class="upvote" ng-click="updateDescription(description.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                    <div class="score">{{ description.upvotes }}</div>
+                    <div class="downvote" ng-click="updateDescription(description.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </div>
+        </ul>
+        {% endraw %}
+        <div id="more-button-container" class="d-flex justify-content-center" ng-if="descriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">Show More</a></div>
       </div>
     </div>
     {% raw %}
-
+    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
+      <ul class="nav nav-tabs nav-justified d-flex justify-content-center">
+        <li class="nav-item" ng-if="selectedTerm.length <= 0">
+          <a class="nav-link empty">
+            No Content Available</a>
+        </li>
+        <li class="nav-item" ng-repeat="(key, value) in terms" ng-if="selectedTerm.length > 0">
+          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
+            {{ value['term_string'] }}</a>
+        </li>
+      </ul>
+    </div>
     <div class="row reviews-summary" data-aos="zoom-in" data-aos-once="true">
-      <div class="col-sm-6 rating-display">
+      <div class="col-md rating-display">
         <div class="rating-lg-average">
           {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
         </div>
@@ -130,21 +153,11 @@
           <span class="rating-total">
             {{ terms[selectedTerm]['reviews'].length }}</span> reviews
         </span>
-        <span class="rating-description" ng-if="selectedTerm.length <= 0">
-          Be the first to write a review!
-        </span>
+        <button id="rate-course-button" class="btn btn-secondary" data-toggle="modal" data-target="#reviewModal" ng-if="selectedTerm.length <= 0">Rate this course!</button>
       </div>
-      <div class="col-sm-6">
+      <div class="col-md">
         <!-- rating-bars -->
-        <div class="initial-rating">
-          <span id="star1"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star2"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star3"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star4"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <span id="star5"><i class="fa fa-lg fa-3x fa-star" aria-hidden="true"></i></span>
-          <div class="initial-rating-message">Rate this course</div>
-        </div>
-        <div class="rating-bars" style="display: none;">
+        <div class="rating-bars">
           <div class="row">
             <div class="rating-num">5</div>
             <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
@@ -183,21 +196,13 @@
         </div>
       </div>
     </div>
-    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true" ng-if="selectedTerm.length > 0">
-      <ul class="nav nav-tabs d-flex justify-content-center">
-        <li class="nav-item" ng-repeat="(key, value) in terms">
-          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
-            {{ value['term_string'] }}</a>
-        </li>
-      </ul>
-    </div>
     <!-- Review Section -->
-    <div class="reviews" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
+    <div class="reviews">
       <div class="reviews-header">
         <div class="reviews-title">
           <h4>Student Reviews</h4>
         </div>
-        <a class="btn btn-primary disabled">Write a Review</a>
+        <a id="write-review-button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">Write a Review</a>
         <div class="reviews-sort" ng-if="selectedTerm.length > 0">
           <span>Sort by:</span>
           <select class="sort-options">
@@ -210,26 +215,23 @@
       <div class="no-reviews" ng-if="selectedTerm.length <= 0">
         <p>There are no student reviews yet.</p>
       </div>
-      <div class="reviews-listing" ng-if="selectedTerm.length > 0">
-        <div class="row" data-aos="flip-right" data-aos-offset="20" data-aos-once="true" ng-repeat="review in reviews">
+      <ul class="reviews-listing list-group" ng-if="selectedTerm.length > 0">
+        <li class="list-group-item" ng-repeat="review in reviews">
           <blockquote class="blockquote">
-            <p>{{ review.student_advice }}</p>
+            <p>{{ review.text }}</p>
           </blockquote>
-          <!--
           <div class="like">
-            <div class="sentiment">
-              <span><i class="fa fa-lg fa-3x fa-meh-o fa-fw" aria-hidden="true"></i></span>
-            </div>
+            <div class="sentiment"><i class="fa fa-lg fa-2x fa-meh-o" aria-hidden="true"></i></div>
             <div class="thumbs-up">
-              <span><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">3</span>
+              <span ng-click="updateReview(review.id, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
+              <span class="num-likes">{{ review.score }}</span>
             </div>
-          </div>-->
-        </div>
-      </div>
+          </div>
+        </li>
+      </ul>
     </div>
     <nav class="page-navigation" aria-label="Page navigation">
-      <ul class="pagination">
+      <ul class="pagination justify-content-center">
         <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Previous</a></li>
         <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
 
@@ -254,6 +256,7 @@
     </nav>
     {% endraw %}
   </div>
+  <!--
   <div class="col-md-2">
     <div class="tool-panel" data-aos="zoom-in" data-aos-once="true">
       <div class="card">
@@ -272,6 +275,79 @@
           <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
           <span>Add to Cart</span>
         </a>
+      </div>
+    </div>
+  </div>-->
+</div>
+<div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Your Course Description</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <textarea class="form-control" id="description-text" placeholder="Let Princeton students know the truth"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a id="description-cancel-button" data-dismiss="modal">CANCEL</a>
+        <a id="description-post-button">POST</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="rantModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rant Space</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <textarea class="form-control" id="rant-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a id="rant-cancel-button" data-dismiss="modal">CANCEL</a>
+        <a id="rant-post-button">POST</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rate and Review</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            {% raw %}
+            <h3 id="term" data-term="{{ selectedTerm }}">{{ terms[selectedTerm]['term_string'] }}</h3>
+            {% endraw %}
+            <label for="disclaimer" class="form-control-label">This review will be anonymous.</label>
+            <div class="initial-rating d-flex align-items-center">
+              <span id="star1"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star2"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star3"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star4"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+              <span id="star5"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" id="review-text" placeholder="Write about your experience in this course"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a id="review-cancel-button" data-dismiss="modal">CANCEL</a>
+        <a id="review-post-button">POST</button>
       </div>
     </div>
   </div>

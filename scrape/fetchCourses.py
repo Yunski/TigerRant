@@ -2,10 +2,11 @@ import requests as req
 import json
 import html
 import re
+import sys
 from createReview import newCourse
-from distribution import fetchDistribution
+from distribution import fetchData
 
-def fetchCourses(term, subject):
+def fetchCourses(term, subject, filename):
     courseURL = "http://etcweb.princeton.edu/webfeeds/courseofferings/?term={}&subject={}&fmt=json".format(term, subject)
     r = req.get(courseURL)
     data = r.json()
@@ -40,7 +41,9 @@ def fetchCourses(term, subject):
             courseObj['title'] = title
             courseObj['track'] = track
             courseObj['description'] = description
-            courseObj['distribution'] = fetchDistribution(course_id)
+            courseData = fetchData(course_id)
+            courseObj['distribution'] = courseData['distr']
+            courseObj['grade_options'] = courseData['grade_options']
             courseObj['instructors'] = []
             for instructor in course['instructors']:
                 #print("emplid: {}".format(instructor['emplid']))
@@ -87,6 +90,6 @@ def fetchCourses(term, subject):
             courseList['courses'].append(courseObj)
             print("Finished course_id: {}, {} {}".format(course['course_id'], dept_code, course['catalog_number']))
 
-        with open('courses.json', 'w') as courseFile:
+        with open(filename, 'w') as courseFile:
             json.dump(courseList, courseFile, indent=4, separators=(',', ': '))
-fetchCourses("current", "all")
+fetchCourses(sys.argv[1], "all", sys.argv[2])

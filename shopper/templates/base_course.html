@@ -1,0 +1,38 @@
+<html ng-app="TigerShop">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiger Shop</title>
+    <meta name="description" content="A personalized course shopper for Princeton." />
+    <meta name="keywords" content="Princeton, Course Evaluation" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+      integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+      rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:200,300,400,700">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lobster">
+    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/animate.css">
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/animate-custom.css">
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/course.css"  />
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/rant-space-bar.css"  />
+    <base href="/" />
+  </head>
+  <body ng-controller="TigerShopController">
+    {% block navbar %}{% endblock %}
+    {% block content %}{% endblock %}
+    <!-- Bootstrap js -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Custom scripts -->
+    <!-- <script src="/static/js/jquery.twbsPagination.min.js"></script>-->
+    <!--<script src="/static/js/course.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+    <script src="/static/js/aos.js"></script>
+    <script src="/static/js/course.js"></script>
+    <script src="/static/js/search.js"></script>
+  </body>
+</html>

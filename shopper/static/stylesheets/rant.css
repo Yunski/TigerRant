@@ -1,0 +1,159 @@
+body {
+  height: 100%;
+  font-family: "Lato";
+  font-size: 16px;
+  overflow-x: hidden;
+  background: black;
+}
+
+a.nav-link {
+  color: black;
+}
+/* Bootstrap override */
+.badge-default {
+  color: black;
+  background-color: white;
+}
+
+.navbar-item {
+  background-color: #ee7f2d;
+  border-right: 2px solid black;
+}
+
+.col-md-3, .col-md-9 {
+  padding: 0;
+}
+/* Rant Space */
+
+/* Navbar */
+
+#navbar-main {
+  font-family: "Lobster";
+  height: 6rem;
+  background-color: black;
+}
+
+#navbar-main .navbar-brand {
+  margin: 0 auto;
+  font-size: 4rem;
+  color: #ee7f2d;
+}
+
+#navbar-footer {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+  background-color: #ee7f2d;
+  width: 100%;
+}
+
+#navbar-footer .navbar-item span {
+  margin-left: 1rem;
+}
+
+#rant-space {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+#rant-space .rant {
+  position: relative;
+  margin-bottom: 1rem;
+  min-height: 11rem;
+}
+
+#rant-space .rant .blockquote {
+  width: 90%;
+}
+
+#rant-space .list-group-item {
+  border-radius: 0.5rem;
+  min-height: 11rem;
+}
+
+#rant-space .upvote {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.5rem;
+}
+
+#rant-space .upvote span {
+  display: block;
+}
+
+#rant-space .num-upvotes {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+#rant-space .rant .reply-button {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 2rem;
+}
+
+#rant-space .rant .num-replies {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+#rant-space .your-reply {
+  width: 50%;
+  margin-left: 50%;
+  margin-bottom: 1rem;
+}
+
+#rant-space #your-reply-text {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.5rem;
+}
+
+#rant-space #your-reply-text:focus {
+  border: 1px solid #303030;
+}
+
+#rant-space .replies-wrapper {
+  width: 50%;
+  margin-left: 50%;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom-left-radius: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+#rant-space .reply {
+  margin-bottom: 0.5rem;
+}
+
+#rant-space .reply {
+  min-height: 7rem;
+}
+
+#rant-space .reply .blockquote {
+  width: 80%;
+  font-size: 1rem;
+}
+
+#rant-space .reply .upvote {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.5rem;
+}
+
+#rant-space .reply .reply-time {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
+}

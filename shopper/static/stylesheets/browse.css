@@ -1,0 +1,390 @@
+body {
+  height: 100%;
+  font-family: "Lato";
+  font-size: 16px;
+  overflow-x: hidden;
+  background-color: black;
+}
+
+a, a:link, a:active, a:visited {
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:focus, textarea:focus {
+  outline: none;
+}
+
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+
+select:focus {
+  outline: none;
+}
+
+/* Bootstrap Overrides */
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #ee7f2d;
+}
+
+.navbar-toggleable-md .navbar-nav .nav-link {
+  text-align: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.navbar-inverse .navbar-nav .nav-link {
+  color: #ee7f2d;
+}
+
+.navbar-inverse .navbar-nav .nav-link:hover, .navbar-inverse .navbar-nav .nav-link:focus {
+  color: #ee7f2d;
+}
+
+.navbar-inverse .navbar-nav .nav-link.active {
+  color: #ee7f2d;
+  border-bottom: 3px solid #ee7f2d;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.btn:focus, .btn:hover, .btn:active, .btn:active:focus {
+  outline: none;
+  box-shadow:none;
+}
+
+.btn-primary {
+  background-color: #ee7f2d;
+  border-color: black;
+  color: black;
+}
+
+.btn-primary:hover {
+  background-color: #ee7f2d;
+  border-color: #ee7f2d;
+  color: white;
+}
+
+.input-group-addon {
+  width: 5rem;
+  font-weight: bold;
+}
+
+.card {
+  border: none;
+}
+
+.card img {
+  width: 10rem;
+  height: 10rem;
+  margin: 0 auto;
+}
+
+.card p {
+  font-weight: 200;
+}
+.card-text {
+  font-size: 1rem;
+}
+
+.page-link {
+  border: 1px solid white !important;
+  background-color: black;
+}
+
+a.page-link {
+  color: white !important;
+}
+
+.page-item.active .page-link {
+  color: white;
+  background-color: #ee7f2d;
+  border-color: white;
+}
+
+.page-link:hover {
+  background-color: white;
+}
+
+a.page-link:hover {
+  color: black !important;
+}
+
+.page-item.disabled .page-link {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  color: white;
+  background-color: black;
+}
+
+.dropdown-menu {
+  padding: 0;
+  border: 1px solid white;
+  background-color: black;
+}
+
+.dropdown-item {
+  color: white;
+}
+
+/* navbar */
+
+.bg-black {
+  background: black;
+}
+
+#navbar-top {
+  height: 5rem;
+}
+
+#nav-account {
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 1rem;
+}
+
+#cart-button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* search bar */
+
+.input-label {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.search-bar {
+  height: 3rem;
+}
+
+.search-text-field {
+  padding-left: 1rem;
+  border-top: 1px solid white;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid white;
+  border-radius: 0;
+  font-size: 1.1rem;
+  color: white;
+  background-color: transparent;
+  flex-grow: 1;
+  outline: none;
+}
+
+.search-text-field:focus, .search-text-field:hover {
+  outline: none;
+}
+
+.search-text-field::-webkit-input-placeholder { color: white; font-weight: 100; }
+.search-text-field::-moz-placeholder          { color: white; font-weight: 100; }
+.search-text-field:-moz-placeholder           { color: white; font-weight: 100; }
+.search-text-field:-ms-input-placeholder      { color: white; font-weight: 100; }
+
+.search-button {
+  width: 4rem;
+  max-width: 4rem;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.search-button:hover, .search-button:focus {
+  color: black;
+  background-color: white;
+}
+
+.tiger {
+  width: 50%;
+  height: 5rem;
+  background: url("/static/img/tiger.jpg") no-repeat center;
+  background-size: cover;
+}
+
+/* browse page */
+
+#browse-content-wrapper {
+  padding-top: 8rem;
+  width: 100%;
+}
+
+#browse-results-info {
+  width: 100%;
+  left: 0;
+  top: 5rem;
+  position: fixed;
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 3rem;
+  color: white;
+  background-color: black;
+  border-top: 1px solid #ee7f2d;
+  border-bottom: 1px solid #ee7f2d;
+  z-index: 999;
+}
+
+#browse-results-info span {
+  line-height: 1.6rem;
+  height: 1.6rem;
+  font-weight: 300;
+  display: inline-block;
+}
+
+.sort-options {
+  width: 8rem;
+  max-width: 8rem;
+  height: 1.5rem;
+  border-color: white;
+  border-radius: 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-weight: 300;
+  color: white;
+  background: url("/static/icons/svg/sort-arrows-white.svg") no-repeat center;
+  background-size: 0.6rem 0.6rem;
+  background-position-x: 7rem;
+}
+
+#browse-page-content {
+  position: absolute;
+  padding-left: 5%;
+  padding-right: 5%;
+  width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#browse-page-content .list-group-item {
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #ee7f2d;
+}
+
+#browse-page-content .card {
+  width: 100%;
+  background-color: transparent;
+  color: white;
+}
+
+#browse-page-content .card a {
+  color: #1B95E0;
+}
+
+#browse-page-content .card a:hover {
+  color: #23aaff;
+}
+
+#browse-page-content .card-block {
+  width: 90%;
+}
+
+#browse-page-content .card-title {
+  width: 50%;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+#browse-page-content .card-title span {
+  padding-left: 0.5rem;
+}
+
+#browse-page-content .card-title span {
+  padding-left: 0.5rem;
+}
+
+#browse-page-content .card-link {
+  color: #1B95E0;
+}
+
+#browse-page-content  .card-link:hover {
+  color: #23aaff;
+}
+
+#browse-page-content .card-subtitle {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+
+#browse-page-content .badges {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#browse-page-content .badges img {
+  width: 2rem;
+  height: 2rem;
+  margin-left: 1rem;
+}
+
+.more {
+  font-weight: bold;
+}
+
+#browse-page-content .browse-item-rating {
+  color: #ee7f2d;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#browse-page-content .card-link span {
+  padding-left: 0.5rem;
+}
+
+.distributions {
+  font-weight: 300;
+}
+
+.no-match-container {
+  position: absolute;
+  top: 5rem;
+  width: 100%;
+  color: white;
+}
+
+.no-match-container .jumbotron {
+  background: transparent;
+}
+
+.jumbotron h1 {
+  font-size: 2rem;
+}
+
+.no-match-container span {
+  padding-right: 0.5rem;
+}

@@ -1,0 +1,131 @@
+/* bootstrap overrides */
+.rant-post .card {
+  width: 100%;
+}
+
+.rant-post .card-block {
+  padding: 0;
+}
+
+.rant-post .card-text {
+  padding-right: 2%;
+  margin: 0;
+  width: 95%;
+}
+
+.list-group-item {
+  margin-bottom: 1rem;
+  border: 1px solid #ee7f2d;
+  border-radius: 0.25rem;
+}
+
+.list-group-item:hover {
+  box-shadow: 0rem 0rem 0.2rem #ee7f2d;
+}
+
+#sidebar-btn {
+  z-index: 999;
+  position: fixed;
+  right: 0px;
+  height: 3rem;
+  width: 3rem;
+  font-family: Lobster;
+  font-size: 1.9rem;
+  font-weight: 300;
+  color: #ee7f2d;
+  background-color: white;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  cursor: pointer;
+  -webkit-transition: right 0.2s ease-out;
+  -moz-transition: right 0.2s ease-out;
+  -o-transition: right 0.2s ease-out;
+  transition: right 0.2s ease-out;
+}
+
+#course-page-content.toggled #sidebar-btn {
+  position: fixed;
+  right: 40%;
+}
+
+#sidebar-wrapper {
+  z-index: 999;
+  position: fixed;
+  right: -40%;
+  width: 40%;
+  height: 100%;
+  overflow-y: auto;
+  background: white;
+  -webkit-transition: right 0.2s ease-out;
+  -moz-transition: right 0.2s ease-out;
+  -o-transition: right 0.2s ease-out;
+  transition: right 0.2s ease-out;
+}
+
+#course-page-content.toggled #sidebar-wrapper {
+  right: 0px;
+}
+
+#sidebar-top {
+  position: relative;
+  height: 3rem;
+  background-color: #ee7f2d;
+  color: white;
+  box-shadow: 0 4px 2px -2px #ee7f2d;
+}
+
+#sidebar-top h1 {
+  display: inline-block;
+  font-size: 1.5rem;
+  height: 2rem;
+  width: 70%;
+  margin: 0 2rem;
+}
+
+#sidebar-top button {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  display: inline-block;
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+#sidebar-top button:hover {
+  font-family: "Lobster";
+  box-shadow: 0px 0px 0.2rem white;
+}
+
+.add {
+  position: absolute;
+  right: 5rem;
+}
+
+.refresh {
+  position: absolute;
+  right: 2rem;
+}
+
+.refresh:active {
+  color: red;
+}
+
+#empty-rantspace-message {
+  padding: 1rem;
+  text-align: center;
+  color: black;
+}
+
+#empty-rantspace-message a {
+  border-bottom: 1px solid black;
+}
+
+#empty-rantspace-message a:hover {
+  color: #ee7f2d;
+  border-bottom: 1px solid #ee7f2d;
+}
+
+.rants {
+  padding: 2rem;
+  background-color: #fafafa;
+}

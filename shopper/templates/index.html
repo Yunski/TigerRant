@@ -1,94 +1,36 @@
-{% extends "base.html" %}
-{% block navbar %}
-<nav id="navbar-home" class="navbar fixed-top navbar-toggleable-md navbar-light bg-clear" data-aos="fade">
-  <div class="row full-width">
-    <div class="col-md-3 text-center">
-      <a class="navbar-brand" href="#">TigerShop</a>
-    </div>
-    <div class="col-md-3 text-center"></div>
-    <div class="col-md-3 text-center"></div>
-    <div class="col-md-3">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">Home</a>
-          <a class="nav-item nav-link" href="#">About</a>
-          <a class="nav-item nav-link" href="/login">Shop</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
-{% endblock %}
+{% extends "base_index.html" %}
 {% block content %}
-<div class="container-fluid full-width">
-  <div class="bg-placeholder animated fadeIn">
-    <div class="hero-wrapper" data-aos="fade" data-aos-once="true">
-      <div class="hero jumbotron bg-clear" data-aos="fade-up-little" data-aos-delay="200" data-aos-duration="1000">
-        <h1 class="display-10">Course Shopping Redesigned</h1>
-        <p class="lead">It is everything you've been waiting for.</p>
+<div class="landing">
+  <nav id="navbar-index" class="navbar navbar-toggleable-md navbar-inverse bg-clear">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">TigerShop</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav d-flex justify-content-end">
+        <a class="nav-item nav-link" href="#">Credits</a>
+        <a class="nav-item nav-link" href="/login">Login</a>
       </div>
     </div>
-  </div>
-  <div class="section full-width">
-    <div class="row full-width">
-      <div class="col-md-4 text-center">
-        <div class="card">
-          <img class="card-img-top" data-aos="fade-up" data-aos-duration="800" data-aos-once="true" src="/static/icons/svg/professor.svg" alt="Card image cap">
-          <div class="card-block" data-aos="fade" data-aos-delay="200" data-aos-duration="1000">
-            <h4 class="card-title">Browse by Professor</h4>
-            <p class="card-text">
-              Find the lecture best for you. <br />With access to professor ratings and comparisons,
-              you can now easily pick the teaching style of your choice.</p>
+  </nav>
+  <div class="landing-message"><p>[ Log In To Begin ]</p></div>
+  <!-- Icons designed by Freepik from www.flaticon.com -->
+  <footer class="footer">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col">
+        <div class="footer-col-content">
+          <div class="contact">
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-facebook" aria-hidden="true"></i></span></a>
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-twitter" aria-hidden="true"></i></span></a>
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-github-alt" aria-hidden="true"></i></span></a>
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-google-plus" aria-hidden="true"></i></span></a>
           </div>
         </div>
       </div>
-      <div class="col-md-4 text-center">
-        <div class="card">
-          <img class="card-img-top" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800" data-aos-once="true" src="/static/icons/svg/analytics.svg" alt="Card image cap">
-          <div class="card-block" data-aos="fade" data-aos-delay="400" data-aos-duration="1000" data-aos-once="true">
-            <h4 class="card-title">No More Surprises</h4>
-            <p class="card-text">Be ready for the greatest and worst courses in your department. See the Departmental Score, and more.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 text-center">
-        <div class="card">
-          <img class="card-img-top" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800" data-aos-once="true" src="/static/icons/svg/cart-checkout.svg" alt="Card image cap">
-          <div class="card-block" data-aos="fade" data-aos-delay="600" data-aos-duration="1000" data-aos-once="true">
-            <h4 class="card-title">ReCal Integration</h4>
-            <p class="card-text">Upon checkout, your course selections will sync with your ReCal queue. We value your time.</p>
-          </div>
-        </div>
-      </div>
+      <div class="col"></div>
     </div>
-  </div>
+  </footer>
 </div>
-<!-- Icons designed by Freepik from www.flaticon.com -->
-<footer class="footer section">
-  <div class="row full-width full-height">
-    <div class="col-md-4">
-      <div class="footer-col-content">
-        <p class="footer-text">© 2017 COS333 Team.</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="footer-col-content">
-        <div class="contact">
-          <a href="#"><span><i class="fa fa-lg fa-2x fa-facebook" aria-hidden="true"></i></span></a>
-          <a href="#"><span><i class="fa fa-lg fa-2x fa-twitter" aria-hidden="true"></i></span></a>
-          <a href="#"><span><i class="fa fa-lg fa-2x fa-github-alt" aria-hidden="true"></i></span></a>
-          <a href="#"><span><i class="fa fa-lg fa-2x fa-google-plus" aria-hidden="true"></i></span></a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="footer-col-content">
-        <p class="footer-text">Back to Top</p>
-      </div>
-    </div>
-  </div>
-</footer>
 {% endblock %}
