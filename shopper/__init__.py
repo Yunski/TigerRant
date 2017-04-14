@@ -111,7 +111,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             for field in fields:
                 if len(field) == 3:
                     if not field.isdigit():
-                        if field == "STN" or field == "STL":
+                        if field.upper() in ["STN", "EC", "EM", "HA", "LA", "SA", "QR", "STL"]:
                             baseQuery = baseQuery.filter(sql.Course.distribution == field)
                         else:
                             baseQuery = baseQuery.filter(sql.Course.dept == field)
