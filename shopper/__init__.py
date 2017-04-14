@@ -328,7 +328,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         for review in reviews:
             termSet.add(review.sem_code)
         for term in termSet:
-            reviews = course.reviews.filter_by(sem_code=term).order_by(sql.Review.timestamp).all()
+            reviews = course.reviews.filter_by(sem_code=term).order_by(sql.Review.timestamp.desc()).all()
             reviewsJson[term] = {}
             reviewsJson[term]['reviews'] = []
             termCode = str(term)[1:]

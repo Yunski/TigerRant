@@ -60,11 +60,11 @@
     <div id="sidebar-top" class="d-flex align-items-center">
       <h1>Rant Space</h1>
       <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
-      <button class="refresh"><i class="fa fa-refresh" aria-hidden="true" ng-click="getRants()"></i></button>
+      <button class="refresh" ng-click="getRants()" onclick="$('.rants').animateCss('flip-custom')"><i class="fa fa-refresh" aria-hidden="true"></i></button>
     </div>
     <div id="empty-rantspace-message" ng-if="rants.length <= 0">It's too quiet! <a data-toggle="modal" data-target="#rantModal">Share something cool or complain about stuff.</a></div>
     <ul class="list-group rants" ng-if="rants.length > 0">
-      <li class="list-group-item rant-post" ng-repeat="rant in rants" data-aos="flip-right" data-aos-once="true">
+      <li class="list-group-item rant-post" ng-repeat="rant in rants">
         <div class="card">
           <div class="card-block d-flex align-items-center">
             <p class="card-text">{{ rant.text }}</p>

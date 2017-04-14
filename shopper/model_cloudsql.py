@@ -1,3 +1,4 @@
+import datetime
 import os.path
 
 from flask import Flask
@@ -50,7 +51,7 @@ class Description(db.Model):
     c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
     text = db.Column(db.UnicodeText())
     upvotes = db.Column(db.Integer)
-    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     def __repr__(self):
         return "<Description {} {}>".format(self.timestamp, self.text)
@@ -93,7 +94,7 @@ class Review(db.Model):
     score = db.Column(db.Integer, index=True)
     instructors = db.relationship('Instructor', secondary=instructors,
         backref=db.backref('reviews', lazy='dynamic'))
-    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     scraped = db.Column(db.Boolean)
 
     def __repr__(self):
