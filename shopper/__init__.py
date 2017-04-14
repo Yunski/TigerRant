@@ -109,18 +109,29 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             elif order == "rating":
                 baseQuery = baseQuery.order_by(sql.Course.avg_rating.desc())
             for field in fields:
-                if len(field) == 3:
-                    if not field.isdigit():
-                        if field.upper() in ["STN", "EC", "EM", "HA", "LA", "SA", "QR", "STL"]:
-                            baseQuery = baseQuery.filter(sql.Course.distribution == field)
-                        else:
-                            baseQuery = baseQuery.filter(sql.Course.dept == field)
-                    else:
-                        baseQuery = baseQuery.filter(sql.Course.catalog_number == field)
-                elif len(field) == 2 and not field.isdigit():
+                #search by distribution
+                if field.upper() in ["STN", "STL", "EC", "EM", "HA", "LA", "SA", "QR"]:
                     baseQuery = baseQuery.filter(sql.Course.distribution == field)
-                else:
-                    baseQuery = baseQuery.filter(sql.Course.title.contains(field) | sql.Course.description.contains(field))
+                #pdf
+                elif field.upper() == "PDF":
+                    baseQuery = baseQuery.filter(sql.Course.grade_options.contains("Only"))
+                #department or catalog number
+                elif len(field) == 3 or len(field) == 4:
+                    if not field.isdigit():
+                        baseQuery = baseQuery.filter(sql.Course.dept == field)
+                    else:
+                        baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field))
+                #else look in title, description, or professor
+                elif len(field) > 4:
+                    #"cos126"
+                    if any(char.isdigit() for char in field) and (field.isupper() or field.islower()):
+                        baseQuery = baseQuery.filter(sql.Course.dept == field[0:3])
+                        baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field[3:]))
+                    #else search in title or description
+                    else:
+                        baseQuery = baseQuery.filter(sql.Course.title.contains(field) | sql.Course.description.contains(field))
+                #professors
+                #still have to figure this out
             length = len(baseQuery.all())
             if length < end:
                 end = length
