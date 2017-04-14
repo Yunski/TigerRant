@@ -117,7 +117,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                     baseQuery = baseQuery.filter(sql.Course.grade_options.contains("Only"))
                 #department or catalog number
                 elif len(field) == 3 or len(field) == 4:
-                    if not field.isdigit():
+                    if not any(char.isdigit() for char in field):
                         baseQuery = baseQuery.filter(sql.Course.dept == field)
                     else:
                         baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field))
