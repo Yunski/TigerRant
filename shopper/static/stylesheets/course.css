@@ -379,8 +379,6 @@ a.page-link:hover {
   color: white;
   padding: 0.5rem 0;
   background-color: black;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
   font-weight: 300;
 }
 
@@ -396,6 +394,7 @@ a.page-link:hover {
   margin-top: 0.2rem;
   margin-bottom: 0rem;
   border-radius: 0rem;
+  border: none;
 }
 
 .description {
@@ -435,7 +434,6 @@ a.page-link:hover {
 
 #more-button-container {
   z-index: 1;
-  padding-top: 0.1rem;
   margin-top: -1rem;
   background-color: black;
   border-bottom-left-radius: 0.4rem;
