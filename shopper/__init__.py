@@ -8,8 +8,7 @@ from flask_api import status
 
 from . import model_cloudsql as sql
 from . import cas
-
-from search_courses import SearchCourses
+from . import search_courses as sc
 
 def create_app(config, debug=False, testing=False, config_overrides=None):
     app = Flask(__name__)
@@ -39,7 +38,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
     @app.route('/login')
     def login():
         c = cas.CASClient(request.url_root)
-        return redirect(c.LoginURL(), code=307)
+        return redirect(c.login_url(), code=307)
 
 
     @app.route('/login/validate')
@@ -49,7 +48,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             return content, status.HTTP_400_BAD_REQUEST
         ticket = request.args.get('ticket')
         c = cas.CASClient(request.url_root)
-        netid = c.Validate(ticket)
+        netid = c.validate(ticket)
         if netid is None:
             return redirect('/')
         response = redirect(url_for('home'), code=status.HTTP_302_FOUND)
@@ -89,7 +88,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
         #find list of classes that match search
         #returns a tuple of type results, pageInt, length, num_pages
-        results, pageInt, length, num_pages = SearchCourses(search, order, page)
+        results, pageInt, length, num_pages = sc.matched_courses(search, order, page)
 
         #return searched classes (for specific page)
         return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search, order=order)

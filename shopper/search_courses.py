@@ -1,7 +1,7 @@
 from . import model_cloudsql as sql
 
 #returns a tuple of type results, pageInt, length, num_pages
-def SearchCourses(search, order, page):
+def matched_courses(search, order, page):
     fields = None
     fields = search.split()
 
