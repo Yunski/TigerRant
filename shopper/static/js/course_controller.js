@@ -31,7 +31,16 @@
             $scope.getDescriptions = function() {
                 $http.get('/api/descriptions/' + id).
                       success(function(descriptions) {
-                          $scope.descriptions = descriptions;
+                          $scope.approvedDescriptions = [];
+                          $scope.purgatoryDescriptions = [];
+                          for (var i in descriptions) {
+                              var description = descriptions[i];
+                              if (description.upvotes < 10) {
+                                  $scope.purgatoryDescriptions.push(description);
+                              } else {
+                                  $scope.approvedDescriptions.push(description);
+                              }
+                          }
                       }).
                       error(function(error) {
                           $log.log(error);
@@ -49,27 +58,33 @@
             $scope.getReviews = function() {
                 $http.get('/api/reviews/' + id).
                       success(function(reviews) {
-                            var termInts = []
+                            var terms = []
                             $scope.terms = {}
                             for (var term in reviews) {
                                 $scope.terms[term] = {};
                                 $scope.terms[term]['term_string'] = reviews[term]['term_string'];
-                                termInts.push(parseInt(term));
+                                terms.push(term);
                                 var reviewList = reviews[term]['reviews'];
                                 var total = 0;
                                 for (var i in reviewList) {
                                     total += reviewList[i].overall_rating;
                                 }
-                                var average = (Math.round( total / reviewList.length * 10 ) / 10).toFixed(1);
-                                $scope.terms[term]['average_rating'] = average.toString();
+                                var length = reviewList.length;
+                                var average = length > 0 ? (Math.round(total / length * 10) / 10): 0;
+                                $scope.terms[term]['average_rating'] = average.toFixed(1).toString();
                                 $scope.terms[term]['reviews'] = reviewList;
                             }
-                            if (termInts.length > 0) {
-                                $scope.selectedTerm = Math.max(...termInts).toString();
-                            } else {
-                                $scope.selectedTerm = "";
+                            if (terms.length > 0) {
+                                for (var i = terms.length-1; i >= 0; i--) {
+                                    var length = $scope.terms[terms[i]]['reviews'].length;
+                                    if (length > 0) {
+                                        $scope.selectedTerm = terms[i];
+                                        break;
+                                    }
+                                }
+                                if (!$scope.selectedTerm) $scope.selectedTerm = terms[0];
                             }
-                            if ($scope.selectedTerm.length > 0) {
+                            if ($scope.terms[$scope.selectedTerm]['reviews'].length > 0) {
                                 var currentPage = 1;
                                 var totalReviews = $scope.terms[$scope.selectedTerm]['reviews'].length;
                                 var start = 0;

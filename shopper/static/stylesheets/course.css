@@ -97,6 +97,7 @@ textarea {
   color: white;
   background-color: transparent;
   border: 1px solid white;
+  font-weight: 300;
 }
 
 .input-group-addon {
@@ -181,6 +182,35 @@ a.page-link:hover {
 .form-control:-moz-placeholder           { color: #e6e6e6; font-weight: 300; }
 .form-control:-ms-input-placeholder      { color: #e6e6e6; font-weight: 300; }
 
+/* forms */
+label {
+  font-weight: 300;
+}
+
+.modal-content {
+  border: 1px solid white;
+}
+
+.modal-header {
+  color: black;
+  background-color: #ee7f2d;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom: none;
+}
+
+.modal-body {
+  color: white;
+  background-color: black;
+}
+
+.modal-footer {
+  border-top: none;
+  background-color: #ee7f2d;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
 /* navbar */
 
 .bg-black {
@@ -204,19 +234,25 @@ a.page-link:hover {
   left: 0rem;
   width: 100%;
   height: 2.5rem;
-  background-color: #202020;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
 }
 
 #navbar-footer .nav-link {
   margin-right: 2rem;
+  font-weight: 300;
 }
 
 #navbar-footer span {
   margin-right: 0.5rem;
 }
 
-#navbar-top a.nav-link, #navbar-footer a.nav-link {
+#navbar-top a.nav-link {
   color: #ee7f2d;
+}
+
+#navbar-footer a.nav-link {
+  color: white;
 }
 
 #nav-account {
@@ -404,11 +440,12 @@ a.page-link:hover {
 
 .description .card {
   position: relative;
+  width: 100%;
   color: white;
   background-color: black;
   border-color: black;
-  padding: 1.25rem;
   margin: 0;
+  text-align: center;
 }
 
 .description .card-title {
@@ -451,6 +488,39 @@ a.page-link:hover {
   width: 6.2rem;
 }
 
+#purgatory-button {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+#purgatory-modal .modal-dialog {
+  width: 60%;
+  max-width: 60%;
+}
+
+#purgatory-modal .modal-content {
+  border: 1px solid #ee7f2d;
+}
+
+#purgatory-modal .modal-header {
+  background-color: black;
+  color: #ee7f2d;
+  justify-content: center;
+}
+
+#purgatory-modal .modal-footer {
+  background-color: black;
+}
+
+#purgatory-modal .modal-footer a {
+  color: white;
+}
+
+#empty-purgatory-message {
+  font-weight: 300;
+  text-align: center;
+}
+
 .vote-container {
   width: 5%;
   display: inline-block;
@@ -464,6 +534,10 @@ a.page-link:hover {
 
 .score {
   padding: 0.1rem 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .reviews-summary {
@@ -603,6 +677,7 @@ a.page-link:hover {
 .terms .nav-tabs .nav-link {
   padding: 0.5rem;
   color: white;
+  font-size: 0.9rem;
   background-color: #ee7f2d;
   border: 1px solid white;
   border-top-left-radius: 0.5rem;
@@ -662,6 +737,7 @@ a.page-link:hover {
   padding-top: 2rem;
   padding-bottom: 2rem;
   width: 100%;
+  align-items: center;
 }
 
 .reviews .reviews-title {
@@ -728,42 +804,4 @@ a.page-link:hover {
 
 .reviews .thumbs-up span i:hover {
   cursor: pointer;
-}
-
-/* forms */
-label {
-  font-weight: 300;
-}
-
-.modal-content {
-  border: 1px solid white;
-}
-
-.modal-header {
-  color: black;
-  background-color: #ee7f2d;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-  border-bottom: none;
-}
-
-.modal-body {
-  color: white;
-  background-color: black;
-}
-
-.modal-footer {
-  border-top: none;
-  background-color: #ee7f2d;
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-}
-
-.modal-footer a {
-  color: black !important;
-  font-weight: bold;
-}
-
-.modal-footer a:hover {
-  color: white !important;
 }

@@ -176,7 +176,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
-        descriptions = course.descriptions.all()
+        descriptions = course.descriptions.order_by(sql.Description.upvotes.desc()).all()
         descriptionsJson = []
         for description in descriptions:
             dDict = {}
@@ -292,16 +292,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         termSet = set()
         for review in reviews:
             termSet.add(review.sem_code)
+        current = 1182
+        termSet.add(current)
+
         for term in termSet:
-            reviews = course.reviews.filter_by(sem_code=term).order_by(sql.Review.timestamp.desc()).all()
+            reviews = course.reviews.filter_by(sem_code=term).filter_by(scraped=False).order_by(sql.Review.timestamp.desc()).all()
+            reviews += course.reviews.filter_by(sem_code=term).filter_by(scraped=True).order_by(sql.Review.timestamp.desc()).all()
             reviewsJson[term] = {}
             reviewsJson[term]['reviews'] = []
             termCode = str(term)[1:]
             if termCode[2:3] == "2":
-                termString = "Fall "
+                termString = "Fall " + str(int(termCode[:2]) - 1)
             else:
-                termString = "Spring "
-            termString += str(int(termCode[:2]) - 1) + "-" + termCode[:2]
+                termString = "Spring " + termCode[:2]
             reviewsJson[term]['term_string'] = termString
             for review in reviews:
                 reviewDict = {}
