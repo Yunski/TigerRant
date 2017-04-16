@@ -59,7 +59,7 @@ def populateDB(filename):
                 i = sql.Instructor(emplid=int(emplid), first_name=first_name, last_name=last_name)
                 c.instructors.append(i)
                 sql.db.session.add(i)
-        c.crosslisting = course["crosslistings"]
+        c.crosslistings = course["crosslistings"]
 
         ratings = []
         for review in course['reviews']:

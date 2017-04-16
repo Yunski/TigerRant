@@ -38,19 +38,19 @@ def matched_courses(search, order, page):
                 baseQuery = baseQuery.filter(sql.Course.grade_options.contains("Only"))
             #catalog number
             elif len(field) == 3 and all(char.isdigit() for char in field):
-                baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field))
+                baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field) | sql.Course.crosslistings.contains(field))
             #including specials like 206a
             elif len(field) == 4 and all(char.isdigit() for char in field[0:3]) and field[3].isalpha():
-                baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field))
+                baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field) | sql.Course.crosslistings.contains(field))
             #department
             elif len(field) == 3 and all(char.isalpha() for char in field):
-                baseQuery = baseQuery.filter(sql.Course.dept == field)
+                baseQuery = baseQuery.filter(sql.Course.dept.contains(field) | sql.Course.crosslistings.contains(field))
             #else look in title, description, or professor
             elif len(field) > 4:
                 #"cos126" mix of letters and numbers assumes combined dept-catalognum
                 if any(char.isdigit() for char in field) and any(char.isalpha() for char in field):
-                    baseQuery = baseQuery.filter(sql.Course.dept == field[0:3])
-                    baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field[3:]))
+                    baseQuery = baseQuery.filter(sql.Course.dept.contains(field[0:3]) | sql.Course.crosslistings.contains(field[0:3]))
+                    baseQuery = baseQuery.filter(sql.Course.catalog_number.contains(field[3:]) | sql.Course.crosslistings.contains(field[3:]))
                 #else search in title or description
                 else:
                     baseQuery = baseQuery.filter(sql.Course.title.contains(field) | sql.Course.description.contains(field))
