@@ -46,7 +46,8 @@ def matched_courses(search, order, page):
             elif len(field) == 3 and all(char.isalpha() for char in field):
                 baseQuery = baseQuery.filter(sql.Course.dept.contains(field) | sql.Course.crosslistings.contains(field))
             #else look in title, description, or professor
-            elif len(field) > 4:
+            #elif len(field) > 4:
+            elif len(field) > 2:
                 #"cos126" mix of letters and numbers assumes combined dept-catalognum
                 if any(char.isdigit() for char in field) and any(char.isalpha() for char in field):
                     baseQuery = baseQuery.filter(sql.Course.dept.contains(field[0:3]) | sql.Course.crosslistings.contains(field[0:3]))
@@ -57,6 +58,9 @@ def matched_courses(search, order, page):
                     #baseQuery = baseQuery.filter(sql.Course.instructors.any().contains(field))
                 #professors
                 #still have to figure this out
+            #invalid searches 
+            else:
+                baseQuery = baseQuery.filter(False)
         length = len(baseQuery.all())
         if length < end:
             end = length
