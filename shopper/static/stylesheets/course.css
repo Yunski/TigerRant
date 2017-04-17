@@ -83,14 +83,22 @@ textarea {
 }
 
 .btn-primary {
-  background-color: #ee7f2d;
+  background-color: black;
   border: none;
-  color: black;
+  width: 100%;
+  font-size: 1.15rem;
 }
 
 .btn-primary:hover {
-  background-color: #ee7f2d;
-  color: white;
+  background-color: black;
+}
+
+.reviews-header a:not([href]):hover {
+  color: #ee7f2d;
+}
+
+.right-border {
+  border-right: 1px solid #ee7f2d;
 }
 
 .btn-secondary, .btn-secondary:hover {
@@ -204,7 +212,9 @@ a.page-link:hover {
   left: 0rem;
   width: 100%;
   height: 2.5rem;
-  background-color: #202020;
+  background-color: black;
+  border-top: 1px solid #ee7f2d;
+  border-bottom: 1px solid #ee7f2d;
 }
 
 #navbar-footer .nav-link {
@@ -362,12 +372,13 @@ a.page-link:hover {
 }
 
 .course-banner .card {
-  padding: 1rem 0.2rem 0.2rem 0.2rem;
+  padding: 0.5rem 0.2rem 0.2rem 0.2rem;
   margin-top: 1.5rem;
   width: 100%;
   background-color: #ee7f2d;
   border-radius: 0.5rem;
   text-align: center;
+  border: none;
 }
 
 .course-banner .card-title {
@@ -382,6 +393,12 @@ a.page-link:hover {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   font-weight: 300;
+  font-size: 1.35rem;
+}
+
+.description .btn-secondary:hover {
+  color: #ee7f2d;
+  border-color: #ee7f2d;
 }
 
 .course-banner a {
@@ -431,6 +448,7 @@ a.page-link:hover {
 .description .card-text {
   width: 95%;
   margin: 0;
+  font-size: 1.25rem;
 }
 
 #more-button-container {
@@ -455,13 +473,30 @@ a.page-link:hover {
 
 .vote-container {
   width: 5%;
-  display: inline-block;
+  display: flex;
   text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.upvote, .downvote {
+.rant-post .upvote .fa-chevron-up, .rant-post .downvote .fa-chevron-down {
   color: #ee7f2d;
+}
+
+.rant-post .upvote .fa-chevron-up:hover, .rant-post .downvote .fa-chevron-down:hover {
+  -ms-transform: scale(1.1, 1.1);
+  -webkit-transform: scale(1.1, 1.1);
+  transform: scale(1.05, 1.1);
+}
+
+.course-banner .upvote, .course-banner .downvote {
+  color: white;
   cursor: pointer;
+}
+
+.course-banner .fa-chevron-up:hover, .course-banner .fa-chevron-down:hover {
+  color: #ee7f2d;
 }
 
 .score {
@@ -542,7 +577,8 @@ a.page-link:hover {
 
 .rating-bars {
   color: white;
-  height: 10rem;
+  height: 70%;
+  margin-top: 0.5rem;
 }
 
 .rating-bars .row {
@@ -607,8 +643,9 @@ a.page-link:hover {
   color: white;
   background-color: #ee7f2d;
   border: 1px solid white;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+  /*border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;*/
+  border-radius: 0;
 }
 
 .terms .nav-tabs .nav-link:hover {
@@ -661,28 +698,56 @@ a.page-link:hover {
 }
 
 .reviews .reviews-header {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   width: 100%;
+  background-color: #ee7f2d;
+  border-radius: 0.5rem;
+}
+
+.right-box {
+  background-color: black;
+  border: 1px solid #ee7f2d;
+  border-left: none;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .reviews .reviews-title {
-  float: left;
-  padding-left: 0.2rem;
-  padding-top: 0.2rem;
-  width: 15rem;
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0;
 }
 
 .reviews .reviews-title h4 {
   margin: 0;
   padding: 0;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 #write-review-button:hover {
+  background-color: rgba(0, 0, 0, 0.0);
   -ms-transform: scale(1.05, 1.05);
   -webkit-transform: scale(1.05, 1.05);
   transform: scale(1.05, 1.05);
+}
+
+.right-box .dropdown-menu {
+  background-color: black;
+  color: #ee7f2d;
+}
+
+.right-box .dropdown-menu option:hover {
+  background-color: white;
+}
+
+.right-box .btn-group {
+  width: 100%;
+}
+
+.btn-primary.active, .btn-primary:active, .show>.btn-primary.dropdown-toggle {
+  color: #ee7f2d;
+  background-color: black;
+  background-image: none;
 }
 
 .reviews .reviews-sort {
@@ -730,6 +795,7 @@ a.page-link:hover {
 
 .reviews .thumbs-up span i:hover {
   cursor: pointer;
+  color: #ee7f2d;
 }
 
 /* forms */
@@ -768,4 +834,12 @@ label {
 
 .modal-footer a:hover {
   color: white !important;
+}
+
+.terms .nav-tabs .nav-item .top-right {
+  border-top-right-radius: 0.5rem;
+}
+
+.terms .nav-tabs .nav-item .top-left {
+  border-top-left-radius: 0.5rem
 }

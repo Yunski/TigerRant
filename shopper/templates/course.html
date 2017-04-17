@@ -138,7 +138,7 @@
             No Content Available</a>
         </li>
         <li class="nav-item" ng-repeat="(key, value) in terms" ng-if="selectedTerm.length > 0">
-          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
+          <a ng-class="{'top-left': $first, 'top-right': $last, active: key == selectedTerm}" class="nav-link" id="{{ key }}"  ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
             {{ value['term_string'] }}</a>
         </li>
       </ul>
@@ -199,17 +199,39 @@
     <!-- Review Section -->
     <div class="reviews">
       <div class="reviews-header">
-        <div class="reviews-title">
-          <h4>Student Reviews</h4>
-        </div>
-        <a id="write-review-button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">Write a Review</a>
-        <div class="reviews-sort" ng-if="selectedTerm.length > 0">
-          <span>Sort by:</span>
-          <select class="sort-options">
-            <option value="positive">Most positive</option>
-            <option value="negative">Most negative</option>
-            <option value="upvotes">Most upvotes</option>
-          </select>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="reviews-title">
+              <h4>Student Reviews</h4>
+            </div>
+          </div>
+          <div class="col-md-8 right-box">
+            <div class="row">
+              <div class="col-sm-6 right-border">
+                <a id="write-review-button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">Write a Review</a>
+              </div>
+              <div class="col-sm-6">
+                <div class="btn-group">
+                  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-hidden="false">
+                    Sort By
+                  </a>
+                  <div class="dropdown-menu">
+                    <option value="positive">Most positive</option>
+                    <option value="negative">Most negative</option>
+                    <option value="upvotes">Most upvotes</option>
+                  </div>
+                </div>
+                <!--<div class="reviews-sort" ng-if="selectedTerm.length > 0">
+                  <span>Sort by:</span>
+                  <select class="sort-options">
+                    <option value="positive">Most positive</option>
+                    <option value="negative">Most negative</option>
+                    <option value="upvotes">Most upvotes</option>
+                  </select>
+                </div>-->
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="no-reviews" ng-if="selectedTerm.length <= 0">
