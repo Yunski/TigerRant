@@ -15,6 +15,16 @@
             var page = "";
             var order = "";
             var maxPerPage = 20;
+            $scope.tab = 0;
+
+            $scope.setTab = function (newTab) {
+              $scope.tab = newTab;
+            };
+
+            $scope.isSetOn = function (newTab) {
+              return $scope.tab === newTab;
+            };
+
             if ( $location.search().hasOwnProperty('id')) {
                 id = $location.search().id;
             }

@@ -105,6 +105,7 @@ textarea {
   color: white;
   background-color: transparent;
   border: 1px solid white;
+  margin-top: 0.75rem;
 }
 
 .input-group-addon {
@@ -122,11 +123,18 @@ textarea {
   margin: 0 auto;
 }
 
-.card p {
+.card .card-block p {
   font-weight: 200;
+  word-wrap: break-word;
 }
+
 .card-text {
   font-size: 1rem;
+}
+
+.descriptions .card-block .vote-container {
+  position: absolute;
+  right: 2.5%;
 }
 
 .page-link {
@@ -447,6 +455,17 @@ a.page-link:hover {
   border-radius: 0.25rem;
 }
 
+.description .card2-title {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  margin: 0;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  border: 1px solid #ee7f2d;
+  border-radius: 0.25rem;
+}
+
 .description .card-title .top-star {
   color: #ee7f2d;
   padding-right: 0.2rem;
@@ -755,11 +774,12 @@ a.page-link:hover {
 
 .right-box .dropdown-menu {
   background-color: black;
-  color: #ee7f2d;
+  color: white;
 }
 
 .right-box .dropdown-menu option:hover {
-  background-color: white;
+  background-color: #ee7f2d;
+  color: black;
 }
 
 .right-box .btn-group {
@@ -874,4 +894,41 @@ label {
 
 .terms .nav-tabs .nav-item .top-left {
   border-top-left-radius: 0.5rem
+}
+
+.desc-toggle-container {
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  border-bottom: none;
+}
+
+.urban, .official {
+  color: white;
+  background-color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.desc-toggle-container .urban {
+  border-radius: 0 0 0 0.5rem;
+}
+
+.nav-link.urban:hover, .nav-link.official:hover {
+  background-color: black;
+  color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.nav-link.urban.active, .nav-link.official.active {
+  background-color: black;
+  color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.desc-toggle-container .official {
+  border-radius: 0 0 0.5rem 0;
 }

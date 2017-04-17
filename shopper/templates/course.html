@@ -84,6 +84,7 @@
       <div class="card">
         <h3 class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
         <div class="course-instructors" ng-non-bindable>
+          {% if course.instructors|length > 0 %}
           {% for i in range(0, course.instructors|length) %}
           {% if i != course.instructors|length-1 %}
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
@@ -92,13 +93,25 @@
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
           {% endif %}
           {% endfor %}
+          {% else %}
+            <span>No Instructor Information Available</span>
+          {% endif %}
         </div>
         {% raw %}
         <ul class="list-group descriptions">
           <li class="list-group-item description">
-            <div class="card">
+            <div class="card" ng-show="isSetOn(0)">
               <div class="card-block d-flex align-items-center" ng-if="descriptions.length > 0">
-                <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
+                <div class="row nav nav-tabs desc-toggle-container">
+                  <h3 class="card-title" ng-show="isSetOn(0)"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
+                  <button type="button" class="btn nav-link urban" ng-class="{ active: isSetOn(0) }" ng-click="setTab(0)">
+                    Urban
+                  </button>
+                  <button type="button" class="btn nav-link official" ng-class="{ active: isSetOn(1) }" ng-click="setTab(1)">
+                    Official
+                  </button>
+                </div>
+                <!--<h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>-->
                 <p class="card-text">{{ descriptions[0].text }}</p>
                 <div class="vote-container" class="col-md-1">
                   <div class="upvote" ng-click="updateDescription(descriptions[0].id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
@@ -107,8 +120,33 @@
                 </div>
               </div>
               <div class="card-block d-flex align-items-center justify-content-center" ng-if="descriptions.length <= 0">
+                <div class="row nav nav-tabs desc-toggle-container">
+                  <button type="button" class="btn nav-link urban" ng-class="{ active: isSetOn(0) }" ng-click="setTab(0)">
+                    Urban
+                  </button>
+                  <button type="button" class="btn nav-link official" ng-class="{ active: isSetOn(1) }" ng-click="setTab(1)">
+                    Official
+                  </button>
+                </div>
                 <button class="btn btn-secondary" data-toggle="modal" data-target="#descriptionModal">Be the first to write a description!</button>
               </div>
+            </div>
+            <div class="card" ng-show="isSetOn(1)">
+              <div class="card-block">
+                <div class="row nav nav-tabs desc-toggle-container">
+                  {% endraw %}
+                  <h3 class="card-title">{{ course.grade_options }}</h3>
+                  <button type="button" class="btn nav-link urban" ng-class="{ active: isSetOn(0) }" ng-click="setTab(0)">
+                    Urban
+                  </button>
+                  <button type="button" class="btn nav-link official" ng-class="{ active: isSetOn(1) }" ng-click="setTab(1)">
+                    Official
+                  </button>
+                  <h3 class="card2-title">{{ course.distribution }}</h3>
+                </div>
+                <p class="card-text" ng-non-bindable>{{ course.description }}</p>
+              </div>
+              {% raw %}
             </div>
           </li>
           <div class="collapse" id="more-descriptions" ng-if="descriptions.length > 1">
@@ -127,7 +165,7 @@
           </div>
         </ul>
         {% endraw %}
-        <div id="more-button-container" class="d-flex justify-content-center" ng-if="descriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">Show More</a></div>
+        <div id="more-button-container" ng-show="isSetOn(0)" class="d-flex justify-content-center" ng-if="descriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">Show More</a></div>
       </div>
     </div>
     {% raw %}
@@ -135,7 +173,7 @@
       <ul class="nav nav-tabs nav-justified d-flex justify-content-center">
         <li class="nav-item" ng-if="selectedTerm.length <= 0">
           <a class="nav-link empty">
-            No Content Available</a>
+            No Reviews yet be the first to write one!</a>
         </li>
         <li class="nav-item" ng-repeat="(key, value) in terms" ng-if="selectedTerm.length > 0">
           <a ng-class="{'top-left': $first, 'top-right': $last, active: key == selectedTerm}" class="nav-link" id="{{ key }}"  ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
@@ -233,9 +271,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="no-reviews" ng-if="selectedTerm.length <= 0">
-        <p>There are no student reviews yet.</p>
       </div>
       <ul class="reviews-listing list-group" ng-if="selectedTerm.length > 0">
         <li class="list-group-item" ng-repeat="review in reviews">
