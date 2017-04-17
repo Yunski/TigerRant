@@ -177,17 +177,24 @@ a.page-link:hover {
 }
 
 .form-control, .form-control:focus {
-  color: white;
+  color: black;
   background-color: transparent;
   border: 0;
-  border-bottom: 2px solid white;
+  border-left: 2px solid #ee7f2d;
+  border-top: 2px solid #ee7f2d;
   border-radius: 0;
+  overflow: hidden;
 }
 
-.form-control::-webkit-input-placeholder { color: #e6e6e6; font-weight: 300; }
-.form-control::-moz-placeholder          { color: #e6e6e6; font-weight: 300; }
-.form-control:-moz-placeholder           { color: #e6e6e6; font-weight: 300; }
-.form-control:-ms-input-placeholder      { color: #e6e6e6; font-weight: 300; }
+.form-group {
+  margin-top: 1.0rem;
+  margin-bottom: 0;
+}
+
+.form-control::-webkit-input-placeholder { color: #ee7f2d; font-weight: 300; }
+.form-control::-moz-placeholder          { color: #ee7f2d; font-weight: 300; }
+.form-control:-moz-placeholder           { color: #ee7f2d; font-weight: 300; }
+.form-control:-ms-input-placeholder      { color: #ee7f2d; font-weight: 300; }
 
 /* navbar */
 
@@ -561,8 +568,23 @@ a.page-link:hover {
 
 .initial-rating {
   padding-top: 0.5rem;
-  color: #e6e6e6;
+  color: #cfcfcf;
 }
+
+#review-cancel-button, #description-cancel-button, #rant-cancel-button {
+  position: absolute;
+  left: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+}
+
+.modal-footer #review-post-button, .modal-footer #description-post-button, .modal-footer #rant-post-button {
+  padding: 0.5rem 0.25rem;
+  border-radius: 0.5rem;
+}
+
+.fa-times { margin-right: 0.5rem; }
+.fa-paper-plane { margin-left: 0.5rem; }
 
 .initial-rating span {
   padding-right: 1rem;
@@ -808,16 +830,21 @@ label {
 }
 
 .modal-header {
-  color: black;
+  color: white;
   background-color: #ee7f2d;
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
   border-bottom: none;
+  justify-content: center;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .modal-body {
-  color: white;
-  background-color: black;
+  background-color: white;
 }
 
 .modal-footer {
@@ -828,12 +855,17 @@ label {
 }
 
 .modal-footer a {
-  color: black !important;
+  color: white !important;
   font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-footer a:hover {
-  color: white !important;
+  color: #ee7f2d !important;
+  background-color: white;
 }
 
 .terms .nav-tabs .nav-item .top-right {
