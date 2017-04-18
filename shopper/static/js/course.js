@@ -95,7 +95,6 @@ $(document).ready(function() {
             type: "POST",
             data: {text: text},
             success: function(data) {
-                console.log("Response " + JSON.stringify(data));
                 location.reload();
             }
         });
@@ -110,7 +109,6 @@ $(document).ready(function() {
             type: "POST",
             data: {text: text},
             success: function(data) {
-                console.log("Response " + JSON.stringify(data));
                 location.reload();
             }
         });

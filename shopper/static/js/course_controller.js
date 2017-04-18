@@ -8,8 +8,8 @@
        // $location object, it must be in HTML5 mode.
        $locationProvider.html5Mode(true);
     }])
-    .controller('TigerShopController', ['$scope', '$log', '$http', '$location',
-        function($scope, $log, $http, $location) {
+    .controller('TigerShopController', ['$scope', '$log', '$http', '$location', '$window',
+        function($scope, $log, $http, $location, $window) {
             var id = -1;
             var search = "";
             var page = "";
@@ -162,7 +162,7 @@
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                     }
                 }
-                $http.put('/api/descriptions/' + id + '/' + descriptionId, data, config).
+                $http.put('/api/descriptions/' + descriptionId, data, config).
                       success(function(response, status) {
                           if (status == 201) {
                               $scope.getDescriptions();
@@ -181,9 +181,29 @@
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                     }
                 }
-                $http.put('/api/rants/' + id + "/" + rantId, data, config).
+                $http.put('/api/rants/' + rantId, data, config).
                       success(function(response, status) {
                           if (status == 201) {
+                              $scope.getRants();
+                          }
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            }
+            $scope.updateReply = function(rantId, replyId, vote) {
+                var data = $.param({
+                    vote: vote
+                });
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
+                }
+                $http.put('/api/replies/' + replyId, data, config).
+                      success(function(response, status) {
+                          if (status == 201) {
+                              //$window.location.href = $location.path() + "?id=" + id + "search=" + search + "page=" + page + "order=" + order + "#replies-" + rantId;
                               $scope.getRants();
                           }
                       }).
@@ -200,10 +220,32 @@
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                     }
                 }
-                $http.put('/api/reviews/' + id + '/' + reviewId, data, config).
+                $http.put('/api/reviews/' + reviewId, data, config).
                       success(function(response, status) {
                           if (status == 201) {
                               $scope.getReviews();
+                          }
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            }
+            $scope.postReply = function(replyId) {
+                var text = $("#your-reply-" + replyId + " textarea").val();
+                $log.log(text);
+                if (text == "") return;
+                var data = $.param({
+                    text: text
+                });
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
+                }
+                $http.post('/api/replies/' + replyId, data, config).
+                      success(function(response, status) {
+                          if (status == 201) {
+                              $window.location.reload();
                           }
                       }).
                       error(function(error) {

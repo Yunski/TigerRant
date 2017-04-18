@@ -65,8 +65,8 @@ class Department(db.Model):
         return "<Department {}>".format(self.dept_code)
 
 class Instructor(db.Model):
-    id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
-    emplid = db.Column(db.Integer, index=True, unique = True)
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
+    emplid = db.Column(db.Integer, index=True, unique=True)
     first_name = db.Column(db.UnicodeText())
     last_name = db.Column(db.UnicodeText())
 
@@ -74,17 +74,28 @@ class Instructor(db.Model):
         return "<Instructor {} {}>".format(self.first_name, self.last_name)
 
 class Rant(db.Model):
-	id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
-	c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
-	text = db.Column(db.UnicodeText())
-	upvotes = db.Column(db.Integer)
-	timestamp = db.Column(db.DateTime)
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
+    c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
+    text = db.Column(db.UnicodeText())
+    upvotes = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    replies = db.relationship('Reply', backref='parent', lazy='dynamic')
 
-	def __repr__(self):
-		return "<Rant {} {}>".format(self.text, self.timestamp)
+    def __repr__(self):
+        return "<Rant {} {}>".format(self.text, self.timestamp)
+
+class Reply(db.Model):
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
+    rant_id = db.Column(db.Integer, db.ForeignKey('rant.id'), index=True)
+    text = db.Column(db.UnicodeText())
+    upvotes = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+    def __repr__(self):
+        return "<Reply {} {}>".format(self.text, self.timestamp)
 
 class Review(db.Model):
-    id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
     num = db.Column(db.Integer)
     c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
     sem_code = db.Column(db.Integer, index=True)
@@ -101,8 +112,8 @@ class Review(db.Model):
         return "<Review {} {}>".format(self.c_id, self.sem_code)
 
 class User(db.Model):
-    id = db.Column(db.Integer, index=True, unique = True, primary_key = True)
-    netid = db.Column(db.Unicode(32), index=True, unique = True)
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
+    netid = db.Column(db.Unicode(32), index=True, unique=True)
     ticket = db.Column(db.UnicodeText())
     first_name = db.Column(db.UnicodeText())
     last_name = db.Column(db.UnicodeText())

@@ -53,16 +53,16 @@
   {% raw %}
   <!-- Sidebar -->
   <div id="sidebar-btn" class="d-flex align-items-center justify-content-center"
-       data-toggle="tooltip" data-placement="left" title="Preview of Rant Space">
+       data-toggle="tooltip" data-placement="left" title="Toggle Rant Space">
        R
   </div>
   <div id="sidebar-wrapper">
-    <div id="sidebar-top" class="d-flex align-items-center">
+    <div id="sidebar-top" class="d-flex align-items-center fixed-top">
       <h1>Rant Space</h1>
       <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
       <button class="refresh" ng-click="getRants()" onclick="$('.rants').animateCss('flip-custom')"><i class="fa fa-refresh" aria-hidden="true"></i></button>
     </div>
-    <ul class="list-group rants">
+    <ul id="rants" class="list-group">
       <li class="list-group-item rant-post" ng-if="rants.length <= 0">
         <div class="card">
           <div class="card-block d-flex align-items-center">
@@ -78,6 +78,36 @@
               <div class="upvote" ng-click="updateRant(rant.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
               <div class="score">{{ rant.upvotes }}</div>
               <div class="downvote" ng-click="updateRant(rant.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="timestamp">2m
+              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length == 1">1 reply</div>
+              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length > 1">{{ rant.replies.length }} replies</div>
+            </div>
+            <div class="reply-button">
+              <a data-toggle="collapse" href="#your-reply-{{ rant.id }}" aria-expanded="false" aria-controls="your reply">
+                <i class="fa fa-lg fa-reply" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="collapse your-reply" id="your-reply-{{ rant.id }}">
+          <textarea placeholder="Add your reply..." class="your-reply-text" rows="3"></textarea>
+          <a class="reply-send-button" ng-click="postReply(rant.id)">SEND</a>
+        </div>
+        <div class="collapse replies" id="replies-{{ rant.id }}" ng-if="rant.replies.length > 0">
+          <div class="card" ng-repeat="reply in rant.replies">
+            <div class="card-block d-flex align-items-center">
+              <p class="card-text">{{ reply.text }}</p>
+              <div class="vote-container" class="col-md-1">
+                <div class="upvote" ng-click="updateReply(rant.id, reply.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                <div class="score">{{ reply.upvotes }}</div>
+                <div class="downvote" ng-click="updateReply(rant.id, reply.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="timestamp">Just Now</div>
             </div>
           </div>
         </div>
@@ -392,6 +422,4 @@
     </div>
   </div>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-<script src="/static/js/course_controller.js"></script>
 {% endblock %}
