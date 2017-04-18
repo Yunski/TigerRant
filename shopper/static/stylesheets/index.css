@@ -85,23 +85,92 @@ button:focus, textarea:focus {
   height: 100%;
 }
 
+.initial-message-container {
+  min-height: 300px;
+  background-color: black;
+}
+
+.description-message-container {
+  min-height: 450px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.rant-message-container {
+  min-height: 450px;
+  background-color: #ee7f2d;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .landing-message {
-  position: absolute;
-  width: 50%;
-  left: 25%;
-  top: 50%;
+  position: relative;
+  width: 75%;
+  left: 12.5%;
   text-align: center;
   color: #ee7f2d;
   font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.desc-message, .rant-message {
+  text-align: left;
+  color: black;
+  font-size: 2rem;
+  margin-right: 0.75rem;
+}
+
+.rant-message {
+  color: white;
+  margin-left: 3.0rem;
+  margin-right: 0;
+}
+
+.desc-message span {
+  color: #ee7f2d;
+  font-weight: 600;
+}
+
+.rant-message span {
+  color: black;
+  font-weight: 600;
+}
+
+.desc-image, .rant-image {
+  border-radius: 0.5rem;
+}
+
+.desc-image:hover, .rant-image:hover {
+  -ms-transform: scale(1.15, 1.15);
+  -webkit-transform: scale(1.15, 1.15);
+  transform: scale(1.15, 1.15);
+}
+
+.landing-message span {
+  color: white;
+  font-weight: 600;
 }
 
 .footer {
-  position: absolute;
   bottom: 0;
   width: 100%;
   height: 4rem;
   margin: 0;
-  padding: 0;
+  padding: 0.5rem;
   text-align: center;
   color: white;
 }

@@ -142,7 +142,7 @@
                   <button type="button" class="btn nav-link official" ng-class="{ active: isSetOn(1) }" ng-click="setTab(1)">
                     Official
                   </button>
-                  <h3 class="card2-title">{{ course.distribution }}</h3>
+                  {% if course.distribution|length > 0 %}<h3 class="card2-title">{{ course.distribution }}</h3>{% endif %}
                 </div>
                 <p class="card-text" ng-non-bindable>{{ course.description }}</p>
               </div>
