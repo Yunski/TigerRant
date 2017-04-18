@@ -53,14 +53,15 @@
   {% raw %}
   <!-- Sidebar -->
   <div id="sidebar-btn" class="d-flex align-items-center justify-content-center"
-       data-toggle="tooltip" data-placement="left" title="Toggle Rant Space">
-       R
+       data-toggle="tooltip" data-placement="left" title="Toggle Rant Space">R
   </div>
   <div id="sidebar-wrapper">
-    <div id="sidebar-top" class="d-flex align-items-center fixed-top">
+    <div id="sidebar-top">
       <h1>Rant Space</h1>
-      <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
-      <button class="refresh" ng-click="getRants()" onclick="$('.rants').animateCss('flip-custom')"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+      <div class="sidebar-top-buttons d-flex justify-content-end">
+        <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <button class="refresh" ng-click="getRants()" onclick="$('#rants').animateCss('flip-custom')"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+      </div>
     </div>
     <ul id="rants" class="list-group">
       <li class="list-group-item rant-post" ng-if="rants.length <= 0">
@@ -75,13 +76,13 @@
           <div class="card-block d-flex align-items-center">
             <p class="card-text">{{ rant.text }}</p>
             <div class="vote-container" class="col-md-1">
-              <div class="upvote" ng-click="updateRant(rant.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div class="upvote" ng-click="updateRant($index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
               <div class="score">{{ rant.upvotes }}</div>
-              <div class="downvote" ng-click="updateRant(rant.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+              <div class="downvote" ng-click="updateRant($index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="card-footer">
-            <div class="timestamp">2m
+            <div class="timestamp">{{ rant.timestamp }}
               <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length == 1">1 reply</div>
               <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length > 1">{{ rant.replies.length }} replies</div>
             </div>
@@ -94,20 +95,20 @@
         </div>
         <div class="collapse your-reply" id="your-reply-{{ rant.id }}">
           <textarea placeholder="Add your reply..." class="your-reply-text" rows="3"></textarea>
-          <a class="reply-send-button" ng-click="postReply(rant.id)">SEND</a>
+          <a class="reply-send-button" ng-click="postReply($index)">SEND</a>
         </div>
         <div class="collapse replies" id="replies-{{ rant.id }}" ng-if="rant.replies.length > 0">
           <div class="card" ng-repeat="reply in rant.replies">
             <div class="card-block d-flex align-items-center">
               <p class="card-text">{{ reply.text }}</p>
               <div class="vote-container" class="col-md-1">
-                <div class="upvote" ng-click="updateReply(rant.id, reply.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                <div class="upvote" ng-click="updateReply($parent.$index, $index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
                 <div class="score">{{ reply.upvotes }}</div>
-                <div class="downvote" ng-click="updateReply(rant.id, reply.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                <div class="downvote" ng-click="updateReply($parent.$index, $index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
               </div>
             </div>
             <div class="card-footer">
-              <div class="timestamp">Just Now</div>
+              <div class="timestamp">{{ reply.timestamp }}</div>
             </div>
           </div>
         </div>
@@ -137,9 +138,9 @@
                 <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
                 <p class="card-text">{{ approvedDescriptions[0].text }}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div class="upvote" ng-click="updateDescription(approvedDescriptions[0].id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div class="upvote" ng-click="updateDescription(0, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
                   <div class="score">{{ approvedDescriptions[0].upvotes }}</div>
-                  <div class="downvote" ng-click="updateDescription(approvedDescriptions[0].id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div class="downvote" ng-click="updateDescription(0, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
               <div class="card-block d-flex align-items-center justify-content-center" ng-if="approvedDescriptions.length <= 0">
@@ -153,21 +154,19 @@
                 <div class="card-block d-flex align-items-center">
                   <p class="card-text">{{ description.text }}</p>
                   <div class="vote-container" class="col-md-1">
-                    <div class="upvote" ng-click="updateDescription(description.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                    <div class="upvote" ng-click="updateDescription($index, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
                     <div class="score">{{ description.upvotes }}</div>
-                    <div class="downvote" ng-click="updateDescription(description.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                    <div class="downvote" ng-click="updateDescription($index, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
                   </div>
                 </div>
               </div>
             </li>
           </div>
         </ul>
-        {% endraw %}
-        <div id="more-button-container" class="d-flex justify-content-center" ng-if="approvedDescriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">Show More</a></div>
+        <div id="more-button-container" class="d-flex justify-content-center" ng-if="approvedDescriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample" onclick="showDescriptionsDisplay()">Show More</a></div>
       </div>
-      <button id="purgatory-button" class="btn btn-secondary" data-toggle="modal" data-target="#purgatory-modal">Click to See Description Purgatory</button>
+      <button id="purgatory-button" class="btn btn-secondary" data-toggle="modal" data-target="#purgatory-modal" ng-click="getDescriptions()">Click to See Description Purgatory<span class="badge badge-default badge-pill" ng-if="purgatoryDescriptions.length > 0">{{ purgatoryDescriptions.length }}</span></button>
     </div>
-    {% raw %}
     <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
       <ul class="nav nav-tabs nav-justified d-flex justify-content-center">
         <li class="nav-item" ng-if="selectedTerm.length <= 0">
@@ -179,7 +178,7 @@
         </li>
       </ul>
     </div>
-    <div class="row reviews-summary" data-aos="zoom-in" data-aos-once="true">
+    <div class="row reviews-summary" data-aos="zoom-in" data-aos-offset="0" data-aos-delay="250" data-aos-once="true">
       <div class="col-md rating-display">
         <div class="rating-lg-average">
           {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
@@ -262,7 +261,7 @@
           <div class="like">
             <div class="sentiment"><i class="fa fa-lg fa-2x fa-meh-o" aria-hidden="true"></i></div>
             <div class="thumbs-up">
-              <span ng-click="updateReview(review.id, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
+              <span ng-click="updateReview($index, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
               <span class="num-likes">{{ review.score }}</span>
             </div>
           </div>
@@ -333,9 +332,9 @@
               <div class="card-block d-flex align-items-center">
                 <p class="card-text">{{ description.text }}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div class="upvote" ng-click="updateDescription(description.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div class="upvote" ng-click="updateDescription($index, 1, false)"><i class="fa fa-lg fa-chevron-up"></i></div>
                   <div class="score">{{ description.upvotes }}</div>
-                  <div class="downvote" ng-click="updateDescription(description.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div class="downvote" ng-click="updateDescription($index, -1, false)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
             </div>
@@ -344,7 +343,7 @@
         {% endraw %}
       </div>
       <div class="modal-footer">
-        <a data-dismiss="modal">DONE</a>
+        <a data-dismiss="modal" ng-click="getDescriptions()">DONE</a>
       </div>
     </div>
   </div>

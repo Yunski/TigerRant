@@ -105,19 +105,19 @@ textarea {
   font-weight: bold;
 }
 
-.card {
-  border: none;
+.badge-default {
+  color: white;
+  background-color: #ee7f2d;
 }
 
-.card img {
-  width: 10rem;
-  height: 10rem;
-  margin: 0 auto;
+.card {
+  border: none;
 }
 
 .card p {
   font-weight: 200;
 }
+
 .card-text {
   font-size: 1rem;
 }
@@ -398,7 +398,7 @@ label {
 }
 
 .course-banner .card {
-  padding: 1rem 0.2rem 0.2rem 0.2rem;
+  padding: 0.2rem;
   margin-top: 1.5rem;
   width: 100%;
   background-color: #ee7f2d;
@@ -448,6 +448,11 @@ label {
   text-align: center;
 }
 
+.description .card-block {
+  position: relative;
+  min-height: 6rem;
+}
+
 .description .card-title {
   position: absolute;
   top: 0.5rem;
@@ -465,7 +470,7 @@ label {
 }
 
 .description .card-text {
-  width: 95%;
+  width: 100%;
   margin: 0;
 }
 
@@ -491,6 +496,10 @@ label {
 #purgatory-button {
   margin-top: 0.5rem;
   width: 100%;
+}
+
+#purgatory-button span {
+  margin-left: 0.5rem;
 }
 
 #purgatory-modal .modal-dialog {
@@ -521,8 +530,9 @@ label {
   text-align: center;
 }
 
-.vote-container {
-  display: inline-block;
+.description .vote-container {
+  position: absolute;
+  right: 1.25rem;
   text-align: center;
 }
 

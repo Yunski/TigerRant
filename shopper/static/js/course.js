@@ -59,6 +59,7 @@ $(document).ready(function() {
     });
 
     $("#more-descriptions-button").click(function () {
+        console.log("toggle");
         if ($("#more-button-container a").hasClass("collapsed")) {
             $("#more-button-container a").text("Show Less");
         } else {
@@ -127,6 +128,14 @@ $.fn.extend({
 function scrollToReviewsTop() {
     console.log($("#course-page-content").offset().top);
     $("#course-page-content").animate({
-        scrollTop: 560
+        scrollTop: 580
     }, 500);
+}
+
+function showDescriptionsDisplay() {
+    if ($("#more-descriptions-button").hasClass("collapsed")) {
+        $("#more-button-container a").text("Show Less");
+    } else {
+        $("#more-button-container a").text("Show More");
+    }
 }
