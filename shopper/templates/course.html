@@ -31,6 +31,9 @@
     </nav>
     {% endraw %}
   </div>
+  <div class="col-md center">
+    <a target="_self" href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order={{ order }}&amp;add=1" class="add-link">Add Course to Cart</a>
+  </div>
   <div class="col-md">
     <nav class="nav justify-content-end">
       <div class="nav-item dropdown">
@@ -40,7 +43,8 @@
           <a id="logout-link" class="dropdown-item" href="/" target="_self">Sign Out</a>
         </div>
       </div>
-      <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
+      <!--Make sure cart takes you to cart; make sure logic works; add functionality to add course to cart link-->
+      <a target="_self" href="/cart" class="nav-item nav-link" id="cart-button" class="btn nav-button">
         <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
         <span id="num-items-in-cart"></span>
       </a>

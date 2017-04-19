@@ -3,7 +3,7 @@ import json
 import logging
 import sys
 
-from flask import abort, current_app, Flask, request, redirect, url_for, render_template, session
+from flask import abort, current_app, Flask, make_response, request, redirect, url_for, render_template, session
 from flask_api import status
 
 from . import model_cloudsql as sql
@@ -144,7 +144,13 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if course == None:
             # course page not found
             return redirect(url_for('browse'))
-
+        add = request.args.get('add')
+        if add != None:
+            courses = request.cookies.get('courses')
+            response = make_response(render_template('course.html', netid=netid, course=course))
+            if courses == None: response.set_cookie('courses', course_id)
+            elif course_id not in courses: response.set_cookie('courses', (courses + ' ' + course_id))
+            return response
         return render_template('course.html', netid=netid, course=course)
 
 
@@ -153,8 +159,34 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if 'netid' not in session:
             return redirect(url_for('index'))
         netid = session['netid']
-        return render_template('cart.html', netid=netid)
-
+        course_cookie = request.cookies.get('courses')
+        courses = []
+        if course_cookie == None:
+            return render_template('cart.html', netid=netid, courses=courses)
+        course_id = request.args.get('id')
+        if course_id != None:
+            if not course_id.isdigit():
+                '''going to want to redirect back to course page not browse'''
+                return redirect(url_for('cart'))
+            if course_id in course_cookie:
+                course_cookie = course_cookie.replace(course_id, '')
+                course_cookie = course_cookie.strip()
+                course_ids = course_cookie.split(' ')
+                for course_id in course_ids:
+                    if course_id != '':
+                        c_id = int(course_id)
+                        course = sql.Course.query.filter_by(c_id=c_id).first()
+                        if course != None: courses.append(course)
+                response = make_response(render_template('cart.html', netid=netid, courses=courses))
+                response.set_cookie('courses', course_cookie)
+                return response
+        course_ids = course_cookie.split(' ')
+        for course_id in course_ids:
+            if course_id != '':
+                c_id = int(course_id)
+                course = sql.Course.query.filter_by(c_id=c_id).first()
+                if course != None: courses.append(course)
+        return render_template('cart.html', netid=netid, courses=courses)
 
     @app.route('/distributions')
     def distributions():
