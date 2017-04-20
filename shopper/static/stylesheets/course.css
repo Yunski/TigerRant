@@ -37,7 +37,7 @@ select:focus {
 }
 
 textarea {
-  height: 56px;
+  height: 40px;
   resize: none;
 }
 
@@ -132,9 +132,13 @@ a.page-link {
 }
 
 .page-item.active .page-link {
-  color: white;
+  color: black !important;
   background-color: #ee7f2d;
   border-color: white;
+}
+
+.page-item.active .page-link:hover {
+  cursor: default;
 }
 
 .page-link:hover {
@@ -170,45 +174,77 @@ a.page-link:hover {
 }
 
 .form-control, .form-control:focus {
-  color: white;
+  color: #ee7f2d;
   background-color: transparent;
   border: 0;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid #ee7f2d;
   border-radius: 0;
+  line-height: 1;
 }
 
-.form-control::-webkit-input-placeholder { color: #e6e6e6; font-weight: 300; }
-.form-control::-moz-placeholder          { color: #e6e6e6; font-weight: 300; }
-.form-control:-moz-placeholder           { color: #e6e6e6; font-weight: 300; }
-.form-control:-ms-input-placeholder      { color: #e6e6e6; font-weight: 300; }
+.form-control::-webkit-input-placeholder { color: #c0c0c0; font-weight: 300; }
+.form-control::-moz-placeholder          { color: #c0c0c0; font-weight: 300; }
+.form-control:-moz-placeholder           { color: #c0c0c0; font-weight: 300; }
+.form-control:-ms-input-placeholder      { color: #c0c0c0; font-weight: 300; }
 
 /* forms */
 label {
   font-weight: 300;
 }
 
-.modal-content {
-  border: 1px solid white;
-}
-
 .modal-header {
-  color: black;
-  background-color: #ee7f2d;
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
   border-bottom: none;
+  justify-content: center;
 }
 
 .modal-body {
-  color: white;
-  background-color: black;
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .modal-footer {
   border-top: none;
-  background-color: #ee7f2d;
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
+}
+
+.modal-footer a {
+  padding-left: 1rem;
+  color: #ee7f2d !important;
+}
+
+.modal-footer a:hover {
+  color: #ff8832 !important;
+}
+
+.nav-pills {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  background-color: black;
+  justify-content: center;
+}
+
+.nav-pills .nav-item {
+}
+
+.nav-pills .nav-link {
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 0;
+  color: white !important;
+}
+
+.nav-pills .nav-link:hover {
+  border: 1px solid white;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #ee7f2d;
+  color: black !important;
 }
 
 /* navbar */
@@ -399,7 +435,7 @@ label {
 
 .course-banner .card {
   padding: 0.2rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   width: 100%;
   background-color: #ee7f2d;
   border-radius: 0.5rem;
@@ -408,8 +444,25 @@ label {
 
 .course-banner .card-title {
   color: white;
-  padding: 0.2rem 2rem;
+  padding-top: 0.8rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin: 0;
 }
+
+#course-title {
+  font-size: 1.75rem;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+#course-page-content.toggled #course-title {
+  font-size: 1.4rem;
+}
+
 
 .course-instructors {
   color: white;
@@ -474,6 +527,43 @@ label {
   margin: 0;
 }
 
+.desc-toggle-container {
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  border-bottom: none;
+}
+
+.urban, .official {
+  color: white;
+  background-color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.desc-toggle-container .urban {
+  border-radius: 0 0 0 0.5rem;
+}
+
+.nav-link.urban:hover, .nav-link.official:hover {
+  background-color: black;
+  color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.nav-link.urban.active, .nav-link.official.active {
+  background-color: black;
+  color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.desc-toggle-container .official {
+  border-radius: 0 0 0.5rem 0;
+}
+
 #more-button-container {
   z-index: 1;
   margin-top: -1rem;
@@ -487,6 +577,7 @@ label {
   border-top-right-radius: 0.5rem;
   padding-left: 0.5em;
   padding-right: 0.5rem;
+  font-weight: 300;
   color: white;
   background-color: #ee7f2d;
   display: block;
@@ -511,10 +602,20 @@ label {
   border: 1px solid #ee7f2d;
 }
 
+#purgatory-modal .list-group-item {
+  border: 1px solid white;
+}
+
 #purgatory-modal .modal-header {
   background-color: black;
   color: #ee7f2d;
   justify-content: center;
+}
+
+#purgatory-modal .modal-body {
+  color: white;
+  background-color: black;
+  margin: -1px 0px;
 }
 
 #purgatory-modal .modal-footer {
@@ -528,6 +629,15 @@ label {
 #empty-purgatory-message {
   font-weight: 300;
   text-align: center;
+}
+
+#description-modal .modal-header, #rant-modal .modal-header, #review-modal .modal-header {
+  color: white;
+  background-color: #ee7f2d;
+}
+
+#description-modal .modal-body, #rant-modal .modal-body, #review-modal .modal-body {
+  background-color: white;
 }
 
 .description .vote-container {
@@ -751,7 +861,6 @@ label {
 
 .reviews .reviews-title {
   float: left;
-  padding-left: 0.2rem;
   padding-top: 0.2rem;
   width: 15rem;
 }
@@ -769,6 +878,7 @@ label {
 }
 
 .reviews .reviews-sort {
+  padding-top: 0.1rem;
   float: right;
 }
 .reviews .reviews-sort select {

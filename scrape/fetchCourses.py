@@ -62,7 +62,7 @@ def fetchCourses(term, subject, filename):
             if 'crosslistings' in course:
                 for crossl in course['crosslistings']:
                     crosslists.append("{} {}".format(crossl['subject'], crossl['catalog_number']))
-            courseObj['crosslistings'] = ",".join(crosslists)
+            courseObj['crosslistings'] = " / ".join(crosslists)
             courseObj['sections'] = []
             if 'classes' in course:
                 for section in course['classes']:

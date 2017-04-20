@@ -139,7 +139,6 @@
   top: 3rem;
   width: 100%;
   padding: 2rem;
-  border-left: 1px solid #ee7f2d;
 }
 
 #empty-rantspace-message {
@@ -189,6 +188,7 @@
 
 .your-reply textarea {
   width: 100%;
+  height: auto;
   border: none;
   border-top: 1px solid #e0e0e0;
   border-bottom-left-radius: 0.25rem;

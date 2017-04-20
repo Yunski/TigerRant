@@ -257,7 +257,7 @@
                 $http.post('/api/replies/' + rantId, data, config).
                       success(function(reply, status) {
                           if (status == 201) {
-                              rant.replies.push(reply);
+                              rant.replies.unshift(reply);
                           }
                           $("#your-reply-" + rantId).collapse("hide");
                       }).

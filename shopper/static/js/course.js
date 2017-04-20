@@ -55,7 +55,7 @@ $(document).ready(function() {
     $("textarea").each(function () {
     }).on("input", function () {
       this.style.height = "auto";
-      this.style.height = (this.scrollHeight) + "px";
+      this.style.height = (this.scrollHeight + 8) + "px";
     });
 
     $("#more-descriptions-button").click(function () {
@@ -128,7 +128,7 @@ $.fn.extend({
 function scrollToReviewsTop() {
     console.log($("#course-page-content").offset().top);
     $("#course-page-content").animate({
-        scrollTop: 580
+        scrollTop: 535
     }, 500);
 }
 
