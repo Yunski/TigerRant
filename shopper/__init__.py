@@ -216,7 +216,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
-        rants = course.rants.all()
+        rants = course.rants.order_by(sql.Rant.timestamp.desc()).all()
         rantsJson = []
         currentTime = datetime.datetime.utcnow()
         for rant in rants:
