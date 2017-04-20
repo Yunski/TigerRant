@@ -5,6 +5,7 @@ import sys
 
 from flask import abort, current_app, Flask, request, redirect, url_for, render_template, session
 from flask_api import status
+from flask_cas import CAS
 
 from . import model_cloudsql as sql
 from . import cas
@@ -12,7 +13,9 @@ from . import search_courses as sc
 from . import util
 
 def create_app(config, debug=False, testing=False, config_overrides=None):
+    cas = CAS()
     app = Flask(__name__)
+    cas.init_app(app)
     app.config.from_object(config)
 
     app.debug = debug
@@ -31,28 +34,17 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/')
     def index():
-        #if 'netid' in session:
-        #    return redirect(url_for('browse'))
+        if 'netid' in session:
+            return redirect(url_for('browse'))
         return render_template('index.html')
 
 
-    @app.route('/login')
-    def login():
-        c = cas.CASClient(request.url_root)
-        return redirect(c.login_url(), code=307)
-
-
-    @app.route('/login/validate')
+    @app.route('/validate')
     def validate():
-        if 'ticket' not in request.args:
-            content = 'cas login error'
-            return content, status.HTTP_400_BAD_REQUEST
-        ticket = request.args.get('ticket')
-        c = cas.CASClient(request.url_root)
-        netid = c.validate(ticket)
+        netid = cas.username
         if netid is None:
             return redirect('/')
-        response = redirect(url_for('home'), code=status.HTTP_302_FOUND)
+        response = redirect(url_for('browse'), code=status.HTTP_302_FOUND)
         session['netid'] = netid
         user = sql.User.query.filter_by(netid=netid).first()
         if user is None:
@@ -67,12 +59,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         session.pop('netid', None)
         return redirect(url_for('index'))
 
-    @app.route('/home')
-    def home():
-        if 'netid' not in session:
-            return redirect(url_for('index'))
-        netid = session['netid']
-        return render_template('home.html', netid=netid)
 
     @app.route('/browse')
     def browse():
