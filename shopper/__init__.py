@@ -2,6 +2,7 @@ import datetime
 import json
 import logging
 import sys
+import hashlib
 
 from flask import abort, current_app, Flask, request, redirect, url_for, render_template, session
 from flask_api import status
@@ -48,7 +49,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         session['netid'] = netid
         user = sql.User.query.filter_by(netid=netid).first()
         if user is None:
-            newUser = sql.User(netid=netid, ticket=ticket)
+            newUser = sql.User(netid=netid, updated_reviews = "")
             sql.db.session.add(newUser)
             sql.db.session.commit()
         return response
@@ -305,6 +306,13 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         review = sql.Review.query.get(review_id)
         if review == None:
             abort(404)
+        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        #hashedReview = hashlib.md5(review.text.encode()).hexdigest()
+        if score == 1:
+            if str(review_id) not in user.upvoted_reviews:
+                user.upvoted_reviews += " " + str(review_id)
+            else:
+                score = 0
         review.score += score
         sql.db.session.commit()
         return json.dumps({'score': review.score}), 201

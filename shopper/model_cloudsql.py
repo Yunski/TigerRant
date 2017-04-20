@@ -119,6 +119,7 @@ class User(db.Model):
     last_name = db.Column(db.UnicodeText())
     cart = db.relationship("Course", secondary=cart,
         backref=db.backref('users', lazy='dynamic'))
+    upvoted_reviews = db.Column(db.UnicodeText())
 
 # [END model]
 
