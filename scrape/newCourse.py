@@ -133,6 +133,8 @@ def newCourse(courseid):
 		#if not soup.find_all(string=re.compile("not available")):
 		
 		# populateReviews(driver, tempList, courseid, termid)
+
+	driver.close()
 		
 	url = "https://registrar.princeton.edu/course-offerings/course_details.xml?courseid={}&term={}".format(courseid, dummyid)
 
@@ -161,9 +163,21 @@ def newCourse(courseid):
 			course["distr"] = "STN"
 
 	if soup.em != None:
-		course["grade_options"] = soup.em.text.strip()	
+		course["grade_options"] = soup.em.text.strip()
 
-	driver.close()
+	siblings = soup.find(id="content").body.find(id="descr").next_sibling
+
+	for string in siblings.stripped_strings:
+		#in the webfeed
+		if string == "Schedule/Classroom assignment:":
+			break
+		#found new section!
+		elif ":" == string[-1]:
+			current = string
+			course[current] = []
+		#ignore commas, periods, etc.	
+		elif len(string) != 1:
+			course[current].append(string)	
 
 	return course
 
@@ -182,106 +196,161 @@ if __name__ == '__main__':
 
 '''
 {
-  'course-id': '008907',
   'distr': 'LA',
   'grade_options': 'na, npdf',
+  'course-id': '008907',
   'terms': {
-    '1172': {
-      'lecture_rating': '3.35',
-      'overall_rating': '3.61',
-      'instructors': [
-        {
-          'last_name': 'Oliver',
-          'first_name': 'Demetrius D.',
-          'employee_id': '960539099'
-        },
-        {
-          'last_name': 'Whetstone',
-          'first_name': 'Jeffrey',
-          'employee_id': '961200463'
-        }
-      ]
-    },
-    '1152': {
-      'lecture_rating': '3.83',
-      'overall_rating': '3.85',
-      'instructors': [
-        {
-          'last_name': 'Backstrom',
-          'first_name': 'Sofie H.',
-          'employee_id': '960700359'
-        },
-        {
-          'last_name': 'Lawson',
-          'first_name': 'Deana',
-          'employee_id': '960832339'
-        }
-      ]
-    },
-    '1144': {
-      'lecture_rating': '3.81',
-      'overall_rating': '4.19',
-      'instructors': [
-        {
-          'last_name': 'Abeles',
-          'first_name': 'Michele H.',
-          'employee_id': '961070064'
-        },
-        {
-          'last_name': 'Lawson',
-          'first_name': 'Deana',
-          'employee_id': '960832339'
-        }
-      ]
-    },
     '1154': {
-      'lecture_rating': '3.72',
-      'overall_rating': '3.92',
+      'reviews': [
+        
+      ],
       'instructors': [
         {
-          'last_name': 'Abeles',
+          'employee_id': '961070064',
           'first_name': 'Michele H.',
-          'employee_id': '961070064'
+          'last_name': 'Abeles'
         },
         {
-          'last_name': 'Oliver',
+          'employee_id': '960539099',
           'first_name': 'Demetrius D.',
-          'employee_id': '960539099'
+          'last_name': 'Oliver'
         }
-      ]
-    },
-    '1162': {
-      'lecture_rating': '3.93',
-      'overall_rating': '4.00',
-      'instructors': [
-        {
-          'last_name': 'Backstrom',
-          'first_name': 'Sofie H.',
-          'employee_id': '960700359'
-        },
-        {
-          'last_name': 'Oliver',
-          'first_name': 'Demetrius D.',
-          'employee_id': '960539099'
-        }
-      ]
+      ],
+      'lecture_rating': '3.72',
+      'overall_rating': '3.92'
     },
     '1164': {
-      'lecture_rating': '4.41',
-      'overall_rating': '4.39',
+      'reviews': [
+        
+      ],
       'instructors': [
         {
-          'last_name': 'Backstrom',
+          'employee_id': '960700359',
           'first_name': 'Sofie H.',
-          'employee_id': '960700359'
+          'last_name': 'Backstrom'
         },
         {
-          'last_name': 'Whetstone',
+          'employee_id': '961200463',
           'first_name': 'Jeffrey',
-          'employee_id': '961200463'
+          'last_name': 'Whetstone'
         }
-      ]
+      ],
+      'lecture_rating': '4.41',
+      'overall_rating': '4.39'
+    },
+    '1172': {
+      'reviews': [
+        
+      ],
+      'instructors': [
+        {
+          'employee_id': '960539099',
+          'first_name': 'Demetrius D.',
+          'last_name': 'Oliver'
+        },
+        {
+          'employee_id': '961200463',
+          'first_name': 'Jeffrey',
+          'last_name': 'Whetstone'
+        }
+      ],
+      'lecture_rating': '3.35',
+      'overall_rating': '3.61'
+    },
+    '1144': {
+      'reviews': [
+        
+      ],
+      'instructors': [
+        {
+          'employee_id': '961070064',
+          'first_name': 'Michele H.',
+          'last_name': 'Abeles'
+        },
+        {
+          'employee_id': '960832339',
+          'first_name': 'Deana',
+          'last_name': 'Lawson'
+        }
+      ],
+      'lecture_rating': '3.81',
+      'overall_rating': '4.19'
+    },
+    '1162': {
+      'reviews': [
+        
+      ],
+      'instructors': [
+        {
+          'employee_id': '960700359',
+          'first_name': 'Sofie H.',
+          'last_name': 'Backstrom'
+        },
+        {
+          'employee_id': '960539099',
+          'first_name': 'Demetrius D.',
+          'last_name': 'Oliver'
+        }
+      ],
+      'lecture_rating': '3.93',
+      'overall_rating': '4.00'
+    },
+    '1152': {
+      'reviews': [
+        
+      ],
+      'instructors': [
+        {
+          'employee_id': '960700359',
+          'first_name': 'Sofie H.',
+          'last_name': 'Backstrom'
+        },
+        {
+          'employee_id': '960832339',
+          'first_name': 'Deana',
+          'last_name': 'Lawson'
+        }
+      ],
+      'lecture_rating': '3.83',
+      'overall_rating': '3.85'
     }
-  }
+  },
+  'Sample reading list:': [
+    'Lev Manovich',
+    'What is New Media?',
+    'Andy Grunberg',
+    'Photography in the Age of Electronic Simulation',
+    'Kenneth Brower',
+    'Photography in the Age of Falsifaction',
+    'Kevin Robbins',
+    'The Virtual Unconcious in Postphotography',
+    'Fredrick Sommer',
+    'The Poetic Logic of Art and Aesthetics',
+    'Kenneth Clark',
+    'The Naked and the Nude',
+    'See instructor for complete list'
+  ],
+  'Reading/Writing assignments:': [
+    '20 pages per week. 20% Other: Digital Workshops and Technical Proficiency; which will be class time spent working with the instructor and/or the digital lab technician learning and demonstrating file management, scanning, photoshop, print management, etc.'
+  ],
+  'Website:': [
+    'http://arts.princeton.edu/academics/visual-arts'
+  ],
+  'Requirements/Grading:': [
+    'Design Project -  60%',
+    'Class/Precept Participation  - 20%',
+    'Other (See Instructor)  - 20%'
+  ],
+  'Reserved Seats:': [
+    'Juniors Only 2 \n \n (C01)',
+    'Juniors Only 2 \n \n (C02)',
+    'Juniors Only 2 \n \n (C03)',
+    'Seniors Only 2 \n \n (C01)',
+    'Seniors Only 2 \n \n (C02)',
+    'Seniors Only 2 \n \n (C03)',
+    'Freshmen and Sophomores Only 7 \n \n (C01)',
+    'Freshmen and Sophomores Only 7 \n \n (C02)',
+    'Freshmen and Sophomores Only 7 \n \n (C03)'
+  ]
 }
 '''
