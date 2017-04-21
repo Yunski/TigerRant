@@ -120,6 +120,12 @@ class User(db.Model):
     cart = db.relationship("Course", secondary=cart,
         backref=db.backref('users', lazy='dynamic'))
     upvoted_reviews = db.Column(db.UnicodeText())
+    upvoted_rants = db.Column(db.UnicodeText())
+    downvoted_rants = db.Column(db.UnicodeText())
+    upvoted_descriptions = db.Column(db.UnicodeText())
+    downvoted_descriptions = db.Column(db.UnicodeText())
+    upvoted_replys = db.Column(db.UnicodeText())
+    downvoted_replys = db.Column(db.UnicodeText())
 
 # [END model]
 

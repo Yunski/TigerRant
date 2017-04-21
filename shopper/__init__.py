@@ -2,7 +2,6 @@ import datetime
 import json
 import logging
 import sys
-import hashlib
 
 from flask import abort, current_app, Flask, request, redirect, url_for, render_template, session
 from flask_api import status
@@ -49,7 +48,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         session['netid'] = netid
         user = sql.User.query.filter_by(netid=netid).first()
         if user is None:
-            newUser = sql.User(netid=netid, updated_reviews = "")
+            newUser = sql.User(netid=netid, upvoted_reviews = "", upvoted_rants = "", downvoted_rants = "", upvoted_descriptions = "", downvoted_descriptions = "", upvoted_replys = "", downvoted_replys = "")
             sql.db.session.add(newUser)
             sql.db.session.commit()
         return response
@@ -149,6 +148,23 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         except ValueError:
             abort(401)
         description = sql.Description.query.get(description_id)
+        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        if vote == 1:
+            if str(description_id) not in user.upvoted_descriptions:
+                user.upvoted_descriptions += " " + str(description_id)
+            else:
+                vote = 0
+            if str(description_id) in user.downvoted_descriptions:
+                user.downvoted_descriptions = user.downvoted_descriptions.replace(str(description_id), "")
+                vote = 2
+        elif vote == -1:
+            if str(description_id) not in user.downvoted_descriptions:
+                user.downvoted_descriptions += " " + str(description_id)
+            else:
+                vote = 0
+            if str(description_id) in user.upvoted_descriptions:
+                user.upvoted_descriptions = user.upvoted_descriptions.replace(str(description_id), "")
+                vote = -2
         if description == None:
             abort(404)
         description.upvotes += vote
@@ -203,6 +219,23 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         except ValueError:
             abort(401)
         rant = sql.Rant.query.get(rant_id)
+        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        if vote == 1:
+            if str(rant_id) not in user.upvoted_rants:
+                user.upvoted_rants += " " + str(rant_id)
+            else:
+                vote = 0
+            if str(rant_id) in user.downvoted_rants:
+                user.downvoted_rants = user.downvoted_rants.replace(str(rant_id), "")
+                vote = 2
+        elif vote == -1:
+            if str(rant_id) not in user.downvoted_rants:
+                user.downvoted_rants += " " + str(rant_id)
+            else:
+                vote = 0
+            if str(rant_id) in user.upvoted_rants:
+                user.upvoted_rants = user.upvoted_rants.replace(str(rant_id), "")
+                vote = -2
         if rant == None:
             abort(404)
         rant.upvotes += vote
@@ -264,6 +297,23 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         except ValueError:
             abort(401)
         reply = sql.Reply.query.get(reply_id)
+        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        if vote == 1:
+            if str(reply_id) not in user.upvoted_replys:
+                user.upvoted_replys += " " + str(reply_id)
+            else:
+                vote = 0
+            if str(reply_id) in user.downvoted_replys:
+                user.downvoted_replys = user.downvoted_replys.replace(str(reply_id), "")
+                vote = 2
+        elif vote == -1:
+            if str(reply_id) not in user.downvoted_replys:
+                user.downvoted_replys += " " + str(reply_id)
+            else:
+                vote = 0
+            if str(reply_id) in user.upvoted_replys:
+                user.upvoted_replys = user.upvoted_replys.replace(str(reply_id), "")
+                vote = -2
         if reply == None:
             abort(404)
         reply.upvotes += vote
@@ -307,7 +357,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if review == None:
             abort(404)
         user = sql.User.query.filter_by(netid=session["netid"]).first()
-        #hashedReview = hashlib.md5(review.text.encode()).hexdigest()
         if score == 1:
             if str(review_id) not in user.upvoted_reviews:
                 user.upvoted_reviews += " " + str(review_id)
