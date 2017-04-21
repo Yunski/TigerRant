@@ -151,19 +151,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         user = sql.User.query.filter_by(netid=session["netid"]).first()
         if vote == 1:
             if str(description_id) not in user.upvoted_descriptions:
-                user.upvoted_descriptions += " " + str(description_id)
+                user.upvoted_descriptions += " " + str(description_id) + " "
             else:
                 vote = 0
             if str(description_id) in user.downvoted_descriptions:
-                user.downvoted_descriptions = user.downvoted_descriptions.replace(str(description_id), "")
+                user.downvoted_descriptions = user.downvoted_descriptions.replace(" " + str(description_id) + " ", "")
                 vote = 2
         elif vote == -1:
             if str(description_id) not in user.downvoted_descriptions:
-                user.downvoted_descriptions += " " + str(description_id)
+                user.downvoted_descriptions += " " + str(description_id) + " "
             else:
                 vote = 0
             if str(description_id) in user.upvoted_descriptions:
-                user.upvoted_descriptions = user.upvoted_descriptions.replace(str(description_id), "")
+                user.upvoted_descriptions = user.upvoted_descriptions.replace(" " + str(description_id) + " ", "")
                 vote = -2
         if description == None:
             abort(404)
@@ -222,19 +222,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         user = sql.User.query.filter_by(netid=session["netid"]).first()
         if vote == 1:
             if str(rant_id) not in user.upvoted_rants:
-                user.upvoted_rants += " " + str(rant_id)
+                user.upvoted_rants += " " + str(rant_id) + " "
             else:
                 vote = 0
             if str(rant_id) in user.downvoted_rants:
-                user.downvoted_rants = user.downvoted_rants.replace(str(rant_id), "")
+                user.downvoted_rants = user.downvoted_rants.replace(" " + str(rant_id) + " ", "")
                 vote = 2
         elif vote == -1:
             if str(rant_id) not in user.downvoted_rants:
-                user.downvoted_rants += " " + str(rant_id)
+                user.downvoted_rants += " " + str(rant_id) + " "
             else:
                 vote = 0
             if str(rant_id) in user.upvoted_rants:
-                user.upvoted_rants = user.upvoted_rants.replace(str(rant_id), "")
+                user.upvoted_rants = user.upvoted_rants.replace(" " + str(rant_id) + " ", "")
                 vote = -2
         if rant == None:
             abort(404)
@@ -300,19 +300,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         user = sql.User.query.filter_by(netid=session["netid"]).first()
         if vote == 1:
             if str(reply_id) not in user.upvoted_replys:
-                user.upvoted_replys += " " + str(reply_id)
+                user.upvoted_replys += " " + str(reply_id) + " "
             else:
                 vote = 0
             if str(reply_id) in user.downvoted_replys:
-                user.downvoted_replys = user.downvoted_replys.replace(str(reply_id), "")
+                user.downvoted_replys = user.downvoted_replys.replace(" " + str(reply_id) +  " ", "")
                 vote = 2
         elif vote == -1:
             if str(reply_id) not in user.downvoted_replys:
-                user.downvoted_replys += " " + str(reply_id)
+                user.downvoted_replys += " " + str(reply_id) + " "
             else:
                 vote = 0
             if str(reply_id) in user.upvoted_replys:
-                user.upvoted_replys = user.upvoted_replys.replace(str(reply_id), "")
+                user.upvoted_replys = user.upvoted_replys.replace(" " + str(reply_id) + " ", "")
                 vote = -2
         if reply == None:
             abort(404)
@@ -358,8 +358,8 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             abort(404)
         user = sql.User.query.filter_by(netid=session["netid"]).first()
         if score == 1:
-            if str(review_id) not in user.upvoted_reviews:
-                user.upvoted_reviews += " " + str(review_id)
+            if " " + str(review_id) + " " not in user.upvoted_reviews:
+                user.upvoted_reviews += " " + str(review_id) + " "
             else:
                 score = 0
         review.score += score
