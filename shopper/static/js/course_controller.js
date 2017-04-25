@@ -59,20 +59,10 @@
                 $http.get('/api/reviews/' + id).
                       success(function(reviews) {
                             var terms = []
-                            $scope.terms = {}
+                            $scope.terms = reviews;
                             for (var term in reviews) {
-                                $scope.terms[term] = {};
-                                $scope.terms[term]['term_string'] = reviews[term]['term_string'];
                                 terms.push(term);
-                                var reviewList = reviews[term]['reviews'];
-                                var total = 0;
-                                for (var i in reviewList) {
-                                    total += reviewList[i].overall_rating;
-                                }
-                                var length = reviewList.length;
-                                var average = length > 0 ? (Math.round(total / length * 10) / 10): 0;
-                                $scope.terms[term]['average_rating'] = average.toFixed(1).toString();
-                                $scope.terms[term]['reviews'] = reviewList;
+                                $scope.terms[term]['average_rating'] = $scope.terms[term]['average_rating'].toFixed(1).toString();
                             }
                             if (terms.length > 0) {
                                 for (var i = terms.length-1; i >= 0; i--) {

@@ -38,7 +38,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             return redirect(url_for('browse'))
         return render_template('index.html')
 
-
     @app.route('/validate')
     def validate():
         netid = cas.username
@@ -53,12 +52,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             sql.db.session.commit()
         return response
 
-
     @app.route('/logout', methods=['POST'])
     def logout():
         session.pop('netid', None)
         return redirect(url_for('index'))
-
 
     @app.route('/browse')
     def browse():
@@ -80,7 +77,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         #return searched classes (for specific page)
         return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search, order=order)
 
-
     @app.route('/course')
     def course():
         if 'netid' not in session:
@@ -99,7 +95,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
         return render_template('course.html', netid=netid, course=course)
 
-
     @app.route('/cart')
     def cart():
         if 'netid' not in session:
@@ -107,21 +102,12 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         netid = session['netid']
         return render_template('cart.html', netid=netid)
 
-
     @app.route('/distributions')
     def distributions():
         if 'netid' not in session:
             return redirect(url_for('index'))
         netid = session['netid']
         return render_template('distributions.html', netid=netid)
-
-        """
-    @app.route('/rant')
-    def rant():
-        if 'netid' not in session:
-            return redirect(url_for('index'))
-        return render_template('rant.html')"""
-
 
     @app.route('/api/descriptions/<int:c_id>', methods=['POST'])
     def post_description(c_id):
@@ -135,7 +121,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.add(description)
         sql.db.session.commit()
         return json.dumps({'text': description.text, 'upvotes': description.upvotes}), 201
-
 
     @app.route('/api/descriptions/<int:description_id>', methods=['PUT'])
     def update_description(description_id):
@@ -153,7 +138,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         description.upvotes += vote
         sql.db.session.commit()
         return json.dumps({'upvotes': description.upvotes}), 201
-
 
     @app.route('/api/descriptions/<int:c_id>', methods=['GET'])
     def get_descriptions(c_id):
@@ -176,7 +160,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.commit()
         return json.dumps(descriptionsJson)
 
-
     @app.route('/api/rants/<int:c_id>', methods=['POST'])
     def post_rant(c_id):
         if 'netid' not in session:
@@ -189,7 +172,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.add(rant)
         sql.db.session.commit()
         return json.dumps({'id': rant.id, 'text': rant.text, 'upvotes': rant.upvotes}), 201
-
 
     @app.route('/api/rants/<int:rant_id>', methods=['PUT'])
     def update_rant(rant_id):
@@ -207,7 +189,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         rant.upvotes += vote
         sql.db.session.commit()
         return json.dumps({'upvotes': rant.upvotes}), 201
-
 
     @app.route('/api/rants/<int:c_id>', methods=['GET'])
     def get_rants(c_id):
@@ -235,7 +216,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 rantDict['replies'].append(replyDict)
             rantsJson.append(rantDict)
         return json.dumps(rantsJson)
-
 
     @app.route('/api/replies/<int:rant_id>', methods=['POST'])
     def post_reply(rant_id):
@@ -276,21 +256,30 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
-        sem_code = request.form['sem_code']
-        rating = request.form['rating']
+        sem_code = 0
+        rating = 0.0
+        try:
+            sem_code =int(request.form['sem_code'])
+        except ValueError:
+            abort(400)
+        try:
+            rating = float(request.form['rating'])
+        except ValueError:
+            abort(400)
         text = request.form['text']
-        num = len(course.reviews.all())
-        review = sql.Review(sem_code=sem_code,
-                       overall_rating=rating,
-                       text=text,
-                       num=num,
-                       score=0,
-                       scraped=False,
-                       course=course)
+        term = sql.Term.query.filter_by(c_id=c_id, code=sem_code).first()
+        num = len(term.reviews.all())
+        review = sql.Review(rating=rating,
+                            text=text,
+                            num=num,
+                            score=0,
+                            scraped=False,
+                            term=term)
         sql.db.session.add(review)
+        term.overall_rating = (term.overall_rating * num + review.rating) / (num + 1)
+        course.avg_rating = sum(t.overall_rating for t in course.terms.all()) / len(course.terms.all())
         sql.db.session.commit()
         return json.dumps({'sem_code': review.sem_code, 'text': review.text, 'score': review.score}), 201
-
 
     @app.route('/api/reviews/<int:review_id>', methods=['PUT'])
     def update_review(review_id):
@@ -309,7 +298,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.commit()
         return json.dumps({'score': review.score}), 201
 
-
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
     def get_reviews(c_id):
         if 'netid' not in session:
@@ -317,36 +305,35 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
-        reviews = course.reviews.all()
+        terms = course.terms.all()
         reviewsJson = {}
-        termSet = set()
-        for review in reviews:
-            termSet.add(review.sem_code)
-        current = 1182
-        termSet.add(current)
-
-        for term in termSet:
-            reviews = course.reviews.filter_by(sem_code=term).filter_by(scraped=False).order_by(sql.Review.timestamp.desc()).all()
-            reviews += course.reviews.filter_by(sem_code=term).filter_by(scraped=True).order_by(sql.Review.timestamp.desc()).all()
-            reviewsJson[term] = {}
-            reviewsJson[term]['reviews'] = []
-            termCode = str(term)[1:]
+        for term in terms:
+            code = term.code
+            reviewsJson[code] = {}
+            termCode = str(term.code)[1:]
             if termCode[2:3] == "2":
                 termString = "Fall " + str(int(termCode[:2]) - 1)
             else:
                 termString = "Spring " + termCode[:2]
-            reviewsJson[term]['term_string'] = termString
-            for review in reviews:
+            reviewsJson[code]['term_string'] = termString
+            reviewsJson[code]['average_rating'] = term.overall_rating
+            reviewsJson[code]['instructors'] = []
+            for instructor in term.instructors:
+                instrucDict = {}
+                instrucDict['emplid'] = instructor.emplid
+                instrucDict['first_name'] = instructor.first_name
+                instrucDict['last_name'] = instructor.last_name
+                reviewsJson[code]['instructors'].append(instrucDict)
+            reviewsJson[code]['reviews'] = []
+            for review in term.reviews.order_by(sql.Review.timestamp.desc()).all():
                 reviewDict = {}
                 reviewDict['id'] = review.id
                 reviewDict['sem_code'] = review.sem_code
-                reviewDict['overall_rating'] = review.overall_rating
-                reviewDict['lecture_rating'] = review.lecture_rating
+                reviewDict['rating'] = review.rating
                 reviewDict['text'] = review.text
                 reviewDict['score'] = review.score
-                reviewsJson[term]['reviews'].append(reviewDict)
+                reviewsJson[code]['reviews'].append(reviewDict)
         return json.dumps(reviewsJson)
-
 
     # Add an error handler. This is useful for debugging the live application,
     # however, you should disable the output of the exception for production

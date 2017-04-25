@@ -14,15 +14,15 @@ def init_app(app):
     db.init_app(app)
 
 # [START model]
-instructors = db.Table("instructors",
-    db.Column("c_id", db.Integer, db.ForeignKey("course.c_id")),
-    db.Column("instructor_id", db.Integer, db.ForeignKey("instructor.emplid")),
-    db.Column("review_id", db.Integer, db.ForeignKey("review.id"))
+instructors_table = db.Table('instructors',
+    db.Column('term_id', db.Integer, db.ForeignKey('term.id')),
+    db.Column('instructor_id', db.Integer, db.ForeignKey('instructor.emplid')),
+    db.PrimaryKeyConstraint('term_id', 'instructor_id')
 )
 
-cart = db.Table("cart",
-    db.Column("c_id", db.Integer, db.ForeignKey("course.c_id")),
-    db.Column("user_id", db.Unicode(32), db.ForeignKey("user.netid"))
+cart = db.Table('cart',
+    db.Column('c_id', db.Integer, db.ForeignKey('course.c_id')),
+    db.Column('user_id', db.Unicode(32), db.ForeignKey('user.netid'))
 )
 
 class Course(db.Model):
@@ -38,13 +38,11 @@ class Course(db.Model):
     crosslistings = db.Column(db.UnicodeText())
     avg_rating = db.Column(db.Float, index=True)
     descriptions = db.relationship('Description', backref='course', lazy='dynamic')
-    instructors = db.relationship("Instructor", secondary=instructors,
-        backref=db.backref('courses', lazy='dynamic'))
-    reviews = db.relationship('Review', backref='course', lazy='dynamic')
     rants = db.relationship('Rant', backref='course', lazy='dynamic')
+    terms = db.relationship('Term', backref='course', lazy='dynamic')
 
     def __repr__(self):
-        return "<Course {}{}>".format(self.code, self.catalog_number)
+        return '<Course {}{}>'.format(self.code, self.catalog_number)
 
 class Description(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -54,7 +52,7 @@ class Description(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     def __repr__(self):
-        return "<Description {} {}>".format(self.timestamp, self.text)
+        return '<Description {} {}>'.format(self.timestamp, self.text)
 
 class Department(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -62,7 +60,7 @@ class Department(db.Model):
     courses = db.relationship('Course', backref='department', lazy='dynamic')
     name = db.Column(db.UnicodeText())
     def __repr__(self):
-        return "<Department {}>".format(self.dept_code)
+        return '<Department {}>'.format(self.dept_code)
 
 class Instructor(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -71,7 +69,7 @@ class Instructor(db.Model):
     last_name = db.Column(db.UnicodeText())
 
     def __repr__(self):
-        return "<Instructor {} {}>".format(self.first_name, self.last_name)
+        return '<Instructor {} {}>'.format(self.first_name, self.last_name)
 
 class Rant(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -82,7 +80,7 @@ class Rant(db.Model):
     replies = db.relationship('Reply', backref='parent', lazy='dynamic')
 
     def __repr__(self):
-        return "<Rant {} {}>".format(self.text, self.timestamp)
+        return '<Rant {} {}>'.format(self.text, self.timestamp)
 
 class Reply(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -92,24 +90,21 @@ class Reply(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     def __repr__(self):
-        return "<Reply {} {}>".format(self.text, self.timestamp)
+        return '<Reply {} {}>'.format(self.text, self.timestamp)
 
 class Review(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
     num = db.Column(db.Integer)
     c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
-    sem_code = db.Column(db.Integer, index=True)
-    overall_rating = db.Column(db.Float, index=True)
-    lecture_rating = db.Column(db.Float)
+    sem_code = db.Column(db.Integer, db.ForeignKey('term.id'), index=True)
+    rating = db.Column(db.Float, index=True)
     text = db.Column(db.UnicodeText())
     score = db.Column(db.Integer, index=True)
-    instructors = db.relationship('Instructor', secondary=instructors,
-        backref=db.backref('reviews', lazy='dynamic'))
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     scraped = db.Column(db.Boolean)
 
     def __repr__(self):
-        return "<Review {} {}>".format(self.c_id, self.sem_code)
+        return '<Review {} {}>'.format(self.c_id, self.sem_code)
 
 class User(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -117,16 +112,25 @@ class User(db.Model):
     ticket = db.Column(db.UnicodeText())
     first_name = db.Column(db.UnicodeText())
     last_name = db.Column(db.UnicodeText())
-    cart = db.relationship("Course", secondary=cart,
+    cart = db.relationship('Course', secondary=cart,
         backref=db.backref('users', lazy='dynamic'))
+
+class Term(db.Model):
+    id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
+    c_id = db.Column(db.Integer, db.ForeignKey('course.c_id'), index=True)
+    code = db.Column(db.Integer, index=True)
+    overall_rating = db.Column(db.Float, index=True)
+    reviews = db.relationship('Review', backref='term', lazy='dynamic')
+    instructors = db.relationship('Instructor', secondary=instructors_table,
+        backref=db.backref('terms', lazy='dynamic'))
 
 # [END model]
 
 def _create_database():
-    """
+    '''
     If this script is run directly, create all the tables necessary to run the
     application.
-    """
+    '''
     app = Flask(__name__)
     app.config.from_pyfile('../config.py')
     init_app(app)
@@ -137,10 +141,10 @@ def _create_database():
         if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
             api.create(SQLALCHEMY_MIGRATE_REPO, 'database repository')
             api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-            print("All tables created")
+            print('All tables created')
         else:
             api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.version(SQLALCHEMY_MIGRATE_REPO))
-            print("All tables created")
+            print('All tables created')
 
 
 if __name__ == '__main__':

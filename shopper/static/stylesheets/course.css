@@ -909,12 +909,6 @@ label {
   word-wrap: break-word;
 }
 
-.reviews .sentiment {
-  position: absolute;
-  bottom: 0.5rem;
-  right: 5rem;
-}
-
 .reviews .thumbs-up {
   position: absolute;
   bottom: 0.5rem;

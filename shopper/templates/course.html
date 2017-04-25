@@ -120,7 +120,9 @@
     <div class="course-banner" data-aos="zoom-in" data-aos-once="true">
       <div class="card">
         <h3 id="course-title" class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
-        <div class="course-instructors" ng-non-bindable>
+        {% raw %}
+        <div class="course-instructors" ng-repeat="instructor in terms[selectedTerm]['instructors']">
+          <!--
           {% for i in range(0, course.instructors|length) %}
           {% if i != course.instructors|length-1 %}
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
@@ -128,9 +130,9 @@
           {% else %}
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
           {% endif %}
-          {% endfor %}
+          {% endfor %}-->
+          <span>{{ instructor.first_name }} {{ instructor.last_name }}</span>
         </div>
-        {% raw %}
         <ul class="list-group descriptions">
           <li class="list-group-item description">
             <div class="card">
@@ -259,7 +261,6 @@
             <p>{{ review.text }}</p>
           </blockquote>
           <div class="like">
-            <div class="sentiment"><i class="fa fa-lg fa-2x fa-meh-o" aria-hidden="true"></i></div>
             <div class="thumbs-up">
               <span ng-click="updateReview($index, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
               <span class="num-likes">{{ review.score }}</span>
