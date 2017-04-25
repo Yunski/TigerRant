@@ -55,10 +55,11 @@ $(document).ready(function() {
     $("textarea").each(function () {
     }).on("input", function () {
       this.style.height = "auto";
-      this.style.height = (this.scrollHeight) + "px";
+      this.style.height = (this.scrollHeight + 8) + "px";
     });
 
     $("#more-descriptions-button").click(function () {
+        console.log("toggle");
         if ($("#more-button-container a").hasClass("collapsed")) {
             $("#more-button-container a").text("Show Less");
         } else {
@@ -95,7 +96,6 @@ $(document).ready(function() {
             type: "POST",
             data: {text: text},
             success: function(data) {
-                console.log("Response " + JSON.stringify(data));
                 location.reload();
             }
         });
@@ -110,7 +110,6 @@ $(document).ready(function() {
             type: "POST",
             data: {text: text},
             success: function(data) {
-                console.log("Response " + JSON.stringify(data));
                 location.reload();
             }
         });
@@ -129,6 +128,14 @@ $.fn.extend({
 function scrollToReviewsTop() {
     console.log($("#course-page-content").offset().top);
     $("#course-page-content").animate({
-        scrollTop: 560
+        scrollTop: 535
     }, 500);
+}
+
+function showDescriptionsDisplay() {
+    if ($("#more-descriptions-button").hasClass("collapsed")) {
+        $("#more-button-container a").text("Show Less");
+    } else {
+        $("#more-button-container a").text("Show More");
+    }
 }

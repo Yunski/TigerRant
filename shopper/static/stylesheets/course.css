@@ -37,7 +37,7 @@ select:focus {
 }
 
 textarea {
-  height: 56px;
+  height: 40px;
   resize: none;
 }
 
@@ -97,6 +97,7 @@ textarea {
   color: white;
   background-color: transparent;
   border: 1px solid white;
+  font-weight: 300;
 }
 
 .input-group-addon {
@@ -104,19 +105,19 @@ textarea {
   font-weight: bold;
 }
 
-.card {
-  border: none;
+.badge-default {
+  color: white;
+  background-color: #ee7f2d;
 }
 
-.card img {
-  width: 10rem;
-  height: 10rem;
-  margin: 0 auto;
+.card {
+  border: none;
 }
 
 .card p {
   font-weight: 200;
 }
+
 .card-text {
   font-size: 1rem;
 }
@@ -131,9 +132,13 @@ a.page-link {
 }
 
 .page-item.active .page-link {
-  color: white;
+  color: black !important;
   background-color: #ee7f2d;
   border-color: white;
+}
+
+.page-item.active .page-link:hover {
+  cursor: default;
 }
 
 .page-link:hover {
@@ -169,17 +174,78 @@ a.page-link:hover {
 }
 
 .form-control, .form-control:focus {
-  color: white;
+  color: #ee7f2d;
   background-color: transparent;
   border: 0;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid #ee7f2d;
   border-radius: 0;
+  line-height: 1;
 }
 
-.form-control::-webkit-input-placeholder { color: #e6e6e6; font-weight: 300; }
-.form-control::-moz-placeholder          { color: #e6e6e6; font-weight: 300; }
-.form-control:-moz-placeholder           { color: #e6e6e6; font-weight: 300; }
-.form-control:-ms-input-placeholder      { color: #e6e6e6; font-weight: 300; }
+.form-control::-webkit-input-placeholder { color: #c0c0c0; font-weight: 300; }
+.form-control::-moz-placeholder          { color: #c0c0c0; font-weight: 300; }
+.form-control:-moz-placeholder           { color: #c0c0c0; font-weight: 300; }
+.form-control:-ms-input-placeholder      { color: #c0c0c0; font-weight: 300; }
+
+/* forms */
+label {
+  font-weight: 300;
+}
+
+.modal-header {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom: none;
+  justify-content: center;
+}
+
+.modal-body {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.modal-footer {
+  border-top: none;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.modal-footer a {
+  padding-left: 1rem;
+  color: #ee7f2d !important;
+}
+
+.modal-footer a:hover {
+  color: #ff8832 !important;
+}
+
+.nav-pills {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  background-color: black;
+  justify-content: center;
+}
+
+.nav-pills .nav-item {
+}
+
+.nav-pills .nav-link {
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 0;
+  color: white !important;
+}
+
+.nav-pills .nav-link:hover {
+  border: 1px solid white;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #ee7f2d;
+  color: black !important;
+}
 
 /* navbar */
 
@@ -204,19 +270,25 @@ a.page-link:hover {
   left: 0rem;
   width: 100%;
   height: 2.5rem;
-  background-color: #202020;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
 }
 
 #navbar-footer .nav-link {
   margin-right: 2rem;
+  font-weight: 300;
 }
 
 #navbar-footer span {
   margin-right: 0.5rem;
 }
 
-#navbar-top a.nav-link, #navbar-footer a.nav-link {
+#navbar-top a.nav-link {
   color: #ee7f2d;
+}
+
+#navbar-footer a.nav-link {
+  color: white;
 }
 
 #nav-account {
@@ -362,8 +434,8 @@ a.page-link:hover {
 }
 
 .course-banner .card {
-  padding: 1rem 0.2rem 0.2rem 0.2rem;
-  margin-top: 1.5rem;
+  padding: 0.2rem;
+  margin-top: 1rem;
   width: 100%;
   background-color: #ee7f2d;
   border-radius: 0.5rem;
@@ -372,15 +444,30 @@ a.page-link:hover {
 
 .course-banner .card-title {
   color: white;
-  padding: 0.2rem 2rem;
+  padding-top: 0.8rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin: 0;
 }
+
+#course-title {
+  font-size: 1.75rem;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+#course-page-content.toggled #course-title {
+  font-size: 1.4rem;
+}
+
 
 .course-instructors {
   color: white;
   padding: 0.5rem 0;
   background-color: black;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
   font-weight: 300;
 }
 
@@ -396,6 +483,7 @@ a.page-link:hover {
   margin-top: 0.2rem;
   margin-bottom: 0rem;
   border-radius: 0rem;
+  border: none;
 }
 
 .description {
@@ -405,11 +493,17 @@ a.page-link:hover {
 
 .description .card {
   position: relative;
+  width: 100%;
   color: white;
   background-color: black;
   border-color: black;
-  padding: 1.25rem;
   margin: 0;
+  text-align: center;
+}
+
+.description .card-block {
+  position: relative;
+  min-height: 6rem;
 }
 
 .description .card-title {
@@ -429,13 +523,49 @@ a.page-link:hover {
 }
 
 .description .card-text {
-  width: 95%;
+  width: 100%;
   margin: 0;
+}
+
+.desc-toggle-container {
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  border-bottom: none;
+}
+
+.urban, .official {
+  color: white;
+  background-color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.desc-toggle-container .urban {
+  border-radius: 0 0 0 0.5rem;
+}
+
+.nav-link.urban:hover, .nav-link.official:hover {
+  background-color: black;
+  color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.nav-link.urban.active, .nav-link.official.active {
+  background-color: black;
+  color: #ee7f2d;
+  border: 1px solid #ee7f2d;
+}
+
+.desc-toggle-container .official {
+  border-radius: 0 0 0.5rem 0;
 }
 
 #more-button-container {
   z-index: 1;
-  padding-top: 0.1rem;
   margin-top: -1rem;
   background-color: black;
   border-bottom-left-radius: 0.4rem;
@@ -447,15 +577,72 @@ a.page-link:hover {
   border-top-right-radius: 0.5rem;
   padding-left: 0.5em;
   padding-right: 0.5rem;
+  font-weight: 300;
   color: white;
   background-color: #ee7f2d;
   display: block;
   width: 6.2rem;
 }
 
-.vote-container {
-  width: 5%;
-  display: inline-block;
+#purgatory-button {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+#purgatory-button span {
+  margin-left: 0.5rem;
+}
+
+#purgatory-modal .modal-dialog {
+  width: 60%;
+  max-width: 60%;
+}
+
+#purgatory-modal .modal-content {
+  border: 1px solid #ee7f2d;
+}
+
+#purgatory-modal .list-group-item {
+  border: 1px solid white;
+}
+
+#purgatory-modal .modal-header {
+  background-color: black;
+  color: #ee7f2d;
+  justify-content: center;
+}
+
+#purgatory-modal .modal-body {
+  color: white;
+  background-color: black;
+  margin: -1px 0px;
+}
+
+#purgatory-modal .modal-footer {
+  background-color: black;
+}
+
+#purgatory-modal .modal-footer a {
+  color: white;
+}
+
+#empty-purgatory-message {
+  font-weight: 300;
+  text-align: center;
+}
+
+#description-modal .modal-header, #rant-modal .modal-header, #review-modal .modal-header {
+  color: white;
+  background-color: #ee7f2d;
+}
+
+#description-modal .modal-body, #rant-modal .modal-body, #review-modal .modal-body {
+  background-color: white;
+}
+
+.description .vote-container {
+  position: absolute;
+  right: 1.25rem;
   text-align: center;
 }
 
@@ -466,6 +653,10 @@ a.page-link:hover {
 
 .score {
   padding: 0.1rem 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .reviews-summary {
@@ -605,6 +796,7 @@ a.page-link:hover {
 .terms .nav-tabs .nav-link {
   padding: 0.5rem;
   color: white;
+  font-size: 0.9rem;
   background-color: #ee7f2d;
   border: 1px solid white;
   border-top-left-radius: 0.5rem;
@@ -664,11 +856,11 @@ a.page-link:hover {
   padding-top: 2rem;
   padding-bottom: 2rem;
   width: 100%;
+  align-items: center;
 }
 
 .reviews .reviews-title {
   float: left;
-  padding-left: 0.2rem;
   padding-top: 0.2rem;
   width: 15rem;
 }
@@ -686,6 +878,7 @@ a.page-link:hover {
 }
 
 .reviews .reviews-sort {
+  padding-top: 0.1rem;
   float: right;
 }
 .reviews .reviews-sort select {
@@ -716,12 +909,6 @@ a.page-link:hover {
   word-wrap: break-word;
 }
 
-.reviews .sentiment {
-  position: absolute;
-  bottom: 0.5rem;
-  right: 5rem;
-}
-
 .reviews .thumbs-up {
   position: absolute;
   bottom: 0.5rem;
@@ -730,42 +917,4 @@ a.page-link:hover {
 
 .reviews .thumbs-up span i:hover {
   cursor: pointer;
-}
-
-/* forms */
-label {
-  font-weight: 300;
-}
-
-.modal-content {
-  border: 1px solid white;
-}
-
-.modal-header {
-  color: black;
-  background-color: #ee7f2d;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-  border-bottom: none;
-}
-
-.modal-body {
-  color: white;
-  background-color: black;
-}
-
-.modal-footer {
-  border-top: none;
-  background-color: #ee7f2d;
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-}
-
-.modal-footer a {
-  color: black !important;
-  font-weight: bold;
-}
-
-.modal-footer a:hover {
-  color: white !important;
 }

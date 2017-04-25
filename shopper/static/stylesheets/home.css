@@ -2,7 +2,7 @@ body {
   height: 100%;
   font-family: "Lato";
   font-size: 16px;
-  overflow-x: hidden;
+  overflow: hidden;
   background: black;
 }
 
@@ -80,6 +80,7 @@ button:focus, textarea:focus {
 .dropdown-menu {
   border: 1px solid white;
   background: transparent;
+  padding: 0;
 }
 
 .dropdown-item {

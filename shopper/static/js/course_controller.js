@@ -8,8 +8,8 @@
        // $location object, it must be in HTML5 mode.
        $locationProvider.html5Mode(true);
     }])
-    .controller('TigerShopController', ['$scope', '$log', '$http', '$location',
-        function($scope, $log, $http, $location) {
+    .controller('TigerShopController', ['$scope', '$log', '$http', '$location', '$window',
+        function($scope, $log, $http, $location, $window) {
             var id = -1;
             var search = "";
             var page = "";
@@ -31,7 +31,16 @@
             $scope.getDescriptions = function() {
                 $http.get('/api/descriptions/' + id).
                       success(function(descriptions) {
-                          $scope.descriptions = descriptions;
+                          $scope.approvedDescriptions = [];
+                          $scope.purgatoryDescriptions = [];
+                          for (var i in descriptions) {
+                              var description = descriptions[i];
+                              if (description.upvotes < 10) {
+                                  $scope.purgatoryDescriptions.push(description);
+                              } else {
+                                  $scope.approvedDescriptions.push(description);
+                              }
+                          }
                       }).
                       error(function(error) {
                           $log.log(error);
@@ -49,27 +58,23 @@
             $scope.getReviews = function() {
                 $http.get('/api/reviews/' + id).
                       success(function(reviews) {
-                            var termInts = []
-                            $scope.terms = {}
+                            var terms = []
+                            $scope.terms = reviews;
                             for (var term in reviews) {
-                                $scope.terms[term] = {};
-                                $scope.terms[term]['term_string'] = reviews[term]['term_string'];
-                                termInts.push(parseInt(term));
-                                var reviewList = reviews[term]['reviews'];
-                                var total = 0;
-                                for (var i in reviewList) {
-                                    total += reviewList[i].overall_rating;
+                                terms.push(term);
+                                $scope.terms[term]['average_rating'] = $scope.terms[term]['average_rating'].toFixed(1).toString();
+                            }
+                            if (terms.length > 0) {
+                                for (var i = terms.length-1; i >= 0; i--) {
+                                    var length = $scope.terms[terms[i]]['reviews'].length;
+                                    if (length > 0) {
+                                        $scope.selectedTerm = terms[i];
+                                        break;
+                                    }
                                 }
-                                var average = (Math.round( total / reviewList.length * 10 ) / 10).toFixed(1);
-                                $scope.terms[term]['average_rating'] = average.toString();
-                                $scope.terms[term]['reviews'] = reviewList;
+                                if (!$scope.selectedTerm) $scope.selectedTerm = terms[0];
                             }
-                            if (termInts.length > 0) {
-                                $scope.selectedTerm = Math.max(...termInts).toString();
-                            } else {
-                                $scope.selectedTerm = "";
-                            }
-                            if ($scope.selectedTerm.length > 0) {
+                            if ($scope.terms[$scope.selectedTerm]['reviews'].length > 0) {
                                 var currentPage = 1;
                                 var totalReviews = $scope.terms[$scope.selectedTerm]['reviews'].length;
                                 var start = 0;
@@ -138,7 +143,7 @@
                 $scope.reviews = $scope.terms[$scope.selectedTerm]['reviews'].slice(start, end);
                 $scope.pageLinks = pageLinks;
             };
-            $scope.updateDescription = function(descriptionId, vote) {
+            $scope.updateDescription = function($index, vote, isApproved) {
                 var data = $.param({
                     vote: vote
                 });
@@ -147,17 +152,23 @@
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                     }
                 }
-                $http.put('/api/descriptions/' + id + '/' + descriptionId, data, config).
+                var description = isApproved ? $scope.approvedDescriptions[$index] : $scope.purgatoryDescriptions[$index];
+                var descriptionId = description.id;
+                $http.put('/api/descriptions/' + descriptionId, data, config).
                       success(function(response, status) {
                           if (status == 201) {
-                              $scope.getDescriptions();
+                              if (isApproved) {
+                                  description.upvotes = response.upvotes;
+                              } else {
+                                  description.upvotes = response.upvotes;
+                              }
                           }
                       }).
                       error(function(error) {
                           $log.log(error);
                       });
             }
-            $scope.updateRant = function(rantId, vote) {
+            $scope.updateRant = function($index, vote) {
                 var data = $.param({
                     vote: vote
                 });
@@ -166,17 +177,40 @@
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                     }
                 }
-                $http.put('/api/rants/' + id + "/" + rantId, data, config).
+                var rant = $scope.rants[$index];
+                var rantId = rant.id;
+                $http.put('/api/rants/' + rantId, data, config).
                       success(function(response, status) {
                           if (status == 201) {
-                              $scope.getRants();
+                              rant.upvotes = response.upvotes;
                           }
                       }).
                       error(function(error) {
                           $log.log(error);
                       });
             }
-            $scope.updateReview = function(reviewId, score) {
+            $scope.updateReply = function($rantIndex, $replyIndex, vote) {
+                var data = $.param({
+                    vote: vote
+                });
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
+                }
+                var reply = $scope.rants[$rantIndex].replies[$replyIndex];
+                var replyId = reply.id;
+                $http.put('/api/replies/' + replyId, data, config).
+                      success(function(response, status) {
+                          if (status == 201) {
+                              reply.upvotes = response.upvotes;
+                          }
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            }
+            $scope.updateReview = function($index, score) {
                 var data = $.param({
                     score: score
                 });
@@ -185,14 +219,41 @@
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                     }
                 }
-                $http.put('/api/reviews/' + id + '/' + reviewId, data, config).
+                var review = $scope.reviews[$index];
+                var reviewId = review.id;
+                $http.put('/api/reviews/' + reviewId, data, config).
                       success(function(response, status) {
                           if (status == 201) {
-                              $scope.getReviews();
+                              review.score = response.score;
                           }
                       }).
                       error(function(error) {
                           $log.log(error);
+                      });
+            }
+            $scope.postReply = function($index) {
+                var rant = $scope.rants[$index];
+                var rantId = rant.id;
+                var text = $("#your-reply-" + rantId + " textarea").val();
+                if (text == "") return;
+                var data = $.param({
+                    text: text
+                });
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
+                }
+                $http.post('/api/replies/' + rantId, data, config).
+                      success(function(reply, status) {
+                          if (status == 201) {
+                              rant.replies.push(reply);
+                          }
+                          $("#your-reply-" + rantId).collapse("hide");
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                          $("#your-reply-" + rantId).collapse("hide");
                       });
             }
             $scope.getDescriptions();

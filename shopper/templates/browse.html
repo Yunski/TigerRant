@@ -23,7 +23,7 @@
             <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
             <div class="dropdown-menu" aria-labelledby="nav-account-button">
               <a id="account-link" class="dropdown-item" href="/">My Account</a>
-              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+              <a id="logout-link" class="dropdown-item" href="/logout" target="_self">Sign Out</a>
             </div>
           </div>
           <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
@@ -62,7 +62,7 @@
         <li class="list-group-item justify-content-between" data-aos="zoom-in" data-aos-once="true" data-aos-offset="-2000">
           <div class="card">
             <div class="card-block">
-              <h4 class="card-title"><a href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order={{ order }}">{{ course.dept }} {{ course.catalog_number }}</a>{% if course.distribution|length > 0 %}<span class="distributions">({{ course.distribution }})</span>{% endif %}<span class="grade_options">{{ course.grade_options }}</span></h4>
+              <h4 class="card-title"><a href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order={{ order }}">{{ course.dept }} {{ course.catalog_number }} {% if course.crosslistings %}/ {{ course.crosslistings }}{% endif %}</a>{% if course.distribution|length > 0 %}<span class="distributions">({{ course.distribution }})</span>{% endif %}<span class="grade_options">{{ course.grade_options }}</span></h4>
               <span class="browse-item-rating">
                 {% for i in range(0, course.avg_rating|int) %}
                 <span><i class="fa fa-star" aria-hidden="true"></i></span>

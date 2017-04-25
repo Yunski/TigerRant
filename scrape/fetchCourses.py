@@ -3,7 +3,7 @@ import json
 import html
 import re
 import sys
-from createReview import newCourse
+from courses_scraper import newCourse
 from distribution import fetchData
 
 def fetchCourses(term, subject, filename):
@@ -62,7 +62,7 @@ def fetchCourses(term, subject, filename):
             if 'crosslistings' in course:
                 for crossl in course['crosslistings']:
                     crosslists.append("{} {}".format(crossl['subject'], crossl['catalog_number']))
-            courseObj['crosslistings'] = ",".join(crosslists)
+            courseObj['crosslistings'] = " / ".join(crosslists)
             courseObj['sections'] = []
             if 'classes' in course:
                 for section in course['classes']:
@@ -86,7 +86,7 @@ def fetchCourses(term, subject, filename):
                                 sectionObj['room'] = meeting['room']
                     courseObj['sections'].append(sectionObj)
 
-            courseObj['reviews'] = newCourse(course_id)['reviews']
+            courseObj['terms'] = newCourse(course_id)['terms']
             courseList['courses'].append(courseObj)
             print("Finished course_id: {}, {} {}".format(course['course_id'], dept_code, course['catalog_number']))
 

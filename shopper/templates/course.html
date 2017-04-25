@@ -17,7 +17,21 @@
       </div>
     </div>
     <div class="col-md-3 d-flex align-items-center">
-      <a class="nav-link" data-toggle="modal" data-target="#descriptionModal">Submit a Course Description!</a>
+      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+        <div class="navbar-nav">
+          <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
+            <div class="dropdown-menu" aria-labelledby="nav-account-button">
+              <a id="account-link" class="dropdown-item" href="/">My Account</a>
+              <a id="logout-link" class="dropdown-item" href="/logout" target="_self">Sign Out</a>
+            </div>
+          </div>
+          <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
+            <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
+            <span id="num-items-in-cart"></span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
@@ -28,23 +42,9 @@
       <a href="{{ returnURL }}" class="nav-link active" target="_self">
         <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
       </a>
+      <a class="nav-link" data-toggle="modal" data-target="#description-modal">Submit a Course Description!</a>
     </nav>
     {% endraw %}
-  </div>
-  <div class="col-md">
-    <nav class="nav justify-content-end">
-      <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
-        <div class="dropdown-menu" aria-labelledby="nav-account-button">
-          <a id="account-link" class="dropdown-item" href="/" target="_self">My Account</a>
-          <a id="logout-link" class="dropdown-item" href="/" target="_self">Sign Out</a>
-        </div>
-      </div>
-      <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
-        <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-        <span id="num-items-in-cart"></span>
-      </a>
-    </nav>
   </div>
 </div>
 {% endblock %}
@@ -53,25 +53,62 @@
   {% raw %}
   <!-- Sidebar -->
   <div id="sidebar-btn" class="d-flex align-items-center justify-content-center"
-       data-toggle="tooltip" data-placement="left" title="Preview of Rant Space">
-       R
+       data-toggle="tooltip" data-placement="left" title="Toggle Rant Space">R
   </div>
   <div id="sidebar-wrapper">
-    <div id="sidebar-top" class="d-flex align-items-center">
+    <div id="sidebar-top">
       <h1>Rant Space</h1>
-      <button class="add" data-toggle="modal" data-target="#rantModal"><i class="fa fa-plus" aria-hidden="true"></i></button>
-      <button class="refresh" ng-click="getRants()" onclick="$('.rants').animateCss('flip-custom')"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+      <div class="sidebar-top-buttons d-flex justify-content-end">
+        <button class="add" data-toggle="modal" data-target="#rant-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <button class="refresh" ng-click="getRants()" onclick="$('#rants').animateCss('flip-custom')"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+      </div>
     </div>
-    <div id="empty-rantspace-message" ng-if="rants.length <= 0">It's too quiet! <a data-toggle="modal" data-target="#rantModal">Share something cool or complain about stuff.</a></div>
-    <ul class="list-group rants" ng-if="rants.length > 0">
+    <ul id="rants" class="list-group">
+      <li class="list-group-item rant-post" ng-if="rants.length <= 0">
+        <div class="card">
+          <div class="card-block d-flex align-items-center">
+            <p class="card-text">It's too quiet! Share something cool or complain about stuff.</p>
+          </div>
+        </div>
+      </li>
       <li class="list-group-item rant-post" ng-repeat="rant in rants">
         <div class="card">
           <div class="card-block d-flex align-items-center">
             <p class="card-text">{{ rant.text }}</p>
             <div class="vote-container" class="col-md-1">
-              <div class="upvote" ng-click="updateRant(rant.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div class="upvote" ng-click="updateRant($index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
               <div class="score">{{ rant.upvotes }}</div>
-              <div class="downvote" ng-click="updateRant(rant.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+              <div class="downvote" ng-click="updateRant($index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="timestamp">{{ rant.timestamp }}
+              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length == 1">1 reply</div>
+              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length > 1">{{ rant.replies.length }} replies</div>
+            </div>
+            <div class="reply-button">
+              <a data-toggle="collapse" href="#your-reply-{{ rant.id }}" aria-expanded="false" aria-controls="your reply">
+                <i class="fa fa-lg fa-reply" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="collapse your-reply" id="your-reply-{{ rant.id }}">
+          <textarea placeholder="Add your reply..." class="your-reply-text" rows="3"></textarea>
+          <a class="reply-send-button" ng-click="postReply($index)">SEND</a>
+        </div>
+        <div class="collapse replies" id="replies-{{ rant.id }}" ng-if="rant.replies.length > 0">
+          <div class="card" ng-repeat="reply in rant.replies">
+            <div class="card-block d-flex align-items-center">
+              <p class="card-text">{{ reply.text }}</p>
+              <div class="vote-container" class="col-md-1">
+                <div class="upvote" ng-click="updateReply($parent.$index, $index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                <div class="score">{{ reply.upvotes }}</div>
+                <div class="downvote" ng-click="updateReply($parent.$index, $index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="timestamp">{{ reply.timestamp }}</div>
             </div>
           </div>
         </div>
@@ -82,8 +119,10 @@
   <div class="col-md">
     <div class="course-banner" data-aos="zoom-in" data-aos-once="true">
       <div class="card">
-        <h3 class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
-        <div class="course-instructors" ng-non-bindable>
+        <h3 id="course-title" class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
+        {% raw %}
+        <div class="course-instructors" ng-repeat="instructor in terms[selectedTerm]['instructors']">
+          <!--
           {% for i in range(0, course.instructors|length) %}
           {% if i != course.instructors|length-1 %}
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
@@ -91,51 +130,49 @@
           {% else %}
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
           {% endif %}
-          {% endfor %}
+          {% endfor %}-->
+          <span>{{ instructor.first_name }} {{ instructor.last_name }}</span>
         </div>
-        {% raw %}
         <ul class="list-group descriptions">
           <li class="list-group-item description">
             <div class="card">
-              <div class="card-block d-flex align-items-center" ng-if="descriptions.length > 0">
+              <div class="card-block d-flex align-items-center" ng-if="approvedDescriptions.length > 0">
                 <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
-                <p class="card-text">{{ descriptions[0].text }}</p>
+                <p class="card-text">{{ approvedDescriptions[0].text }}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div class="upvote" ng-click="updateDescription(descriptions[0].id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div class="score">{{ descriptions[0].upvotes }}</div>
-                  <div class="downvote" ng-click="updateDescription(descriptions[0].id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div class="upvote" ng-click="updateDescription(0, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div class="score">{{ approvedDescriptions[0].upvotes }}</div>
+                  <div class="downvote" ng-click="updateDescription(0, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
-              <div class="card-block d-flex align-items-center justify-content-center" ng-if="descriptions.length <= 0">
-                <button class="btn btn-secondary" data-toggle="modal" data-target="#descriptionModal">Be the first to write a description!</button>
+              <div class="card-block d-flex align-items-center justify-content-center" ng-if="approvedDescriptions.length <= 0">
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#description-modal">Be the first to get a description approved!</button>
               </div>
             </div>
           </li>
-          <div class="collapse" id="more-descriptions" ng-if="descriptions.length > 1">
-            <li class="list-group-item description" ng-repeat="description in descriptions" ng-if="!$first">
+          <div class="collapse" id="more-descriptions" ng-if="approvedDescriptions.length > 1">
+            <li class="list-group-item description" ng-repeat="description in approvedDescriptions" ng-if="!$first">
               <div class="card">
                 <div class="card-block d-flex align-items-center">
                   <p class="card-text">{{ description.text }}</p>
                   <div class="vote-container" class="col-md-1">
-                    <div class="upvote" ng-click="updateDescription(description.id, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                    <div class="upvote" ng-click="updateDescription($index, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
                     <div class="score">{{ description.upvotes }}</div>
-                    <div class="downvote" ng-click="updateDescription(description.id, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                    <div class="downvote" ng-click="updateDescription($index, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
                   </div>
                 </div>
               </div>
             </li>
           </div>
         </ul>
-        {% endraw %}
-        <div id="more-button-container" class="d-flex justify-content-center" ng-if="descriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample">Show More</a></div>
+        <div id="more-button-container" class="d-flex justify-content-center" ng-if="approvedDescriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample" onclick="showDescriptionsDisplay()">Show More</a></div>
       </div>
+      <button id="purgatory-button" class="btn btn-secondary" data-toggle="modal" data-target="#purgatory-modal" ng-click="getDescriptions()">Click to See Description Purgatory<span class="badge badge-default badge-pill" ng-if="purgatoryDescriptions.length > 0">{{ purgatoryDescriptions.length }}</span></button>
     </div>
-    {% raw %}
     <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
       <ul class="nav nav-tabs nav-justified d-flex justify-content-center">
         <li class="nav-item" ng-if="selectedTerm.length <= 0">
-          <a class="nav-link empty">
-            No Content Available</a>
+          <a class="nav-link empty">No Content Available</a>
         </li>
         <li class="nav-item" ng-repeat="(key, value) in terms" ng-if="selectedTerm.length > 0">
           <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
@@ -143,17 +180,20 @@
         </li>
       </ul>
     </div>
-    <div class="row reviews-summary" data-aos="zoom-in" data-aos-once="true">
+    <div class="row reviews-summary" data-aos="zoom-in" data-aos-offset="0" data-aos-delay="250" data-aos-once="true">
       <div class="col-md rating-display">
         <div class="rating-lg-average">
           {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
         </div>
-        <span class="rating-description" ng-if="selectedTerm.length > 0">
-          based on
-          <span class="rating-total">
-            {{ terms[selectedTerm]['reviews'].length }}</span> reviews
+        <span class="rating-description">
+          <span ng-if="terms[selectedTerm]['reviews'].length <= 0">
+            Not Yet Rated For This Term
+          </span>
+          <span ng-if="terms[selectedTerm]['reviews'].length > 0">
+            based on<span class="rating-total">{{ terms[selectedTerm]['reviews'].length }}</span> reviews
+          </span>
         </span>
-        <button id="rate-course-button" class="btn btn-secondary" data-toggle="modal" data-target="#reviewModal" ng-if="selectedTerm.length <= 0">Rate this course!</button>
+        <button id="rate-course-button" class="btn btn-secondary" data-toggle="modal" data-target="#review-modal" ng-if="selectedTerm.length <= 0">Rate this course!</button>
       </div>
       <div class="col-md">
         <!-- rating-bars -->
@@ -202,7 +242,7 @@
         <div class="reviews-title">
           <h4>Student Reviews</h4>
         </div>
-        <a id="write-review-button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">Write a Review</a>
+        <a id="write-review-button" class="btn btn-primary" data-toggle="modal" data-target="#review-modal">Write a Review</a>
         <div class="reviews-sort" ng-if="selectedTerm.length > 0">
           <span>Sort by:</span>
           <select class="sort-options">
@@ -212,7 +252,7 @@
           </select>
         </div>
       </div>
-      <div class="no-reviews" ng-if="selectedTerm.length <= 0">
+      <div class="no-reviews" ng-if="terms[selectedTerm]['reviews'].length <= 0">
         <p>There are no student reviews yet.</p>
       </div>
       <ul class="reviews-listing list-group" ng-if="selectedTerm.length > 0">
@@ -221,9 +261,8 @@
             <p>{{ review.text }}</p>
           </blockquote>
           <div class="like">
-            <div class="sentiment"><i class="fa fa-lg fa-2x fa-meh-o" aria-hidden="true"></i></div>
             <div class="thumbs-up">
-              <span ng-click="updateReview(review.id, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
+              <span ng-click="updateReview($index, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
               <span class="num-likes">{{ review.score }}</span>
             </div>
           </div>
@@ -279,7 +318,38 @@
     </div>
   </div>-->
 </div>
-<div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+<div class="modal fade" id="purgatory-modal" tabindex="-1" role="dialog" aria-labelledby="purgatoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">10 upvotes to bring a description out of purgatory!</h5>
+      </div>
+      <div class="modal-body">
+        {% raw %}
+        <p id="empty-purgatory-message" ng-if="purgatoryDescriptions.length <= 0">Purgatory is currently empty.</p>
+        <ul class="list-group" ng-if="purgatoryDescriptions.length > 0">
+          <li class="list-group-item description" ng-repeat="description in purgatoryDescriptions">
+            <div class="card">
+              <div class="card-block d-flex align-items-center">
+                <p class="card-text">{{ description.text }}</p>
+                <div class="vote-container" class="col-md-1">
+                  <div class="upvote" ng-click="updateDescription($index, 1, false)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div class="score">{{ description.upvotes }}</div>
+                  <div class="downvote" ng-click="updateDescription($index, -1, false)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        {% endraw %}
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" ng-click="getDescriptions()">DONE</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="description-modal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -288,7 +358,7 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <textarea class="form-control" id="description-text" placeholder="Let Princeton students know the truth"></textarea>
+            <textarea rows="1" class="form-control" id="description-text" placeholder="Let Princeton students know the truth"></textarea>
           </div>
         </form>
       </div>
@@ -299,7 +369,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="rantModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+<div class="modal fade" id="rant-modal" tabindex="-1" role="dialog" aria-labelledby="rantModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -308,7 +378,7 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <textarea class="form-control" id="rant-text"></textarea>
+            <textarea rows="1" class="form-control" id="rant-text" placeholder="Got something to say?"></textarea>
           </div>
         </form>
       </div>
@@ -319,7 +389,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+<div class="modal fade" id="review-modal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -341,7 +411,7 @@
             </div>
           </div>
           <div class="form-group">
-            <textarea class="form-control" id="review-text" placeholder="Write about your experience in this course"></textarea>
+            <textarea rows="1" class="form-control" id="review-text" placeholder="Write about your experience in this course"></textarea>
           </div>
         </form>
       </div>
@@ -352,6 +422,4 @@
     </div>
   </div>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-<script src="/static/js/course_controller.js"></script>
 {% endblock %}
