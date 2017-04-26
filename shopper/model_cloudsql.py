@@ -114,6 +114,13 @@ class User(db.Model):
     last_name = db.Column(db.UnicodeText())
     cart = db.relationship('Course', secondary=cart,
         backref=db.backref('users', lazy='dynamic'))
+    upvoted_reviews = db.Column(db.UnicodeText())
+    upvoted_rants = db.Column(db.UnicodeText())
+    downvoted_rants = db.Column(db.UnicodeText())
+    upvoted_descriptions = db.Column(db.UnicodeText())
+    downvoted_descriptions = db.Column(db.UnicodeText())
+    upvoted_replys = db.Column(db.UnicodeText())
+    downvoted_replys = db.Column(db.UnicodeText())
 
 class Term(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
