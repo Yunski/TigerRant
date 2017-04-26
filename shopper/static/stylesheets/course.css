@@ -918,3 +918,22 @@ label {
 .reviews .thumbs-up span i:hover {
   cursor: pointer;
 }
+
+.add-link, .add-link:visited {
+  color: white;
+  font-size: 1.0rem;
+  font-weight: 300;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-link:hover, .add-link:focus {
+  color: #ee7f2d;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
