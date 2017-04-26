@@ -19,3 +19,14 @@ Timeline
 ReCal integration may not be available due to ReCal's work schedule.
 - [ ] 4/24 - 5/3: (fall 2017 course selection period) Monitor app and fix issues.
 - [ ] 5/16: Dean’s Date and submission deadline
+
+## Elevator Pitch
+Imagine this. You’re on our new course shopping website. You prepare to be bored and think it’s just another one of “those” sites that always crop up every year in 333. You search for “COS 333” out of spite. Then you see what makes it different. 
+
+Our shopping site is powered by user-generated content. You can leave “urban dictionary” style descriptions of courses like the classic “Stars for Stoners,” “Bridges,” or “Build a Product but not maintain when the semester’s over.”
+
+You can leave rants at any time during the semester. See how people’s opinions of a course change over time! See why people dropped a class, people who normally wouldn’t be able to leave a course evaluation!
+
+Or leave insightful comments long after you’ve taken a class like “I never expected to be asked coding interview questions straight from an ORF 309 pset” or “Wow one 333 assignment in Python taught me how to make TigerMenus” or “easy A” on PHY 205 (Death Mech). 
+
+You can see student’s thoughts at all times during the semester, not just during the end like course evaluations. This data will be saved for posterity, unlike Yik Yak. And the data will be centrally located, unlike realTalkPrinceton. This is the next big thing in course shopping. This is TigerShop.
