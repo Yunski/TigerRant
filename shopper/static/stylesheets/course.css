@@ -1,5 +1,6 @@
 body {
   height: 100%;
+  min-height: 100%;
   font-family: "Lato";
   font-size: 16px;
   overflow: hidden;
@@ -67,7 +68,7 @@ textarea {
 
 .navbar-inverse .navbar-nav .nav-link.active {
   color: #ee7f2d;
-  border-bottom: 3px solid #ee7f2d;
+  border-bottom: 3px solid black;
 }
 
 .row {
@@ -120,6 +121,52 @@ textarea {
 
 .card-text {
   font-size: 1rem;
+}
+
+.course-banner {
+  -webkit-perspective: 1000;
+  -moz-perpective: 1000;
+  -ms-perspective: 1000;
+  -o-perspective: 1000;
+  perspective: 1000;
+}
+
+.course-banner .official-text {
+  color: white;
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+}
+
+.flipped {
+  -webkit-transform:rotateY(360deg);
+  -moz-transform:rotateY(360deg);
+  -ms-transform:rotateY(360deg);
+  -o-transform:rotateY(360deg);
+  transform: rotateY(360deg);
+}
+
+.course-banner .official-title {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  margin: 0;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  border: 1px solid #ee7f2d;
+  border-radius: 0.25rem;
+  color: white;
+}
+
+.course-banner .official2-title {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  margin: 0;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  border: 1px solid #ee7f2d;
+  border-radius: 0.25rem;
+  color: white;
 }
 
 .page-link {
@@ -229,6 +276,11 @@ label {
 }
 
 .nav-pills .nav-item {
+}
+
+.nav-tabs .nav-item {
+  margin-bottom: -1px;
+  border-bottom: 1px solid #ee7f2d;
 }
 
 .nav-pills .nav-link {
@@ -434,21 +486,62 @@ label {
 }
 
 .course-banner .card {
+  position: relative;
   padding: 0.2rem;
   margin-top: 1rem;
   width: 100%;
-  background-color: #ee7f2d;
-  border-radius: 0.5rem;
+  background-color: black;
+  border: 1px solid #ee7f2d;
+  border-bottom: none;
+  border-radius: 0.5rem 0.5rem 0 0;
   text-align: center;
+  -webkit-transition: 0.6s;
+  -moz-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.course-banner .official-card {
+  border: none;
+  margin-top: 0;
+  -webkit-transform:rotateY(360deg);
+  -moz-transform:rotateY(360deg);
+  -ms-transform:rotateY(360deg);
+  -o-transform:rotateY(360deg);
+  transform: rotateY(360deg);
 }
 
 .course-banner .card-title {
-  color: white;
+  color: #ee7f2d;
   padding-top: 0.8rem;
-  padding-bottom: 1rem;
   padding-left: 2rem;
   padding-right: 2rem;
   margin: 0;
+}
+
+.course-banner .descriptions, .official-card {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+}
+
+.course-banner .descriptions { z-index: 2; }
+
+.course-banner .list-group .first-child .hover {
+  border-top: none;
+}
+
+.course-banner .list-group-item:hover {
+  border: 1px solid #ee7f2d;
+  border-left: none;
+  border-right: none;
 }
 
 #course-title {
@@ -466,7 +559,8 @@ label {
 
 .course-instructors {
   color: white;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
+  font-size: 1.15rem;
   background-color: black;
   font-weight: 300;
 }
@@ -510,6 +604,7 @@ label {
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
+  color: white;
   margin: 0;
   padding: 0.2rem 0.4rem;
   font-size: 0.8rem;
@@ -527,45 +622,24 @@ label {
   margin: 0;
 }
 
-.desc-toggle-container {
-  background-color: black;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  position: absolute;
-  top: 0%;
-  left: 0%;
-  border-bottom: none;
-}
-
-.urban, .official {
+.col-md .urban, .official {
   color: white;
-  background-color: #ee7f2d;
-  border: 1px solid #ee7f2d;
-}
-
-.desc-toggle-container .urban {
-  border-radius: 0 0 0 0.5rem;
-}
-
-.nav-link.urban:hover, .nav-link.official:hover {
   background-color: black;
-  color: #ee7f2d;
-  border: 1px solid #ee7f2d;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 400;
 }
 
-.nav-link.urban.active, .nav-link.official.active {
-  background-color: black;
+.urban:hover, .official:hover {
+  border: none;
   color: #ee7f2d;
-  border: 1px solid #ee7f2d;
 }
 
-.desc-toggle-container .official {
-  border-radius: 0 0 0.5rem 0;
-}
+.hide { display: none !important;}
 
 #more-button-container {
-  z-index: 1;
+  z-index: 3;
   margin-top: -1rem;
   background-color: black;
   border-bottom-left-radius: 0.4rem;
@@ -578,15 +652,50 @@ label {
   padding-left: 0.5em;
   padding-right: 0.5rem;
   font-weight: 300;
-  color: white;
-  background-color: #ee7f2d;
+  color: #ee7f2d;
+  background-color: black;
   display: block;
   width: 6.2rem;
 }
 
-#purgatory-button {
-  margin-top: 0.5rem;
+.banner-buttons .col-md {
+  margin: 0;
+  padding: 0;
+}
+
+.banner-buttons {
+  border: 1px solid #ee7f2d;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.line {
+  height: 0%;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
   width: 100%;
+  justify-content: center;
+}
+
+.orange-short-line {
+  width: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 0%;
+  border-bottom: 1px solid #ee7f2d;
+}
+
+#purgatory-button {
+  width: 100%;
+  color: white;
+  border: none;
+  font-weight: 400;
+}
+
+#purgatory-button:hover {
+  color: #ee7f2d;
 }
 
 #purgatory-button span {
@@ -666,7 +775,8 @@ label {
   height: 13rem;
   width: 100%;
   background-color: black;
-  border: 1px solid white;
+  border: 1px solid #ee7f2d;
+  border-top: none;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   -webkit-user-select: none;
@@ -797,15 +907,15 @@ label {
   padding: 0.5rem;
   color: white;
   font-size: 0.9rem;
-  background-color: #ee7f2d;
-  border: 1px solid white;
+  background-color: black;
+  border: 1px solid #ee7f2d;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 }
 
 .terms .nav-tabs .nav-link:hover {
-  color: white;
-  background-color: black;
+  color: #ee7f2d;
+  border-bottom-color: black;
 }
 
 .terms .nav-tabs .nav-link.empty {
@@ -819,32 +929,36 @@ label {
 }
 
 .terms .nav-tabs .active {
-  color: white;
-  background-color: black;
+  color: #ee7f2d;
 }
 
 .terms .nav-tabs .active:hover {
-  color: white;
-  background-color: black;
+  color: #ee7f2d;
 }
+
+.terms .nav-tabs .nav-item .active {
+  border-bottom-color: black;
+}
+
 
 /* reviews */
 
 .sort-options {
-  width: 8rem;
-  max-width: 8rem;
   height: 1.5rem;
-  border-color: white;
-  border-radius: 0.5rem;
+  border: none;
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  margin-left: 0.25rem;
   font-weight: 300;
-  color: white;
-  background: url("/static/icons/svg/sort-arrows-white.svg") no-repeat center;
+  color: #ee7f2d;
+  background: url(/static/icons/svg/sort-arrows-white.svg) no-repeat center;
   background-size: 0.6rem 0.6rem;
-  background-position-x: 7rem;
+  background-position-x: 7.95rem;
+}
+
+select::-ms-expand {
+  padding-left: 0.25rem;
+  margin-left: 0.25rem;
 }
 
 .reviews {
@@ -853,10 +967,27 @@ label {
 }
 
 .reviews .reviews-header {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  background-color: black;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   width: 100%;
   align-items: center;
+  border: 1px solid #ee7f2d;
+  border-radius: 0.5rem 0.5rem 0 0;
+  border-bottom: none;
+}
+
+.no-reviews {
+  padding-top: 0.5rem;
+  font-size: 1.25rem;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ee7f2d;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 .reviews .reviews-title {
@@ -878,23 +1009,32 @@ label {
 }
 
 .reviews .reviews-sort {
+  font-size: 1.25rem;
   padding-top: 0.1rem;
   float: right;
+  color: #ee7f2d;
 }
+
 .reviews .reviews-sort select {
-  width: 8rem;
+  width: 9rem;
   display: inline-block;
 }
 
 .reviews .list-group-item {
-  margin-bottom: 0.5rem;
   padding-bottom: 0.5rem;
   color: white;
-  background-color: transparent;
-  border-radius: 0.5rem;
+  background-color: black;
   border: 1px solid #ee7f2d;
   position: relative;
-  min-height: 7rem;
+  min-height: 5.5rem;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0;
+  margin-bottom: 0
+}
+
+.reviews .list-group-item:hover {
+  border: 1px solid #ee7f2d;
 }
 
 .reviews .blockquote {
@@ -917,6 +1057,19 @@ label {
 
 .reviews .thumbs-up span i:hover {
   cursor: pointer;
+  color: #ee7f2d;
+}
+
+.reviews .thumbs-up span {
+  margin-right: 0.5rem;
+}
+
+#write-review-button {
+  font-size: 1.25rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: #ee7f2d;
 }
 
 .add-link, .add-link:visited {

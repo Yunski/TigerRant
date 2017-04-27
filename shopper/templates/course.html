@@ -37,13 +37,13 @@
 </nav>
 <div id="navbar-footer" class="row">
   <div class="col-md">
-    {% raw %}
+    <!--raw-->
     <nav class="nav">
-      <a href="{{ returnURL }}" class="nav-link active" target="_self">
+      <a href="{a returnURL a}" class="nav-link active" target="_self">
         <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Back to search results
       </a>
       <a class="nav-link" data-toggle="modal" data-target="#description-modal">Submit a Course Description!</a>
-      {% endraw %}
+      <!--endraw-->
       <a target="_self" href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order={{ order }}&amp;add=1" class="add-link">Add Course to Cart</a>
     </nav>
   </div>
@@ -51,7 +51,7 @@
 {% endblock %}
 {% block content %}
 <div id="course-page-content" class="row toggled">
-  {% raw %}
+  <!--raw-->
   <!-- Sidebar -->
   <div id="sidebar-btn" class="d-flex align-items-center justify-content-center"
        data-toggle="tooltip" data-placement="left" title="Toggle Rant Space">R
@@ -75,53 +75,54 @@
       <li class="list-group-item rant-post" ng-repeat="rant in rants">
         <div class="card">
           <div class="card-block d-flex align-items-center">
-            <p class="card-text">{{ rant.text }}</p>
+            <p class="card-text">{a rant.text a}</p>
             <div class="vote-container" class="col-md-1">
               <div class="upvote" ng-click="updateRant($index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
-              <div class="score">{{ rant.upvotes }}</div>
+              <div class="score">{a rant.upvotes a}</div>
               <div class="downvote" ng-click="updateRant($index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="card-footer">
-            <div class="timestamp">{{ rant.timestamp }}
-              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length == 1">1 reply</div>
-              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{{ rant.id }}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length > 1">{{ rant.replies.length }} replies</div>
+            <div class="timestamp">{a rant.timestamp a}
+              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{a rant.id a}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length == 1">1 reply</div>
+              <div class="num-replies dropdown-toggle" data-toggle="collapse" href="#replies-{a rant.id a}" aria-expanded="false" aria-controls="replies" ng-if="rant.replies.length > 1">{a rant.replies.length a} replies</div>
             </div>
             <div class="reply-button">
-              <a data-toggle="collapse" href="#your-reply-{{ rant.id }}" aria-expanded="false" aria-controls="your reply">
+              <a data-toggle="collapse" href="#your-reply-{a rant.id a}" aria-expanded="false" aria-controls="your reply">
                 <i class="fa fa-lg fa-reply" aria-hidden="true"></i>
               </a>
             </div>
           </div>
         </div>
-        <div class="collapse your-reply" id="your-reply-{{ rant.id }}">
+        <div class="collapse your-reply" id="your-reply-{a rant.id a}">
           <textarea placeholder="Add your reply..." class="your-reply-text" rows="3"></textarea>
           <a class="reply-send-button" ng-click="postReply($index)">SEND</a>
         </div>
-        <div class="collapse replies" id="replies-{{ rant.id }}" ng-if="rant.replies.length > 0">
+        <div class="collapse replies" id="replies-{a rant.id a}" ng-if="rant.replies.length > 0">
           <div class="card" ng-repeat="reply in rant.replies">
             <div class="card-block d-flex align-items-center">
-              <p class="card-text">{{ reply.text }}</p>
+              <p class="card-text">{a reply.text a}</p>
               <div class="vote-container" class="col-md-1">
                 <div class="upvote" ng-click="updateReply($parent.$index, $index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                <div class="score">{{ reply.upvotes }}</div>
+                <div class="score">{a reply.upvotes a}</div>
                 <div class="downvote" ng-click="updateReply($parent.$index, $index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
               </div>
             </div>
             <div class="card-footer">
-              <div class="timestamp">{{ reply.timestamp }}</div>
+              <div class="timestamp">{a reply.timestamp a}</div>
             </div>
           </div>
         </div>
       </li>
     </ul>
   </div>
-  {% endraw %}
+  <!--endraw-->
   <div class="col-md">
-    <div class="course-banner" data-aos="zoom-in" data-aos-once="true">
-      <div class="card">
+    <!--raw-->
+    <div id="course-banner" class="course-banner">
+      <div id="banner-card" class="card">
         <h3 id="course-title" class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
-        {% raw %}
+
         <div class="course-instructors" ng-repeat="instructor in terms[selectedTerm]['instructors']">
           <!--
           {% for i in range(0, course.instructors|length) %}
@@ -132,17 +133,17 @@
             <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
           {% endif %}
           {% endfor %}-->
-          <span>{{ instructor.first_name }} {{ instructor.last_name }}</span>
+          <span>{a instructor.first_name a} {a instructor.last_name a}</span>
         </div>
         <ul class="list-group descriptions">
           <li class="list-group-item description">
             <div class="card">
               <div class="card-block d-flex align-items-center" ng-if="approvedDescriptions.length > 0">
                 <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
-                <p class="card-text">{{ approvedDescriptions[0].text }}</p>
+                <p class="card-text">{a approvedDescriptions[0].text a}</p>
                 <div class="vote-container" class="col-md-1">
                   <div class="upvote" ng-click="updateDescription(0, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div class="score">{{ approvedDescriptions[0].upvotes }}</div>
+                  <div class="score">{a approvedDescriptions[0].upvotes a}</div>
                   <div class="downvote" ng-click="updateDescription(0, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
@@ -155,10 +156,10 @@
             <li class="list-group-item description" ng-repeat="description in approvedDescriptions" ng-if="!$first">
               <div class="card">
                 <div class="card-block d-flex align-items-center">
-                  <p class="card-text">{{ description.text }}</p>
+                  <p class="card-text">{a description.text a}</p>
                   <div class="vote-container" class="col-md-1">
                     <div class="upvote" ng-click="updateDescription($index, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                    <div class="score">{{ description.upvotes }}</div>
+                    <div class="score">{a description.upvotes a}</div>
                     <div class="downvote" ng-click="updateDescription($index, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
                   </div>
                 </div>
@@ -167,31 +168,50 @@
           </div>
         </ul>
         <div id="more-button-container" class="d-flex justify-content-center" ng-if="approvedDescriptions.length > 1"><a id="more-descriptions-button" class="collapsed" data-toggle="collapse" href="#more-descriptions" aria-expanded="false" aria-controls="collapseExample" onclick="showDescriptionsDisplay()">Show More</a></div>
+        <div class="card official-card">
+          <div class="card-block d-flex align-items-center">
+            <h3 class="official-title">{{ course.grade_options }}</h3>
+            <p class="official-text">{{ course.description }}</p>
+            {% if course.distribution|length > 0 %}<h3 class="official2-title">{{ course.distribution }}</h3>{% endif %}
+          </div>
+        </div>
       </div>
-      <button id="purgatory-button" class="btn btn-secondary" data-toggle="modal" data-target="#purgatory-modal" ng-click="getDescriptions()">Click to See Description Purgatory<span class="badge badge-default badge-pill" ng-if="purgatoryDescriptions.length > 0">{{ purgatoryDescriptions.length }}</span></button>
     </div>
-    <div class="terms" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">
+    <div class="line"><div class="orange-short-line"></div></div>
+    <div class="banner-buttons row">
+      <div class="col-md">
+        <button id="purgatory-button" class="btn btn-secondary" data-toggle="modal" data-target="#purgatory-modal" ng-click="getDescriptions()">Click to See Description Purgatory<span class="badge badge-default badge-pill" ng-if="purgatoryDescriptions.length > 0">{a purgatoryDescriptions.length a}</span></button>
+      </div>
+      <div class="col-md">
+        <button class="btn btn-secondary urban">Click to see the Official Description</button>
+      </div>
+      <button type="button" class="btn official">Click to see Urban Descriptions</button>
+    </div>
+
+    <!--<div class="terms" ng-show="true" data-aos="zoom-in" data-aos-offset="20" data-aos-once="true">-->
+    <div class="terms" ng-show="true">
       <ul class="nav nav-tabs nav-justified d-flex justify-content-center">
         <li class="nav-item" ng-if="selectedTerm.length <= 0">
           <a class="nav-link empty">No Content Available</a>
         </li>
         <li class="nav-item" ng-repeat="(key, value) in terms" ng-if="selectedTerm.length > 0">
-          <a class="nav-link" id="{{ key }}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
-            {{ value['term_string'] }}</a>
+          <a class="nav-link" id="{a key a}" ng-class="{ active: key == selectedTerm}" ng-click="getCourseData(key)" onclick="$('.rating-lg-average').animateCss('zoomIn')">
+            {a value['term_string'] a}</a>
         </li>
       </ul>
     </div>
-    <div class="row reviews-summary" data-aos="zoom-in" data-aos-offset="0" data-aos-delay="250" data-aos-once="true">
+    <!--<div class="row reviews-summary" ng-show="true" data-aos="zoom-in" data-aos-offset="0" data-aos-delay="250" data-aos-once="true">-->
+    <div class="row reviews-summary" ng-show="true">
       <div class="col-md rating-display">
         <div class="rating-lg-average">
-          {{ selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" }}
+          {a selectedTerm.length > 0 ? terms[selectedTerm]['average_rating'] : "0.0" a}
         </div>
         <span class="rating-description">
           <span ng-if="terms[selectedTerm]['reviews'].length <= 0">
             Not Yet Rated For This Term
           </span>
           <span ng-if="terms[selectedTerm]['reviews'].length > 0">
-            based on<span class="rating-total">{{ terms[selectedTerm]['reviews'].length }}</span> reviews
+            based on<span class="rating-total">{a terms[selectedTerm]['reviews'].length a}</span> reviews
           </span>
         </span>
         <button id="rate-course-button" class="btn btn-secondary" data-toggle="modal" data-target="#review-modal" ng-if="selectedTerm.length <= 0">Rate this course!</button>
@@ -239,18 +259,19 @@
     </div>
     <!-- Review Section -->
     <div class="reviews">
-      <div class="reviews-header">
-        <div class="reviews-title">
-          <h4>Student Reviews</h4>
+      <div class="reviews-header row">
+        <div class="col-md">
+          <a id="write-review-button" class="" data-toggle="modal" data-target="#review-modal">Write a Review</a>
         </div>
-        <a id="write-review-button" class="btn btn-primary" data-toggle="modal" data-target="#review-modal">Write a Review</a>
-        <div class="reviews-sort" ng-if="selectedTerm.length > 0">
-          <span>Sort by:</span>
-          <select class="sort-options">
-            <option value="positive">Most positive</option>
-            <option value="negative">Most negative</option>
-            <option value="upvotes">Most upvotes</option>
-          </select>
+        <div class="col-md center">
+          <div class="reviews-sort" ng-if="selectedTerm.length > 0">
+            <span>Sort by:</span>
+            <select class="sort-options">
+              <option value="positive">Most positive</option>
+              <option value="negative">Most negative</option>
+              <option value="upvotes">Most upvotes</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="no-reviews" ng-if="terms[selectedTerm]['reviews'].length <= 0">
@@ -259,12 +280,12 @@
       <ul class="reviews-listing list-group" ng-if="selectedTerm.length > 0">
         <li class="list-group-item" ng-repeat="review in reviews">
           <blockquote class="blockquote">
-            <p>{{ review.text }}</p>
+            <p>{a review.text a}</p>
           </blockquote>
           <div class="like">
             <div class="thumbs-up">
-              <span ng-click="updateReview($index, 1)"><i class="fa fa-lg fa-2x fa-thumbs-up" aria-hidden="true"></i></span>
-              <span class="num-likes">{{ review.score }}</span>
+              <span ng-click="updateReview($index, 1)"><i class="fa fa-lg fa-lg fa-thumbs-up" aria-hidden="true"></i></span>
+              <span class="num-likes">{a review.score a}</span>
             </div>
           </div>
         </li>
@@ -273,28 +294,28 @@
     <nav class="page-navigation" aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage <= 1 }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Previous</a></li>
-        <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+        <li class="page-item" ng-if="pages > 1 && pages < 10" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive}"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a pageNum + 1 a}</a></li>
 
-        <li class="page-item" ng-if="pages >= 10 && currentPage < 5 && pageNum < 5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage < 5 && pageNum < 5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a pageNum + 1 a}</a></li>
         <li class="page-item disabled" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage < 5"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a pages a}</a></li>
 
         <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
         <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage - 1}}</a></li>
-        <li class="page-item active" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage }}</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ currentPage + 1}}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a currentPage - 1 a}</a></li>
+        <li class="page-item active" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a currentPage a}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a currentPage + 1 a}</a></li>
         <li class="page-item disabled" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pages }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage >= 5 && currentPage <= pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a pages a}</a></li>
 
         <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">1</a></li>
         <li class="page-item disabled" ng-if="pages >= 10 && currentPage > pages-4"><a class="page-link review-link">...</a></li>
-        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4 && pageNum >= pages-5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{{ pageNum + 1 }}</a></li>
+        <li class="page-item" ng-if="pages >= 10 && currentPage > pages-4 && pageNum >= pages-5" ng-repeat="(pageNum, isActive) in pageLinks track by $index" ng-class="{ active: isActive }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">{a pageNum + 1 a}</a></li>
 
         <li class="page-item" ng-if="pages > 1" ng-class="{ disabled: currentPage >= pages }"><a class="page-link review-link" ng-click="getReviewsForPage($event)" onclick="scrollToReviewsTop()">Next</a></li>
       </ul>
     </nav>
-    {% endraw %}
+    <!--endraw-->
   </div>
   <!--
   <div class="col-md-2">
@@ -326,23 +347,23 @@
         <h5 class="modal-title">10 upvotes to bring a description out of purgatory!</h5>
       </div>
       <div class="modal-body">
-        {% raw %}
+        <!--raw-->
         <p id="empty-purgatory-message" ng-if="purgatoryDescriptions.length <= 0">Purgatory is currently empty.</p>
         <ul class="list-group" ng-if="purgatoryDescriptions.length > 0">
           <li class="list-group-item description" ng-repeat="description in purgatoryDescriptions">
             <div class="card">
               <div class="card-block d-flex align-items-center">
-                <p class="card-text">{{ description.text }}</p>
+                <p class="card-text">{a description.text a}</p>
                 <div class="vote-container" class="col-md-1">
                   <div class="upvote" ng-click="updateDescription($index, 1, false)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div class="score">{{ description.upvotes }}</div>
+                  <div class="score">{a description.upvotes a}</div>
                   <div class="downvote" ng-click="updateDescription($index, -1, false)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
             </div>
           </li>
         </ul>
-        {% endraw %}
+        <!--endraw-->
       </div>
       <div class="modal-footer">
         <a data-dismiss="modal" ng-click="getDescriptions()">DONE</a>
@@ -399,9 +420,9 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            {% raw %}
-            <h3 id="term" data-term="{{ selectedTerm }}">{{ terms[selectedTerm]['term_string'] }}</h3>
-            {% endraw %}
+            <!--raw-->
+            <h3 id="term" data-term="{a selectedTerm a}">{a terms[selectedTerm]['term_string'] a}</h3>
+            <!--endraw-->
             <label for="disclaimer" class="form-control-label">This review will be anonymous.</label>
             <div class="initial-rating d-flex align-items-center">
               <span id="star1"><i class="fa fa-lg fa-2x fa-star" aria-hidden="true"></i></span>

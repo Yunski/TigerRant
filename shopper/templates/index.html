@@ -1,19 +1,49 @@
 {% extends "base_index.html" %}
+{% block navbar %}
+<nav id="navbar-top" class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-black">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="row">
+    <div class="col-md-2 d-flex align-items-center p-0">
+      <div class="tiger"></div>
+      <a class="navbar-brand" href="/home" target="_self">TigerShop</a>
+    </div>
+    <div class="col-md-8 center-h">
+      <a id="big-login" class="nav-item nav-link" href="/login">Log In To Begin</a>
+    </div>
+    <div class="col-md-2 d-flex center-h">
+      <a class="nav-item nav-link navbar-brand" href="#">Credits</a>
+    </div>
+  </div>
+</nav>
+{% endblock %}
 {% block content %}
 <div class="landing">
-  <nav id="navbar-index" class="navbar navbar-toggleable-md navbar-inverse bg-clear">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">TigerShop</a>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav d-flex justify-content-end">
-        <a class="nav-item nav-link" href="#">Credits</a>
-        <a class="nav-item nav-link" href="/login">Login</a>
+  <div class="row">
+    <div class="start-down-arrow-right"></div>
+    <div class="start-down-arrow-left"></div>
+    <div class="landing-message"><p>Tired of trudging through TigerHub and Course Evaluations?</p></div>
+  </div>
+  <div class="row box center-h">
+    <div class="col-md-4">
+      <img>
+      <div class="desc-text">
+        Write your own clever, accurate, and informative course descriptions.
       </div>
     </div>
-  </nav>
-  <div class="landing-message"><p>[ Log In To Begin ]</p></div>
+    <div class="col-md-4">
+      TigerShop
+    </div>
+    <div class="col-md-4">
+      <img>
+      <div class="rant-text">
+        Rant amongst your peers about anything class, exams, 
+      </div>
+    </div>
+  </div>
+  <div class="row">
+  </div>
   <!-- Icons designed by Freepik from www.flaticon.com -->
   <footer class="footer">
     <div class="row">

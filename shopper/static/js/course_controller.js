@@ -3,18 +3,21 @@
     'use strict';
 
     angular.module('TigerShop', [])
-    .config( [ '$locationProvider', function( $locationProvider ) {
+    .config( [ '$locationProvider', '$interpolateProvider', function( $locationProvider, $interpolateProvider ) {
        // In order to get the query string from the
        // $location object, it must be in HTML5 mode.
        $locationProvider.html5Mode(true);
+       $interpolateProvider.startSymbol('{a');
+       $interpolateProvider.endSymbol('a}');
     }])
     .controller('TigerShopController', ['$scope', '$log', '$http', '$location', '$window',
-        function($scope, $log, $http, $location, $window) {
+        function($scope, $log, $http, $location, $window, $document) {
             var id = -1;
             var search = "";
             var page = "";
             var order = "";
             var maxPerPage = 20;
+
             if ( $location.search().hasOwnProperty('id')) {
                 id = $location.search().id;
             }

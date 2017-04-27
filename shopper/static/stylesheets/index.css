@@ -3,6 +3,7 @@ body {
   font-family: "Lato";
   font-size: 16px;
   overflow-x: hidden;
+  height: 800px;
   background-color: black;
 }
 
@@ -27,6 +28,9 @@ button:focus, textarea:focus {
 
 .navbar {
   padding: 0;
+  height: 10%;
+  border-bottom: 1px solid #ee7f2d;
+  background-color: black;
 }
 
 .navbar-inverse .navbar-brand, .navbar-inverse .navbar-toggler {
@@ -87,10 +91,13 @@ button:focus, textarea:focus {
 
 .landing-message {
   position: absolute;
-  width: 50%;
-  left: 25%;
-  top: 50%;
+  display: flex;
+  flex-direction: row;
+  width: 40%;
+  left: 30%;
+  top: 15%;
   text-align: center;
+  font-weight: 600;
   color: #ee7f2d;
   font-size: 2rem;
 }
@@ -133,4 +140,59 @@ button:focus, textarea:focus {
   padding: 0;
   position: relative;
   top: 50%;
+}
+
+#big-login {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 400;
+  padding: 1.5rem;
+  border: 1px solid #ee7f2d;
+  border-top: none;
+  border-bottom: none;
+  width: 25%;
+  background-color: #ee7f2d;
+}
+
+#big-login:hover {
+  font-weight: 600;
+  font-size: 1.25rem;
+  -ms-transform: scale(1.05, 1.025);
+  -webkit-transform: scale(1.05, 1.025);
+  transform: scale(1.05, 1.025);
+}
+
+.center-h {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-down-arrow-left {
+  width: 50%;
+  height: 45%;
+  top: 0px;
+  background: linear-gradient(to right bottom, white 50%, transparent 50%);
+}
+
+.start-down-arrow-right {
+  width: 50%;
+  height: 45%;
+  top: 0px;
+  background: linear-gradient(to left bottom, white 50%, transparent 50%);
+}
+
+.start-down-arrow p {
+  position: absolute;
+  top: 30%;
+}
+
+.box {
+  background-color: white;
+  margin: 2rem 0;
 }

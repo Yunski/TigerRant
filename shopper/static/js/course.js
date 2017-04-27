@@ -58,6 +58,25 @@ $(document).ready(function() {
       this.style.height = (this.scrollHeight + 8) + "px";
     });
 
+    $(".official").hide();
+    $(".official-card").hide();
+    $(".urban").click(function () {
+        $(".banner-buttons .col-md").hide();
+        $(".official").show();
+        $(".descriptions").hide();
+        $(".official-card").show();
+        $(".course-banner .card #more-button-container").addClass("hide");
+        $(".course-banner .card").toggleClass('flipped');
+    });
+    $(".official").click(function () {
+        $(".banner-buttons .col-md").show();
+        $(".official").hide();
+        $(".descriptions").show();
+        $(".official-card").hide();
+        $(".course-banner .card #more-button-container").removeClass("hide");
+        $(".course-banner .card").toggleClass('flipped');
+    });
+
     $("#more-descriptions-button").click(function () {
         console.log("toggle");
         if ($("#more-button-container a").hasClass("collapsed")) {

@@ -62,14 +62,14 @@
 
 #course-page-content.toggled #sidebar-btn {
   position: fixed;
-  right: 40%;
+  right: 38%;
 }
 
 #sidebar-wrapper {
   z-index: 999;
   position: fixed;
-  right: -40%;
-  width: 40%;
+  right: -38%;
+  width: 38%;
   height: 85%;
   overflow-y: auto;
   background-color: #fafafa;
