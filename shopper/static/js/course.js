@@ -35,7 +35,7 @@ function selectStar() {
 }
 
 function animateBars() {
-    var mockRatings = [0, 15, 60, 5, 10];
+    var mockRatings = [0, 0, 0, 0, 0];
     /* rating bar animation */
     $(".rating-bars .rating-bar-inner").each(function(index) {
         $(this).width(mockRatings[index] + '%');
