@@ -1,0 +1,62 @@
+{% extends "base_about.html" %}
+{% block navbar %}
+<nav id="navbar-top" class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-black">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="row">
+    <div class="col-md-2 d-flex align-items-center p-0">
+      <div class="tiger"></div>
+      <a class="navbar-brand" href="/home" target="_self">TigerRant</a>
+    </div>
+    <div class="col-md-8 center-h">
+      <a id="big-login" class="nav-item nav-link" href="/login">Log In To Begin</a>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+<div class="landing">
+  <div class="down-right-big"></div>
+  <div class="down-left-big"></div>
+  <div class="down-right-med"></div>
+  <div class="down-left-med"></div>
+  <div class="title1">Our Mission</div>
+  <div class="row center-h"><div class="top-line"></div></div>
+  <div class="landing-message"><p><span>Tiger Rant was created by COS 333 students for all Princeton</span><span>students to discuss courses throughout the semester.</span><span>We want everyone to learn what a course is really</span><span>like.</span></p></div>
+  <div class="center-h"><div class="title">Try Tiger Rant Today!</div></div>
+  <div class="row">
+  </div>
+  <div class="up-right-big"></div>
+  <div class="up-left-big"></div>
+  <div class="up-right-med"></div>
+  <div class="up-left-med"></div>
+  <div class="title2">Elevator Pitch</div>
+  <div class="row center-h"><div class="bot-line"></div></div>
+  <div class="landing-message1"><p>
+    Imagine this. You’re on our new course shopping website. You prepare to be bored and think it’s just another one of “those” sites that always crop up every year in 333. You search for “COS 333” out of spite. Then you see what makes it different.
+    Our shopping site is powered by user-generated content. You can leave “urban dictionary” style descriptions of courses like the classic “Stars for Stoners,” “Bridges,” or “Build a Product but not maintain when the semester’s over.”
+    You can leave rants at any time during the semester. See how people’s opinions of a course change over time! See why people dropped a class, people who normally wouldn’t be able to leave a course evaluation!
+    Or leave insightful comments long after you’ve taken a class like “I never expected to be asked coding interview questions straight from an ORF 309 pset” or “Wow one 333 assignment in Python taught me how to make TigerMenus” or “easy A” on PHY 205 (Death Mech).
+    You can see student’s thoughts at all times during the semester, not just during the end like course evaluations. This data will be saved for posterity, unlike Yik Yak. And the data will be centrally located, unlike realTalkPrinceton. This is the next big thing in course shopping. This is TigerShop.
+  </p></div>
+  <!-- Icons designed by Freepik from www.flaticon.com -->
+  <footer class="footer">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col">
+        <div class="footer-col-content">
+          <div class="contact">
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-facebook" aria-hidden="true"></i></span></a>
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-twitter" aria-hidden="true"></i></span></a>
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-github-alt" aria-hidden="true"></i></span></a>
+            <a href="#"><span><i class="fa fa-lg fa-2x fa-google-plus" aria-hidden="true"></i></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="col"></div>
+    </div>
+  </footer>
+</div>
+{% endblock %}

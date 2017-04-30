@@ -101,6 +101,12 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             return response
         return render_template('course.html', netid=netid, course=course)
 
+
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
+
+
     @app.route('/cart')
     def cart():
         if 'netid' not in session:
@@ -256,7 +262,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         rant.upvotes += vote
         sql.db.session.commit()
         return json.dumps({'upvotes': rant.upvotes}), 201
-        
+
     @app.route('/api/rants/<int:c_id>', methods=['GET'])
     def get_rants(c_id):
         if 'netid' not in session:
