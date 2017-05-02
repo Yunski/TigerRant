@@ -156,7 +156,8 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/descriptions/<int:description_id>', methods=['PUT'])
     def update_description(description_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
         vote = 0
         paramVote = request.form['vote']
@@ -165,7 +166,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         except ValueError:
             abort(401)
         description = sql.Description.query.get(description_id)
-        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        user = sql.User.query.filter_by(netid=netid).first()
         if vote == 1:
             if str(description_id) not in user.upvoted_descriptions:
                 user.upvoted_descriptions += " " + str(description_id) + " "
@@ -226,7 +227,8 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/rants/<int:rant_id>', methods=['PUT'])
     def update_rant(rant_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
         vote = 0
         paramVote = request.form['vote']
@@ -235,7 +237,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         except ValueError:
             abort(401)
         rant = sql.Rant.query.get(rant_id)
-        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        user = sql.User.query.filter_by(netid=netid).first()
         if vote == 1:
             if str(rant_id) not in user.upvoted_rants:
                 user.upvoted_rants += " " + str(rant_id) + " "
@@ -337,9 +339,9 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/replies/<int:reply_id>', methods=['PUT'])
     def update_reply(reply_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
-        print(reply_id)
         vote = 0
         paramVote = request.form['vote']
         try:
@@ -347,7 +349,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         except ValueError:
             abort(401)
         reply = sql.Reply.query.get(reply_id)
-        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        user = sql.User.query.filter_by(netid=netid).first()
         if vote == 1:
             if str(reply_id) not in user.upvoted_replys:
                 user.upvoted_replys += " " + str(reply_id) + " "
@@ -406,7 +408,8 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/reviews/<int:review_id>', methods=['PUT'])
     def update_review(review_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
         score = 0
         paramScore = request.form['score']
@@ -417,7 +420,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         review = sql.Review.query.get(review_id)
         if review == None:
             abort(404)
-        user = sql.User.query.filter_by(netid=session["netid"]).first()
+        user = sql.User.query.filter_by(netid=netid).first()
         if score == 1:
             if " " + str(review_id) + " " not in user.upvoted_reviews:
                 user.upvoted_reviews += " " + str(review_id) + " "
