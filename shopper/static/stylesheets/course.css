@@ -906,16 +906,15 @@ label {
 /* reviews */
 
 .sort-options {
-  height: 1.5rem;
   border: none;
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
   margin-left: 0.25rem;
   font-weight: 300;
-  color: #ee7f2d;
+  color: white;
   background: url(/static/icons/svg/sort-arrows-white.svg) no-repeat center;
   background-size: 0.6rem 0.6rem;
-  background-position-x: 7.95rem;
+  background-position-x: 5.95rem;
 }
 
 select::-ms-expand {
@@ -971,32 +970,36 @@ select::-ms-expand {
 }
 
 .reviews .reviews-sort {
-  font-size: 1.25rem;
+  font-size: 1rem;
   padding-top: 0.1rem;
   float: right;
   color: #ee7f2d;
 }
 
 .reviews .reviews-sort select {
-  width: 9rem;
+  width: 7rem;
   display: inline-block;
+}
+
+.reviews-listing {
+  border-left: 1px solid #ee7f2d;
+  border-right: 1px solid #ee7f2d;
 }
 
 .reviews .list-group-item {
   padding-bottom: 0.5rem;
   color: white;
   background-color: black;
-  border: 1px solid #ee7f2d;
   position: relative;
   min-height: 5.5rem;
-  border-top: none;
-  border-bottom: none;
+  border: 1px solid black;
   border-radius: 0;
-  margin-bottom: 0
+  margin-bottom: 0;
 }
 
 .reviews .list-group-item:hover {
-  border: 1px solid #ee7f2d;
+  border-top: 1px solid #ee7f2d;
+  border-bottom: 1px solid #ee7f2d;
 }
 
 .reviews .blockquote {
