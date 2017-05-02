@@ -267,6 +267,40 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.commit()
         return json.dumps({'upvotes': rant.upvotes}), 201
 
+
+    @app.route('/api/rants/<int:c_id>/<hot>', methods=['GET'])
+    def get_hot_rants(c_id, hot):
+        if 'netid' not in session:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        rants = course.rants.order_by(sql.Rant.timestamp.desc()).all()
+        rantsJson = []
+        currentTime = datetime.datetime.utcnow()
+        if hot == 'true':
+            rants.sort(key=lambda k: k.upvotes, reverse=True)
+        if len(rants) < 20:
+            length = len(rants)
+        else: length = 20
+        for i in range(0, length):
+            rantDict = {}
+            rantDict['id'] = rants[i].id
+            rantDict['text'] = rants[i].text
+            rantDict['upvotes'] = rants[i].upvotes
+            rantDict['replies'] = []
+            rantDict['timestamp'] = util.elapsedTime(rants[i].timestamp, currentTime)
+            for reply in rants[i].replies.all():
+                replyDict = {}
+                replyDict['id'] = reply.id
+                replyDict['text'] = reply.text
+                replyDict['upvotes'] = reply.upvotes
+                replyDict['timestamp'] = util.elapsedTime(reply.timestamp, currentTime)
+                rantDict['replies'].append(replyDict)
+            rantsJson.append(rantDict)
+        return json.dumps(rantsJson)
+
+
     @app.route('/api/rants/<int:c_id>', methods=['GET'])
     def get_rants(c_id):
         if 'netid' not in session:

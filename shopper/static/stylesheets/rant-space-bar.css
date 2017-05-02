@@ -124,14 +124,24 @@
 
 .add {
   position: absolute;
-  top: 0.5rem;
-  right: 5rem;
+  top: 16%;
+  right: 10%;
+}
+
+.hide {
+  display: none !important;
+}
+
+.hot {
+  position: absolute;
+  top: 16%;
+  right: 55%;
 }
 
 .refresh {
   position: absolute;
-  top: 0.5rem;
-  right: 2rem;
+  top: 16%;
+  right: 45%;
 }
 
 #rants {

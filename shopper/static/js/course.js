@@ -47,6 +47,16 @@ $(document).ready(function() {
     selectStar();
     animateBars();
 
+    $(".hot").click(function() {
+        $(".add").addClass("hide");
+        $("#rants").animateCss("flip-custom");
+    });
+
+    $(".refresh").click(function() {
+        $(".add").removeClass("hide");
+        $("#rants").animateCss("flip-custom");
+    });
+
     $("#sidebar-btn").click(function(e) {
         e.preventDefault();
         $("#course-page-content").toggleClass("toggled");

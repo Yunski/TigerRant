@@ -58,6 +58,15 @@
                           $log.log(error);
                       });
             };
+            $scope.getHotRants = function() {
+                $http.get('/api/rants/' + id + '/true').
+                      success(function(rants) {
+                          $scope.rants = rants;
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            };
             $scope.getReviews = function() {
                 $http.get('/api/reviews/' + id).
                       success(function(reviews) {
