@@ -109,7 +109,6 @@ class Review(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
     netid = db.Column(db.Unicode(32), index=True, unique=True)
-    ticket = db.Column(db.UnicodeText())
     first_name = db.Column(db.UnicodeText())
     last_name = db.Column(db.UnicodeText())
     cart = db.relationship('Course', secondary=cart,
