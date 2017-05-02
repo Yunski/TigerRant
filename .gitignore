@@ -102,4 +102,5 @@ config.py
 
 # tigershop ignores
 .DS_Store
-db_repository/*
+db_repository/
+migrations/
