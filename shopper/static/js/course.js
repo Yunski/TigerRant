@@ -76,7 +76,7 @@ $(document).ready(function() {
         $(".descriptions").hide();
         $(".official-card").show();
         $(".course-banner .card #more-button-container").addClass("hide");
-        $(".course-banner .card").toggleClass('flipped');
+        $(".official-card").animateCss("flip-custom");
     });
     $(".official").click(function () {
         $(".banner-buttons .col-md").show();
@@ -84,7 +84,7 @@ $(document).ready(function() {
         $(".descriptions").show();
         $(".official-card").hide();
         $(".course-banner .card #more-button-container").removeClass("hide");
-        $(".course-banner .card").toggleClass('flipped');
+        $(".descriptions").animateCss("flip-custom");
     });
 
     $("#more-descriptions-button").click(function () {
