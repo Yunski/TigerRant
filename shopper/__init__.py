@@ -8,7 +8,6 @@ from flask_api import status
 from flask_cas import CAS
 
 from . import model_cloudsql as sql
-from . import cas
 from . import search_courses as sc
 from . import util
 
@@ -34,7 +33,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/')
     def index():
-        if 'netid' in session:
+        if cas.username is not None:
             return redirect(url_for('browse'))
         return render_template('index.html')
 
@@ -44,7 +43,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if netid is None:
             return redirect('/')
         response = redirect(url_for('browse'), code=status.HTTP_302_FOUND)
-        session['netid'] = netid
         user = sql.User.query.filter_by(netid=netid).first()
         if user is None:
             newUser = sql.User(netid=netid, upvoted_reviews = "", upvoted_rants = "", downvoted_rants = "", upvoted_descriptions = "", downvoted_descriptions = "", upvoted_replys = "", downvoted_replys = "")
@@ -52,16 +50,11 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             sql.db.session.commit()
         return response
 
-    @app.route('/logout', methods=['POST'])
-    def logout():
-        session.pop('netid', None)
-        return redirect(url_for('index'))
-
     @app.route('/browse')
     def browse():
-        if 'netid' not in session:
+        netid = cas.username
+        if netid is None:
             return redirect(url_for('index'))
-        netid = session['netid']
         page = request.args.get('page')
         search = request.args.get('search')
         order = request.args.get('order')
@@ -79,9 +72,9 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/course')
     def course():
-        if 'netid' not in session:
+        netid = cas.username
+        if netid is None:
             return redirect(url_for('index'))
-        netid = session['netid']
         course_id = request.args.get('id')
         if course_id is None:
             return redirect(url_for('browse'))
@@ -109,9 +102,9 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/cart')
     def cart():
-        if 'netid' not in session:
+        netid = cas.username
+        if netid is None:
             return redirect(url_for('index'))
-        netid = session['netid']
         course_cookie = request.cookies.get('courses')
         courses = []
         if course_cookie == None:
@@ -143,14 +136,14 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/distributions')
     def distributions():
-        if 'netid' not in session:
+        netid = cas.username
+        if netid is None:
             return redirect(url_for('index'))
-        netid = session['netid']
         return render_template('distributions.html', netid=netid)
 
     @app.route('/api/descriptions/<int:c_id>', methods=['POST'])
     def post_description(c_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
@@ -163,7 +156,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/descriptions/<int:description_id>', methods=['PUT'])
     def update_description(description_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         vote = 0
         paramVote = request.form['vote']
@@ -199,7 +192,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/descriptions/<int:c_id>', methods=['GET'])
     def get_descriptions(c_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
@@ -220,7 +213,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/rants/<int:c_id>', methods=['POST'])
     def post_rant(c_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
@@ -233,7 +226,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/rants/<int:rant_id>', methods=['PUT'])
     def update_rant(rant_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         vote = 0
         paramVote = request.form['vote']
@@ -270,7 +263,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/rants/<int:c_id>/<hot>', methods=['GET'])
     def get_hot_rants(c_id, hot):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
@@ -303,7 +296,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/rants/<int:c_id>', methods=['GET'])
     def get_rants(c_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
@@ -330,7 +323,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/replies/<int:rant_id>', methods=['POST'])
     def post_reply(rant_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         rant = sql.Rant.query.get(rant_id)
         if rant == None:
@@ -344,7 +337,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/replies/<int:reply_id>', methods=['PUT'])
     def update_reply(reply_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         print(reply_id)
         vote = 0
@@ -381,7 +374,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/reviews/<int:c_id>', methods=['POST'])
     def post_review(c_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
@@ -413,7 +406,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/reviews/<int:review_id>', methods=['PUT'])
     def update_review(review_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         score = 0
         paramScore = request.form['score']
@@ -437,7 +430,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
     def get_reviews(c_id):
-        if 'netid' not in session:
+        if cas.username is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
