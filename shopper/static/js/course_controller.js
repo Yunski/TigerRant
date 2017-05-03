@@ -262,6 +262,7 @@
                               rant.replies.push(reply);
                           }
                           $("#your-reply-" + rantId).collapse("hide");
+                          $("#your-reply-" + rantId + " textarea").val("");
                       }).
                       error(function(error) {
                           $log.log(error);

@@ -122,23 +122,23 @@
   box-shadow: 0px 0px 0.2rem white;
 }
 
-.add {
+.refresh {
   position: absolute;
   top: 16%;
-  right: 10%;
+  right: 2rem;
 }
 
 .hide {
   display: none !important;
 }
 
-.hot {
+.add {
   position: absolute;
   top: 16%;
   right: 55%;
 }
 
-.refresh {
+.hot {
   position: absolute;
   top: 16%;
   right: 45%;

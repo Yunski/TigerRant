@@ -168,3 +168,24 @@ function showDescriptionsDisplay() {
         $("#more-button-container a").text("Show More");
     }
 }
+
+function highlight(id) {
+    elements = id.split("-");
+    type = elements[0];
+    arrow = elements[1];
+    n = elements[2];
+    $("#" + type + "-score-" + n).toggleClass("highlight");
+    if (arrow === "upvote") {
+        if ($("#" + type + "-downvote-" + n).hasClass("highlight")) {
+            $("#" + type + "-score-" + n).addClass("highlight");
+            $("#" + type + "-downvote-" + n).removeClass("highlight");
+        }
+    }
+    if (arrow === "downvote") {
+        if ($("#" + type + "-upvote-" + n).hasClass("highlight")) {
+            $("#" + type + "-score-" + n).addClass("highlight");
+            $("#" + type + "-upvote-" + n).removeClass("highlight");
+        }
+    }
+    $("#" + id).toggleClass("highlight");
+}

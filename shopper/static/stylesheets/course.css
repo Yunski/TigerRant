@@ -489,6 +489,11 @@ label {
   text-align: center;
 }
 
+.course-banner .empty-description-card {
+  border: 1px solid black;
+  margin-top: 0;
+}
+
 .course-banner .official-card {
   border: none;
   margin-top: 0;
@@ -722,6 +727,10 @@ label {
   cursor: pointer;
 }
 
+.highlight {
+  color: blue;
+}
+
 .score {
   padding: 0.1rem 0;
   -webkit-user-select: none;
@@ -877,7 +886,6 @@ label {
 
 .terms .nav-tabs .nav-link:hover {
   color: #ee7f2d;
-  border-bottom-color: black;
 }
 
 .terms .nav-tabs .nav-link.empty {

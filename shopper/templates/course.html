@@ -78,9 +78,9 @@
           <div class="card-block d-flex align-items-center">
             <p class="card-text">{a rant.text a}</p>
             <div class="vote-container" class="col-md-1">
-              <div class="upvote" ng-click="updateRant($index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
-              <div class="score">{a rant.upvotes a}</div>
-              <div class="downvote" ng-click="updateRant($index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+              <div id="rant-upvote-{a rant.id a}" class="upvote" ng-click="updateRant($index, 1)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+              <div id="rant-score-{a rant.id a}" class="score">{a rant.upvotes a}</div>
+              <div id="rant-downvote-{a rant.id a}" class="downvote" ng-click="updateRant($index, -1)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="card-footer">
@@ -104,9 +104,9 @@
             <div class="card-block d-flex align-items-center">
               <p class="card-text">{a reply.text a}</p>
               <div class="vote-container" class="col-md-1">
-                <div class="upvote" ng-click="updateReply($parent.$index, $index, 1)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                <div class="score">{a reply.upvotes a}</div>
-                <div class="downvote" ng-click="updateReply($parent.$index, $index, -1)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                <div id="reply-upvote-{a reply.id a}" class="upvote" ng-click="updateReply($parent.$index, $index, 1)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                <div id="reply-score-{a reply.id a}" class="score">{a reply.upvotes a}</div>
+                <div id="reply-downvote-{a reply.id a}" class="downvote" ng-click="updateReply($parent.$index, $index, -1)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
               </div>
             </div>
             <div class="card-footer">
@@ -125,43 +125,36 @@
         <h3 id="course-title" class="card-title" ng-non-bindable>{{ course.dept }} {{ course.catalog_number }} - {{ course.title }}</h3>
 
         <div class="course-instructors" ng-repeat="instructor in terms[selectedTerm]['instructors']">
-          <!--
-          {% for i in range(0, course.instructors|length) %}
-          {% if i != course.instructors|length-1 %}
-            <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-            <span>/</span>
-          {% else %}
-            <span>{{ course.instructors[i].first_name }} {{ course.instructors[i].last_name }}</span>
-          {% endif %}
-          {% endfor %}-->
           <span>{a instructor.first_name a} {a instructor.last_name a}</span>
         </div>
         <ul class="list-group descriptions">
-          <li class="list-group-item description">
+          <li class="list-group-item description" ng-if="approvedDescriptions.length > 0">
             <div class="card">
-              <div class="card-block d-flex align-items-center" ng-if="approvedDescriptions.length > 0">
+              <div class="card-block d-flex align-items-center">
                 <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
                 <p class="card-text">{a approvedDescriptions[0].text a}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div class="upvote" ng-click="updateDescription(0, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div class="score">{a approvedDescriptions[0].upvotes a}</div>
-                  <div class="downvote" ng-click="updateDescription(0, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div id="description-upvote-{a description.id a}" class="upvote" ng-click="updateDescription(0, 1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div id="description-score-{a description.id a}" class="score">{a approvedDescriptions[0].upvotes a}</div>
+                  <div id="description-downvote-{a description.id a}" class="downvote" ng-click="updateDescription(0, -1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
-              </div>
-              <div class="card-block d-flex align-items-center justify-content-center" ng-if="approvedDescriptions.length <= 0">
-                <button class="btn btn-secondary" data-toggle="modal" data-target="#description-modal">Be the first to get a description approved!</button>
               </div>
             </div>
           </li>
+          <div class="card empty-description-card" ng-if="approvedDescriptions.length <= 0">
+            <div class="card-block d-flex align-items-center justify-content-center">
+              <button class="btn btn-secondary" data-toggle="modal" data-target="#description-modal">Be the first to get a description approved!</button>
+            </div>
+          </div>
           <div class="collapse" id="more-descriptions" ng-if="approvedDescriptions.length > 1">
             <li class="list-group-item description" ng-repeat="description in approvedDescriptions" ng-if="!$first">
               <div class="card">
                 <div class="card-block d-flex align-items-center">
                   <p class="card-text">{a description.text a}</p>
                   <div class="vote-container" class="col-md-1">
-                    <div class="upvote" ng-click="updateDescription($index, 1, true)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                    <div class="score">{a description.upvotes a}</div>
-                    <div class="downvote" ng-click="updateDescription($index, -1, true)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                    <div id="description-upvote-{a description.id a}" class="upvote" ng-click="updateDescription($index, 1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                    <div id="description-score-{a description.id a}" class="score">{a description.upvotes a}</div>
+                    <div id="description-downvote-{a description.id a}" class="downvote" ng-click="updateDescription($index, -1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
                   </div>
                 </div>
               </div>
@@ -268,7 +261,7 @@
           <div class="reviews-sort" ng-if="selectedTerm.length > 0">
             <span>Sort by:</span>
             <select class="sort-options">
-              <option value="upvotes">Most helpful</option> 
+              <option value="upvotes">Most helpful</option>
               <option value="negative">Most recent</option>
             </select>
           </div>
@@ -355,9 +348,9 @@
               <div class="card-block d-flex align-items-center">
                 <p class="card-text">{a description.text a}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div class="upvote" ng-click="updateDescription($index, 1, false)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div class="score">{a description.upvotes a}</div>
-                  <div class="downvote" ng-click="updateDescription($index, -1, false)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div id="description-upvote-{a description.id a}" class="upvote" ng-click="updateDescription($index, 1, false)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div id="description-score-{a description.id a}" class="score">{a description.upvotes a}</div>
+                  <div id="description-downvote-{a description.id a}" class="downvote" ng-click="updateDescription($index, -1, false)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
             </div>
