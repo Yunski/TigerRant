@@ -1,0 +1,58 @@
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/form.css"  />
+<script src="/static/js/form.js"></script>
+<!-- Feedback form from https://github.com/izhan/gform_feedback -->
+  <div id="feedback-form">
+    <a id="feedback-button">Tell us what you think.</a>
+    <div class="form">
+      <!-- iFrame needed for preventing a redirect -->
+      <iframe name="hidden_iframe" id="hidden_iframe"
+      style="display:none;" onload="if(submitted)
+      {feedbackFormSubmitted();}"></iframe>
+      <!-- End iFrame -->
+
+      <form action="https://docs.google.com/forms/d/e/1FAIpQLSfFnnXWtr-7dk35uzCtYAjsAKTgatYdvmU6iei4pfymZqcoDg/formResponse" method="POST" id="ss-form" target="hidden_iframe" onsubmit="submitted=true;">
+        <ol role="list" class="ss-question-list" style="padding-left: 0">
+          <div class="ss-form-question errorbox-good" role="listitem">
+            <div dir="ltr" class="ss-item  ss-paragraph-text">
+              <div class="ss-form-entry">
+                <label class="ss-q-item-label" for="entry_55656064">
+                  <div class="ss-q-title">What features are difficult to use? Are there any problems?
+                  </div>
+                  <div class="ss-q-help ss-secondary-text" dir="ltr">
+                  </div>
+                </label>
+                <textarea class="quantumWizTextinputPapertextareaInput exportTextarea" jsname="YPqjbf" data-rows="1" tabindex="0" aria-label="What features are difficult to use? Are there any problems?" jscontroller="gZjhIf" jsaction="input:Lg5SV;ti6hGc:XMgOHc;rcuQ6b:WYd;" name="entry.392744746" dir="auto" data-initial-dir="auto" data-initial-value=""></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="ss-form-question errorbox-good" role="listitem">
+            <div dir="ltr" class="ss-item  ss-paragraph-text">
+              <div class="ss-form-entry">
+                <label class="ss-q-item-label" for="entry_1432573789">
+                  <div class="ss-q-title">Do you want to see any features added?
+                  </div>
+                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+                </label>
+                 <textarea class="quantumWizTextinputPapertextareaInput exportTextarea" jsname="YPqjbf" data-rows="1" tabindex="0" aria-label="Do you want to see any features added?" jscontroller="gZjhIf" jsaction="input:Lg5SV;ti6hGc:XMgOHc;rcuQ6b:WYd;" name="entry.271633065" dir="auto" data-initial-dir="auto" data-initial-value=""></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="ss-form-question errorbox-good" role="listitem">
+            <div dir="ltr" class="ss-item  ss-paragraph-text">
+              <div class="ss-form-entry">
+                <label class="ss-q-item-label" for="entry_1985186281">
+                  <div class="ss-q-title">Any other questions/comments/suggestions?
+                  </div>
+                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+                </label>
+                <textarea class="quantumWizTextinputPapertextareaInput exportTextarea" jsname="YPqjbf" data-rows="1" tabindex="0" aria-label="Any other questions/comments/suggestions?" jscontroller="gZjhIf" jsaction="input:Lg5SV;ti6hGc:XMgOHc;rcuQ6b:WYd;" name="entry.1756466097" dir="auto" data-initial-dir="auto" data-initial-value=""></textarea>
+              </div>
+            </div>
+          </div>
+          <input type="submit" name="submit" value="Submit" class="btn btn-default" id="ss-submit">
+          <button class="btn btn-default" disabled=true id="ss-submit-disabled">Submitting, please wait...</button>
+        </ol>
+      </form>
+      <!-- end Form -->
+    </div>
+  </div>
