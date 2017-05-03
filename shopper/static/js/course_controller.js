@@ -17,6 +17,7 @@
             var page = "";
             var order = "";
             var maxPerPage = 20;
+            var onHot = false;
 
             if ( $location.search().hasOwnProperty('id')) {
                 id = $location.search().id;
@@ -49,7 +50,8 @@
                           $log.log(error);
                       });
             };
-            $scope.getRants = function() {
+            $scope.getTimeRants = function() {
+                onHot = false;
                 $http.get('/api/rants/' + id).
                       success(function(rants) {
                           $scope.rants = rants;
@@ -59,6 +61,7 @@
                       });
             };
             $scope.getHotRants = function() {
+                onHot = true;
                 $http.get('/api/rants/' + id + '/true').
                       success(function(rants) {
                           $scope.rants = rants;
@@ -66,6 +69,14 @@
                       error(function(error) {
                           $log.log(error);
                       });
+            };
+            $scope.getRants = function() {
+                if (onHot == true) {
+                    $scope.getHotRants();
+                }
+                else {
+                    $scope.getTimeRants();
+                }
             };
             $scope.getReviews = function() {
                 $http.get('/api/reviews/' + id).
