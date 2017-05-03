@@ -60,15 +60,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         order = request.args.get('order')
         if order == None:
             order = "dept"
+        courses = request.cookies.get('courses')
+        if (courses == None) or (courses == ""):
+            num = '0'
+        else:
+            num = str(len(courses.split(' ')))
         if page is None or search is None:
-            return render_template('home.html', netid=netid)
+            return render_template('home.html', netid=netid, incart=num)
 
         #find list of classes that match search
         #returns a tuple of type results, pageInt, length, num_pages
         results, pageInt, length, num_pages = sc.matched_courses(search, order, page)
-
         #return searched classes (for specific page)
-        return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search, order=order)
+        return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search, order=order, incart=num)
 
     @app.route('/course')
     def course():
@@ -86,19 +90,40 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             # course page not found
             return redirect(url_for('browse'))
         add = request.args.get('add')
+        courses = request.cookies.get('courses')
         if add != None:
-            courses = request.cookies.get('courses')
-            response = make_response(render_template('course.html', netid=netid, course=course))
-            if courses == None: response.set_cookie('courses', course_id)
-            elif course_id not in courses: response.set_cookie('courses', (courses + ' ' + course_id))
-            return response
-        return render_template('course.html', netid=netid, course=course)
+            if (courses == None) or (courses == ""):
+                response = make_response(render_template('course.html', netid=netid, course=course, incart='1'))
+                response.set_cookie('courses', course_id)
+                return response
+            else:
+                if course_id not in courses:
+                    num = str(len(courses.split(' ')) + 1)
+                    response = make_response(render_template('course.html', netid=netid, course=course, incart=num))
+                    response.set_cookie('courses', (courses + ' ' + course_id))
+                    return response
+                else:
+                    num = str(len(courses.split(' ')))
+                    return make_response(render_template('course.html', netid=netid, course=course, incart=num))
+        if (courses == None) or (courses == ""):
+            num = '0'
+        else:
+            num = str(len(courses.split(' ')))
+        return render_template('course.html', netid=netid, course=course, incart=num)
 
 
     @app.route('/about')
     def about():
         return render_template('about.html')
 
+    def delete(course, string):
+        if len(string) < 4: return ""
+        courses = string.split(' ')
+        result = ""
+        for i in range(0, len(courses)):
+            if (courses[i] != ' ') and (courses[i] != course):
+                result += courses[i] + " "
+        return result.strip()
 
     @app.route('/cart')
     def cart():
@@ -108,22 +133,25 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         course_cookie = request.cookies.get('courses')
         courses = []
         if course_cookie == None:
-            return render_template('cart.html', netid=netid, courses=courses)
+            return render_template('cart.html', netid=netid, courses=courses, incart='0')
         course_id = request.args.get('id')
         if course_id != None:
             if not course_id.isdigit():
                 '''going to want to redirect back to course page not browse'''
                 return redirect(url_for('cart'))
             if course_id in course_cookie:
-                course_cookie = course_cookie.replace(course_id, '')
-                course_cookie = course_cookie.strip()
+                course_cookie = delete(course_id, course_cookie)
                 course_ids = course_cookie.split(' ')
+                if (course_cookie == None) or (course_cookie == ""):
+                    num = '0'
+                else:
+                    num = str(len(course_ids))
                 for course_id in course_ids:
                     if course_id != '':
                         c_id = int(course_id)
                         course = sql.Course.query.filter_by(c_id=c_id).first()
                         if course != None: courses.append(course)
-                response = make_response(render_template('cart.html', netid=netid, courses=courses))
+                response = make_response(render_template('cart.html', netid=netid, courses=courses, incart=num))
                 response.set_cookie('courses', course_cookie)
                 return response
         course_ids = course_cookie.split(' ')
@@ -132,7 +160,11 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 c_id = int(course_id)
                 course = sql.Course.query.filter_by(c_id=c_id).first()
                 if course != None: courses.append(course)
-        return render_template('cart.html', netid=netid, courses=courses)
+        if (course_cookie == None) or (course_cookie == ""):
+            num = '0'
+        else:
+            num = str(len(course_ids))
+        return render_template('cart.html', netid=netid, courses=courses, incart=num)
 
     @app.route('/distributions')
     def distributions():
