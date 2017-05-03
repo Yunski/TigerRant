@@ -125,7 +125,13 @@
 .refresh {
   position: absolute;
   top: 16%;
-  right: 2rem;
+  right: 5%;
+}
+
+.time {
+  position: absolute;
+  top: 16%;
+  right: 46%;
 }
 
 .hide {
@@ -135,13 +141,13 @@
 .add {
   position: absolute;
   top: 16%;
-  right: 55%;
+  right: 13%;
 }
 
 .hot {
   position: absolute;
   top: 16%;
-  right: 45%;
+  right: 54%;
 }
 
 #rants {

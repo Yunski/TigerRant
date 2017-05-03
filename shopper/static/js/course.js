@@ -52,10 +52,12 @@ $(document).ready(function() {
         $("#rants").animateCss("flip-custom");
     });
 
-    $(".refresh").click(function() {
+    $(".time").click(function() {
         $(".add").removeClass("hide");
         $("#rants").animateCss("flip-custom");
     });
+
+    $(".refresh").click(function() { $("#rants").animateCss("flip-custom");});
 
     $("#sidebar-btn").click(function(e) {
         e.preventDefault();
