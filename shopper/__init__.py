@@ -166,13 +166,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             num = str(len(course_ids))
         return render_template('cart.html', netid=netid, courses=courses, incart=num)
 
-    @app.route('/distributions')
-    def distributions():
-        netid = cas.username
-        if netid is None:
-            return redirect(url_for('index'))
-        return render_template('distributions.html', netid=netid)
-
     @app.route('/api/descriptions/<int:c_id>', methods=['POST'])
     def post_description(c_id):
         if cas.username is None:
