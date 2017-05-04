@@ -93,6 +93,9 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# Phantom
+ghostdriver.log
+
 # Database
 db_repository/
 cloud_sql_proxy
