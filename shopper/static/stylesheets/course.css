@@ -598,6 +598,7 @@ label {
 .description .card-block {
   position: relative;
   min-height: 6rem;
+  justify-content: center;
 }
 
 .description .card-title {
@@ -618,7 +619,7 @@ label {
 }
 
 .description .card-text {
-  width: 100%;
+  width: 80%;
   margin: 0;
 }
 
