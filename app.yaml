@@ -18,5 +18,5 @@ beta_settings:
     #   "project:region:cloudsql-instance"
     # You must also update the values in config.py.
     #
-    cloud_sql_instances: "tigershop-161820:us-east1:shopper-1"
+    cloud_sql_instances: "tigerrant-166318:us-central1:shopper"
 #[END cloudsql_settings]
