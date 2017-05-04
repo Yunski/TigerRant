@@ -267,6 +267,10 @@ label {
   justify-content: center;
 }
 
+.reviews-sort .nav-pills {
+  padding-top: 0;
+}
+
 .nav-pills .nav-item {
 }
 
@@ -278,17 +282,39 @@ label {
 .nav-pills .nav-link {
   background-color: black;
   border: 1px solid white;
-  border-radius: 0;
   color: white !important;
+  padding: 0.1rem 0.35rem;
+  display: flex;
+  border: 1px solid #ee7f2d;
+}
+
+#helpful, #helpful.active:hover, #helpful:hover { border-radius: 0.5rem 0 0 0.5rem; }
+
+#recent, #recent.active:hover, #recent:hover { border-radius: 0 0.5rem 0.5rem 0; }
+
+.nav-pills:first-child { border-radius: 0.5rem 0 0 0.5rem; }
+
+.nav-pills:last-child { border-radius: 0 0.5rem 0.5rem 0; }
+
+.nav-pills .nav-link.active {
+  border: 1px solid #ee7f2d;
+  background-color: #ee7f2d;
+}
+
+.nav-pills .nav-link.active:hover {
+  border: 1px solid #ee7f2d;
+}
+
+.nav-pills .nav-link .active {
+  border: none;
+}
+
+.reviews-sort span {
+  white-space: nowrap;
 }
 
 .nav-pills .nav-link:hover {
   border: 1px solid white;
-}
-
-.nav-pills .nav-link.active {
-  background-color: #ee7f2d;
-  color: black !important;
 }
 
 /* navbar */
@@ -980,8 +1006,10 @@ select::-ms-expand {
 .reviews .reviews-sort {
   font-size: 1rem;
   padding-top: 0.1rem;
-  float: right;
+  display: flex;
+  flex-direction: row;
   color: #ee7f2d;
+  align-items: center;
 }
 
 .reviews .reviews-sort select {

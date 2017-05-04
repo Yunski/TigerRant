@@ -42,6 +42,20 @@ function animateBars() {
     });
 }
 
+function clickRecent() {
+    $("#helpful").removeClass("active");
+    $("#recent").addClass("active");
+    angular.element("#TigerShopController").scope().getReviews();
+    angular.element("#TigerShopController").scope().$apply();
+}
+
+function clickHelpful() {
+    $("#helpful").addClass("active");
+    $("#recent").removeClass("active");
+    angular.element("#TigerShopController").scope().getHelpfulReviews();
+    angular.element("#TigerShopController").scope().$apply();
+}
+
 $(document).ready(function() {
     //detectStarHover();
     selectStar();

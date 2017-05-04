@@ -508,6 +508,44 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.commit()
         return json.dumps({'upvotes': review.upvotes}), 201
 
+    @app.route('/api/reviews/true/<int:c_id>', methods=['GET'])
+    def get_helpful_reviews(c_id):
+        if cas.username is None:
+            abort(401)
+        course = sql.Course.query.filter_by(c_id=c_id).first()
+        if course == None:
+            abort(404)
+        terms = course.terms.all()
+        reviewsJson = {}
+        for term in terms:
+            code = term.code
+            reviewsJson[code] = {}
+            termCode = str(term.code)[1:]
+            if termCode[2:3] == "2":
+                termString = "Fall " + str(int(termCode[:2]) - 1)
+            else:
+                termString = "Spring " + termCode[:2]
+            reviewsJson[code]['term_string'] = termString
+            reviewsJson[code]['average_rating'] = term.overall_rating
+            reviewsJson[code]['instructors'] = []
+            for instructor in term.instructors:
+                instrucDict = {}
+                instrucDict['emplid'] = instructor.emplid
+                instrucDict['first_name'] = instructor.first_name
+                instrucDict['last_name'] = instructor.last_name
+                reviewsJson[code]['instructors'].append(instrucDict)
+            reviewsJson[code]['reviews'] = []
+            reviewsForTerm = sorted(term.reviews.order_by(sql.Review.timestamp.desc()).all(), key=lambda k: k.score, reverse=True)
+            for review in reviewsForTerm:
+                reviewDict = {}
+                reviewDict['id'] = review.id
+                reviewDict['sem_code'] = review.sem_code
+                reviewDict['rating'] = review.rating
+                reviewDict['text'] = review.text
+                reviewDict['score'] = review.score
+                reviewsJson[code]['reviews'].append(reviewDict)
+        return json.dumps(reviewsJson)
+
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
     def get_reviews(c_id):
         netid = cas.username

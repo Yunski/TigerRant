@@ -121,6 +121,49 @@
                           $log.log(error);
                       });
             };
+            $scope.getHelpfulReviews = function() {
+                $http.get('/api/reviews/true/' + id).
+                      success(function(reviews) {
+                            var terms = []
+                            $scope.terms = reviews;
+                            for (var term in reviews) {
+                                terms.push(term);
+                                $scope.terms[term]['average_rating'] = $scope.terms[term]['average_rating'].toFixed(1).toString();
+                            }
+                            if (terms.length > 0) {
+                                for (var i = terms.length-1; i >= 0; i--) {
+                                    var length = $scope.terms[terms[i]]['reviews'].length;
+                                    if (length > 0) {
+                                        $scope.selectedTerm = terms[i];
+                                        break;
+                                    }
+                                }
+                                if (!$scope.selectedTerm) $scope.selectedTerm = terms[0];
+                            }
+                            if ($scope.terms[$scope.selectedTerm]['reviews'].length > 0) {
+                                var currentPage = 1;
+                                var totalReviews = $scope.terms[$scope.selectedTerm]['reviews'].length;
+                                var start = 0;
+                                var end = totalReviews < currentPage * maxPerPage ? totalReviews : currentPage * maxPerPage;
+                                var pages = (totalReviews % maxPerPage) > 0 ? Math.floor(totalReviews / maxPerPage) + 1 : Math.floor(totalReviews / maxPerPage);
+                                var pageLinks = [];
+                                for (var i = 0; i < pages; i++) {
+                                    if (i == currentPage-1) {
+                                        pageLinks[i] = true;
+                                    } else {
+                                        pageLinks[i] = false;
+                                    }
+                                }
+                                $scope.reviews = $scope.terms[$scope.selectedTerm]['reviews'].slice(start, end);
+                                $scope.currentPage = currentPage;
+                                $scope.pages = pages;
+                                $scope.pageLinks = pageLinks;
+                            }
+                      }).
+                      error(function(error) {
+                          $log.log(error);
+                      });
+            };
             $scope.getCourseData = function(term) {
                 //$log.log(key);
                 $scope.selectedTerm = term;
@@ -283,7 +326,7 @@
             }
             $scope.getDescriptions();
             $scope.getRants();
-            $scope.getReviews();
+            $scope.getHelpfulReviews();
         }
     ]);
 }());

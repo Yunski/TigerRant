@@ -261,9 +261,14 @@
         <div class="col-md center">
           <div class="reviews-sort" ng-if="selectedTerm.length > 0">
             <span>Sort by:</span>
-            <select class="sort-options">
-              <option value="upvotes">Most helpful</option>
-              <option value="negative">Most recent</option>
+            <!--<select class="sort-options" ng-model="TigerShopController.options.model" ng-change="onSelection()">
+              <option ng-repeat="option in options.available" value="{a option.value a}">{a option.name a}</option>
+              <option value="upvotes">Most Helpful</option>
+              <option value="time">Most Recent</option>-->
+              <nav id="sort" class="nav nav-pills flex-column flex-sm-row">
+                <a id="helpful" onclick="clickHelpful()" class="flex-sm-fill text-sm-center nav-link active" href="#">Most Helpful</a>
+                <a id="recent" onclick="clickRecent()" class="flex-sm-fill text-sm-center nav-link" href="#">Most Recent</a>
+              </nav>
             </select>
           </div>
         </div>
