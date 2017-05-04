@@ -71,8 +71,19 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         #find list of classes that match search
         #returns a tuple of type results, pageInt, length, num_pages
         results, pageInt, length, num_pages = sc.matched_courses(search, order, page)
+        descriptions = []
+        for result in results:
+            desc = result.description.split()
+            count = 50
+            if len(desc) > count:
+                desc = desc[0:count]
+                desc.append("...")
+            desc = " ".join(desc)
+            descriptions.append(desc)
+
         #return searched classes (for specific page)
-        return render_template('browse.html', netid=netid, courses=results, current=pageInt, num_results=length, pages=num_pages, search=search, order=order, incart=num)
+        return render_template('browse.html', netid=netid, courses=results,
+        current=pageInt, num_results=length, pages=num_pages, search=search, order=order, incart=num, desc=descriptions)
 
     @app.route('/course')
     def course():

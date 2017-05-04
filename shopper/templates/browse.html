@@ -79,7 +79,7 @@
                 {% endif %}
               </span>
               <h6 class="card-subtitle">{{ course.title|striptags }}</h6>
-              <p class="card-text">{{ course.description|striptags|striptags }}</p>
+              <p class="card-text">{{ desc[loop.index0]|striptags|striptags }}</p>
               <a href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order={{ order }}" class="card-link">See Details<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
               <div class="badges">
                 <!-- TODO: need Department model <img src="/static/icons/svg/trophy.svg" />-->
