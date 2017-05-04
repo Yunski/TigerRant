@@ -149,6 +149,11 @@ a.page-link:hover {
   color: white;
 }
 
+.badge-default {
+  color: white;
+  background-color: #ee7f2d;
+}
+
 /* navbar */
 
 .bg-black {
@@ -170,15 +175,6 @@ a.page-link:hover {
   padding-right: 0;
 }
 
-#num-items-in-cart {
-  font-size: 0.75rem;
-  color: white;
-  background-color: #ee7f2d;
-  border-radius: 100%;
-  padding: 0.15rem 0.35rem;
-  margin-left: 0.5rem;
-  font-weight: 600;
-}
 /* search bar */
 
 .input-label {

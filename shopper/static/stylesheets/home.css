@@ -87,6 +87,11 @@ button:focus, textarea:focus {
   color: white;
 }
 
+.badge-default {
+  color: white;
+  background-color: #ee7f2d;
+}
+
 /* navbar */
 
 #navbar-home {
@@ -206,14 +211,4 @@ button:focus, textarea:focus {
   padding: 0;
   position: relative;
   top: 50%;
-}
-
-#num-items-in-cart {
-  font-size: 0.75rem;
-  color: white;
-  background-color: #ee7f2d;
-  border-radius: 100%;
-  padding: 0.15rem 0.35rem;
-  margin-left: 0.5rem;
-  font-weight: 600;
 }
