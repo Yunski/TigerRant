@@ -101,6 +101,9 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if netid is None:
             return redirect(url_for('index'))
         course_id = request.args.get('id')
+        search = request.args.get('search')
+        page = request.args.get('page')
+        order = request.args.get('order')
         if course_id is None:
             return redirect(url_for('browse'))
         if not course_id.isdigit():
@@ -130,7 +133,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             num = '0'
         else:
             num = str(len(courses.split(' ')))
-        return render_template('course.html', netid=netid, course=course, incart=num)
+        return render_template('course.html', netid=netid, course=course, search=search, page=page, order=order, incart=num)
 
 
     @app.route('/about')
