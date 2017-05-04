@@ -510,11 +510,13 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/reviews/true/<int:c_id>', methods=['GET'])
     def get_helpful_reviews(c_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
+        user = sql.User.query.filter_by(netid=netid).first()
         terms = course.terms.all()
         reviewsJson = {}
         for term in terms:
@@ -535,16 +537,20 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 instrucDict['last_name'] = instructor.last_name
                 reviewsJson[code]['instructors'].append(instrucDict)
             reviewsJson[code]['reviews'] = []
-            reviewsForTerm = sorted(term.reviews.order_by(sql.Review.timestamp.desc()).all(), key=lambda k: k.score, reverse=True)
+            reviewsForTerm = sorted(term.reviews.order_by(sql.Review.timestamp.desc()).all(), key=lambda k: k.upvotes, reverse=True)
             for review in reviewsForTerm:
                 reviewDict = {}
                 reviewDict['id'] = review.id
                 reviewDict['sem_code'] = review.sem_code
                 reviewDict['rating'] = review.rating
                 reviewDict['text'] = review.text
-                reviewDict['score'] = review.score
+                reviewDict['action'] = 0
+                if str(review.id) in user.upvoted_reviews:
+                    reviewDict['action'] = 1
+                reviewDict['upvotes'] = review.upvotes
                 reviewsJson[code]['reviews'].append(reviewDict)
         return json.dumps(reviewsJson)
+
 
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
     def get_reviews(c_id):
