@@ -118,8 +118,8 @@ class User(db.Model):
     downvoted_rants = db.Column(db.UnicodeText())
     upvoted_descriptions = db.Column(db.UnicodeText())
     downvoted_descriptions = db.Column(db.UnicodeText())
-    upvoted_replys = db.Column(db.UnicodeText())
-    downvoted_replys = db.Column(db.UnicodeText())
+    upvoted_replies = db.Column(db.UnicodeText())
+    downvoted_replies = db.Column(db.UnicodeText())
 
 class Term(db.Model):
     id = db.Column(db.Integer, index=True, unique=True, primary_key=True)
@@ -143,6 +143,8 @@ def _create_database():
     with app.app_context():
         db.create_all()
         SQLALCHEMY_DATABASE_URI = app.config.get('SQLALCHEMY_DATABASE_URI')
+        print('All tables created')
+        """
         SQLALCHEMY_MIGRATE_REPO = app.config.get('SQLALCHEMY_MIGRATE_REPO')
         if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
             api.create(SQLALCHEMY_MIGRATE_REPO, 'database repository')
@@ -150,7 +152,7 @@ def _create_database():
             print('All tables created')
         else:
             api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.version(SQLALCHEMY_MIGRATE_REPO))
-            print('All tables created')
+            print('All tables created')"""
 
 
 if __name__ == '__main__':

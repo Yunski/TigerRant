@@ -45,7 +45,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         response = redirect(url_for('browse'), code=status.HTTP_302_FOUND)
         user = sql.User.query.filter_by(netid=netid).first()
         if user is None:
-            newUser = sql.User(netid=netid, upvoted_reviews = "", upvoted_rants = "", downvoted_rants = "", upvoted_descriptions = "", downvoted_descriptions = "", upvoted_replys = "", downvoted_replys = "")
+            newUser = sql.User(netid=netid, upvoted_reviews = "", upvoted_rants = "", downvoted_rants = "", upvoted_descriptions = "", downvoted_descriptions = "", upvoted_replies = "", downvoted_replies = "")
             sql.db.session.add(newUser)
             sql.db.session.commit()
         return response
@@ -218,8 +218,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/descriptions/<int:c_id>', methods=['GET'])
     def get_descriptions(c_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
+        user = sql.User.query.filter_by(netid=netid).first()
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
@@ -233,6 +235,11 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             dDict['id'] = description.id
             dDict['text'] = description.text
             dDict['upvotes'] = description.upvotes
+            dDict['action'] = 0
+            if str(description.id) in user.upvoted_descriptions:
+                dDict['action'] = 1
+            elif str(description.id) in user.downvoted_descriptions:
+                dDict['action'] = -1
             descriptionsJson.append(dDict)
         sql.db.session.commit()
         return json.dumps(descriptionsJson)
@@ -376,22 +383,22 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         reply = sql.Reply.query.get(reply_id)
         user = sql.User.query.filter_by(netid=netid).first()
         if vote == 1:
-            if str(reply_id) not in user.upvoted_replys:
-                user.upvoted_replys += " " + str(reply_id) + " "
+            if str(reply_id) not in user.upvoted_replies:
+                user.upvoted_replies += " " + str(reply_id) + " "
             else:
                 vote = -1
-                user.upvoted_replys = user.upvoted_replys.replace(" " + str(reply_id) + " ", "")
-            if str(reply_id) in user.downvoted_replys:
-                user.downvoted_replys = user.downvoted_replys.replace(" " + str(reply_id) +  " ", "")
+                user.upvoted_replies = user.upvoted_replies.replace(" " + str(reply_id) + " ", "")
+            if str(reply_id) in user.downvoted_replies:
+                user.downvoted_replies = user.downvoted_replies.replace(" " + str(reply_id) +  " ", "")
                 vote = 2
         elif vote == -1:
-            if str(reply_id) not in user.downvoted_replys:
-                user.downvoted_replys += " " + str(reply_id) + " "
+            if str(reply_id) not in user.downvoted_replies:
+                user.downvoted_replies += " " + str(reply_id) + " "
             else:
                 vote = 1
-                user.downvoted_replys = user.downvoted_replys.replace(" " + str(reply_id) +  " ", "")
-            if str(reply_id) in user.upvoted_replys:
-                user.upvoted_replys = user.upvoted_replys.replace(" " + str(reply_id) + " ", "")
+                user.downvoted_replies = user.downvoted_replies.replace(" " + str(reply_id) +  " ", "")
+            if str(reply_id) in user.upvoted_replies:
+                user.upvoted_replies = user.upvoted_replies.replace(" " + str(reply_id) + " ", "")
                 vote = -2
         if reply == None:
             abort(404)

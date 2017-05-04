@@ -135,9 +135,9 @@
                 <h3 class="card-title"><span class="top-star"><i class="fa fa-star"></i></span>TOP DESCRIPTION</h3>
                 <p class="card-text">{a approvedDescriptions[0].text a}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div id="description-upvote-{a description.id a}" class="upvote" ng-click="updateDescription(0, 1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div id="description-score-{a description.id a}" class="score">{a approvedDescriptions[0].upvotes a}</div>
-                  <div id="description-downvote-{a description.id a}" class="downvote" ng-click="updateDescription(0, -1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div id="description-upvote-{a description.id a}" class="upvote" ng-class="{ highlight: description.action == 1 }" ng-click="updateDescription(0, 1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div id="description-score-{a description.id a}" class="score" ng-class="{ highlight: description.action != 0 }">{a approvedDescriptions[0].upvotes a}</div>
+                  <div id="description-downvote-{a description.id a}" class="downvote" ng-class="{ highlight: description.action == -1 }" ng-click="updateDescription(0, -1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
             </div>
@@ -153,9 +153,9 @@
                 <div class="card-block d-flex align-items-center">
                   <p class="card-text">{a description.text a}</p>
                   <div class="vote-container" class="col-md-1">
-                    <div id="description-upvote-{a description.id a}" class="upvote" ng-click="updateDescription($index, 1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                    <div id="description-score-{a description.id a}" class="score">{a description.upvotes a}</div>
-                    <div id="description-downvote-{a description.id a}" class="downvote" ng-click="updateDescription($index, -1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                    <div id="description-upvote-{a description.id a}" class="upvote" ng-class="{ highlight: description.action == 1 }" ng-click="updateDescription($index, 1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                    <div id="description-score-{a description.id a}" class="score" ng-class="{ highlight: description.action != 0 }">{a description.upvotes a}</div>
+                    <div id="description-downvote-{a description.id a}" class="downvote" ng-class="{ highlight: description.action == -1 }" ng-click="updateDescription($index, -1, true)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
                   </div>
                 </div>
               </div>
@@ -349,9 +349,9 @@
               <div class="card-block d-flex align-items-center">
                 <p class="card-text">{a description.text a}</p>
                 <div class="vote-container" class="col-md-1">
-                  <div id="description-upvote-{a description.id a}" class="upvote" ng-click="updateDescription($index, 1, false)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
-                  <div id="description-score-{a description.id a}" class="score">{a description.upvotes a}</div>
-                  <div id="description-downvote-{a description.id a}" class="downvote" ng-click="updateDescription($index, -1, false)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
+                  <div id="description-upvote-{a description.id a}" class="upvote" ng-class="{ highlight: description.action == 1 }" ng-click="updateDescription($index, 1, false)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-up"></i></div>
+                  <div id="description-score-{a description.id a}" class="score" ng-class="{ highlight: description.action != 0 }">{a description.upvotes a}</div>
+                  <div id="description-downvote-{a description.id a}" class="downvote" ng-class="{ highlight: description.action == -1 }" ng-click="updateDescription($index, -1, false)" onclick="highlight(this.id)"><i class="fa fa-lg fa-chevron-down"></i></div>
                 </div>
               </div>
             </div>

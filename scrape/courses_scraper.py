@@ -167,6 +167,7 @@ def newCourse(courseid):
     if soup.em != None:
         course["grade_options"] = soup.em.text.strip()
 
+    """
     siblings = soup.find(id="content").body.find(id="descr").next_sibling
 
     for string in siblings.stripped_strings:
@@ -179,7 +180,7 @@ def newCourse(courseid):
             course[current] = []
         #ignore commas, periods, etc.
         elif len(string) != 1:
-            course[current].append(string)
+            course[current].append(string)"""
 
     return course
 

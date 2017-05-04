@@ -90,7 +90,6 @@ $(document).ready(function() {
     });
 
     $("#more-descriptions-button").click(function () {
-        console.log("toggle");
         if ($("#more-button-container a").hasClass("collapsed")) {
             $("#more-button-container a").text("Show Less");
         } else {
@@ -112,7 +111,6 @@ $(document).ready(function() {
             type: "POST",
             data: {sem_code: sem_code, rating: rating, text: text},
             success: function(data) {
-                console.log("Response " + JSON.stringify(data));
                 location.reload();
             }
         });
@@ -157,7 +155,6 @@ $.fn.extend({
 });
 
 function scrollToReviewsTop() {
-    console.log($("#course-page-content").offset().top);
     $("#course-page-content").animate({
         scrollTop: 535
     }, 500);
