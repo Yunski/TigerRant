@@ -135,7 +135,14 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/about')
     def about():
-        return render_template('about.html')
+        netid = cas.username
+        loggedIn = netid is not None
+        courses = request.cookies.get('courses')
+        if (courses == None) or (courses == ""):
+            num = '0'
+        else:
+            num = str(len(courses.split(' ')))
+        return render_template('about.html', netid=netid, loggedIn=loggedIn, incart=num)
 
     def delete(course, string):
         if len(string) < 4: return ""

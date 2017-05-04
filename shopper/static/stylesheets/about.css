@@ -28,7 +28,6 @@ button:focus, textarea:focus {
 
 .navbar {
   padding: 0;
-  height: 10%;
   background-color: black;
   -webkit-box-shadow: 0 8px 6px -6px #ee7f2d;
   -moz-box-shadow: 0 8px 6px -6px #ee7f2d;
@@ -36,18 +35,10 @@ button:focus, textarea:focus {
 }
 
 .navbar-inverse .navbar-brand, .navbar-inverse .navbar-toggler {
-  padding-left: 2rem;
   color: #ee7f2d;
 }
 
-.navbar-nav {
-  width: 100%;
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-
 .navbar-toggleable-md .navbar-nav .nav-link {
-  width: 4rem;
   text-align: center;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -73,6 +64,25 @@ button:focus, textarea:focus {
   max-width: 100%;
 }
 
+.dropdown-menu {
+  padding: 0;
+  border: 1px solid white;
+  background-color: black;
+}
+
+.dropdown-item {
+  color: white;
+}
+
+.badge-default {
+  color: white;
+  background-color: #ee7f2d;
+}
+
+.input-group-addon {
+  width: 5rem;
+  font-weight: bold;
+}
 
 /* Font Awesome */
 
@@ -82,7 +92,82 @@ button:focus, textarea:focus {
 }
 
 #navbar-index {
-  height: 6rem;
+  height: 10%;
+}
+
+#navbar-index .navbar-brand {
+  padding-left: 2rem;
+}
+
+#navbar-top {
+  height: 5rem;
+}
+
+#nav-account {
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 1rem;
+}
+
+#cart-button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tiger {
+  width: 50%;
+  height: 5rem;
+  background: url("/static/img/tiger.jpg") no-repeat center;
+  background-size: cover;
+}
+
+/* search bar */
+
+.input-label {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.search-bar {
+  height: 3rem;
+}
+
+.search-text-field {
+  padding-left: 1rem;
+  border-top: 1px solid white;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid white;
+  border-radius: 0;
+  font-size: 1.1rem;
+  color: white;
+  background-color: transparent;
+  flex-grow: 1;
+  outline: none;
+}
+
+.search-text-field:focus, .search-text-field:hover {
+  outline: none;
+}
+
+.search-text-field::-webkit-input-placeholder { color: white; font-weight: 100; }
+.search-text-field::-moz-placeholder          { color: white; font-weight: 100; }
+.search-text-field:-moz-placeholder           { color: white; font-weight: 100; }
+.search-text-field:-ms-input-placeholder      { color: white; font-weight: 100; }
+
+.search-button {
+  width: 4rem;
+  max-width: 4rem;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.search-button:hover, .search-button:focus {
+  color: black;
+  background-color: white;
 }
 
 .landing {
