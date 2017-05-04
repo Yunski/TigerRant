@@ -71,10 +71,20 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         #find list of classes that match search
         #returns a tuple of type results, pageInt, length, num_pages
         results, pageInt, length, num_pages = sc.matched_courses(search, order, page)
+
         descriptions = []
-        for result in results:
-            desc = result.description.split()
-            count = 50
+
+        for course in results:
+            urban = course.descriptions.order_by(sql.Description.upvotes.desc()).first()
+            if urban == None:
+                desc = course.description
+            elif urban.upvotes < 10:
+                desc = course.description
+            else:
+                desc = urban.text
+
+            desc = desc.split()
+            count = 40
             if len(desc) > count:
                 desc = desc[0:count]
                 desc.append("...")
