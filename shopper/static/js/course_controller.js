@@ -32,6 +32,7 @@
                 order = $location.search().order;
             }
             $scope.returnURL = "/browse?search=" + search + "&page=" + page + "&order=" + order;
+            $scope.selectedTerm = "";
             $scope.getDescriptions = function() {
                 $http.get('/api/descriptions/' + id).
                       success(function(descriptions) {
@@ -87,7 +88,7 @@
                                 terms.push(term);
                                 $scope.terms[term]['average_rating'] = $scope.terms[term]['average_rating'].toFixed(1).toString();
                             }
-                            if (terms.length > 0) {
+                            if (!$scope.selectedTerm && terms.length > 0) {
                                 for (var i = terms.length-1; i >= 0; i--) {
                                     var length = $scope.terms[terms[i]]['reviews'].length;
                                     if (length > 0) {
@@ -130,7 +131,7 @@
                                 terms.push(term);
                                 $scope.terms[term]['average_rating'] = $scope.terms[term]['average_rating'].toFixed(1).toString();
                             }
-                            if (terms.length > 0) {
+                            if (!$scope.selectedTerm && terms.length > 0) {
                                 for (var i = terms.length-1; i >= 0; i--) {
                                     var length = $scope.terms[terms[i]]['reviews'].length;
                                     if (length > 0) {
