@@ -1043,6 +1043,11 @@ select::-ms-expand {
   color: #ee7f2d;
 }
 
+.reviews .thumbs-up .highlight i:hover {
+  cursor: pointer;
+  color: blue;
+}
+
 .reviews .thumbs-up span {
   margin-right: 0.5rem;
 }

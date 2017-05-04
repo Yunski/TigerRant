@@ -233,9 +233,9 @@
                           $log.log(error);
                       });
             }
-            $scope.updateReview = function($index, score) {
+            $scope.updateReview = function($index, upvotes) {
                 var data = $.param({
-                    score: score
+                    upvotes: upvotes
                 });
                 var config = {
                     headers : {
@@ -247,7 +247,7 @@
                 $http.put('/api/reviews/' + reviewId, data, config).
                       success(function(response, status) {
                           if (status == 201) {
-                              review.score = response.score;
+                              review.upvotes = response.upvotes;
                           }
                       }).
                       error(function(error) {
@@ -274,6 +274,7 @@
                           }
                           $("#your-reply-" + rantId).collapse("hide");
                           $("#your-reply-" + rantId + " textarea").val("");
+                          $("#replies-" + rantId).collapse("show");
                       }).
                       error(function(error) {
                           $log.log(error);

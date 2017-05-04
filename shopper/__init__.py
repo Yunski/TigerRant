@@ -221,10 +221,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         netid = cas.username
         if netid is None:
             abort(401)
-        user = sql.User.query.filter_by(netid=netid).first()
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
+        user = sql.User.query.filter_by(netid=netid).first()
         descriptions = course.descriptions.order_by(sql.Description.upvotes.desc()).all()
         descriptionsJson = []
         for description in descriptions:
@@ -297,12 +297,14 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/rants/<int:c_id>/<hot>', methods=['GET'])
     def get_hot_rants(c_id, hot):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
         rants = course.rants.order_by(sql.Rant.timestamp.desc()).all()
+        user = sql.User.query.filter_by(netid=netid).first()
         rantsJson = []
         currentTime = datetime.datetime.utcnow()
         if hot == 'true':
@@ -315,6 +317,11 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             rantDict['id'] = rants[i].id
             rantDict['text'] = rants[i].text
             rantDict['upvotes'] = rants[i].upvotes
+            rantDict['action'] = 0
+            if str(rants[i].id) in user.upvoted_rants:
+                rantDict['action'] = 1
+            elif str(rants[i].id) in user.downvoted_rants:
+                rantDict['action'] = -1
             rantDict['replies'] = []
             rantDict['timestamp'] = util.elapsedTime(rants[i].timestamp, currentTime)
             for reply in rants[i].replies.all():
@@ -322,6 +329,11 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 replyDict['id'] = reply.id
                 replyDict['text'] = reply.text
                 replyDict['upvotes'] = reply.upvotes
+                replyDict['action'] = 0
+                if str(reply.id) in user.upvoted_replies:
+                    replyDict['action'] = 1
+                elif str(reply.id) in user.downvoted_replies:
+                    replyDict['action'] = -1
                 replyDict['timestamp'] = util.elapsedTime(reply.timestamp, currentTime)
                 rantDict['replies'].append(replyDict)
             rantsJson.append(rantDict)
@@ -330,12 +342,14 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     @app.route('/api/rants/<int:c_id>', methods=['GET'])
     def get_rants(c_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
         rants = course.rants.order_by(sql.Rant.timestamp.desc()).all()
+        user = sql.User.query.filter_by(netid=netid).first()
         rantsJson = []
         currentTime = datetime.datetime.utcnow()
         for rant in rants:
@@ -344,12 +358,22 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
             rantDict['text'] = rant.text
             rantDict['upvotes'] = rant.upvotes
             rantDict['replies'] = []
+            rantDict['action'] = 0
+            if str(rant.id) in user.upvoted_rants:
+                rantDict['action'] = 1
+            elif str(rant.id) in user.downvoted_rants:
+                rantDict['action'] = -1
             rantDict['timestamp'] = util.elapsedTime(rant.timestamp, currentTime)
             for reply in rant.replies.all():
                 replyDict = {}
                 replyDict['id'] = reply.id
                 replyDict['text'] = reply.text
                 replyDict['upvotes'] = reply.upvotes
+                replyDict['action'] = 0
+                if str(reply.id) in user.upvoted_replies:
+                    replyDict['action'] = 1
+                elif str(reply.id) in user.downvoted_replies:
+                    replyDict['action'] = -1
                 replyDict['timestamp'] = util.elapsedTime(reply.timestamp, currentTime)
                 rantDict['replies'].append(replyDict)
             rantsJson.append(rantDict)
@@ -429,47 +453,49 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         review = sql.Review(rating=rating,
                             text=text,
                             num=num,
-                            score=0,
+                            upvotes=0,
                             scraped=False,
                             term=term)
         sql.db.session.add(review)
         term.overall_rating = (term.overall_rating * num + review.rating) / (num + 1)
         course.avg_rating = sum(t.overall_rating for t in course.terms.all()) / len(course.terms.all())
         sql.db.session.commit()
-        return json.dumps({'sem_code': review.sem_code, 'text': review.text, 'score': review.score}), 201
+        return json.dumps({'sem_code': review.sem_code, 'text': review.text, 'upvotes': review.upvotes}), 201
 
     @app.route('/api/reviews/<int:review_id>', methods=['PUT'])
     def update_review(review_id):
         netid = cas.username
         if netid is None:
             abort(401)
-        score = 0
-        paramScore = request.form['score']
+        upvotes = 0
+        paramVotes = request.form['upvotes']
         try:
-            score = int(paramScore)
+            upvotes = int(paramVotes)
         except ValueError:
             abort(401)
         review = sql.Review.query.get(review_id)
         if review == None:
             abort(404)
         user = sql.User.query.filter_by(netid=netid).first()
-        if score == 1:
+        if upvotes == 1:
             if " " + str(review_id) + " " not in user.upvoted_reviews:
                 user.upvoted_reviews += " " + str(review_id) + " "
             else:
-                score = -1
+                upvotes = -1
                 user.upvoted_reviews = user.upvoted_reviews.replace(" " + str(review_id) + " ", "")
-        review.score += score
+        review.upvotes += upvotes
         sql.db.session.commit()
-        return json.dumps({'score': review.score}), 201
+        return json.dumps({'upvotes': review.upvotes}), 201
 
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
     def get_reviews(c_id):
-        if cas.username is None:
+        netid = cas.username
+        if netid is None:
             abort(401)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
+        user = sql.User.query.filter_by(netid=netid).first()
         terms = course.terms.all()
         reviewsJson = {}
         for term in terms:
@@ -496,7 +522,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 reviewDict['sem_code'] = review.sem_code
                 reviewDict['rating'] = review.rating
                 reviewDict['text'] = review.text
-                reviewDict['score'] = review.score
+                reviewDict['action'] = 0
+                if str(review.id) in user.upvoted_reviews:
+                    reviewDict['action'] = 1
+                reviewDict['upvotes'] = review.upvotes
                 reviewsJson[code]['reviews'].append(reviewDict)
         return json.dumps(reviewsJson)
 

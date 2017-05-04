@@ -99,7 +99,7 @@ class Review(db.Model):
     sem_code = db.Column(db.Integer, db.ForeignKey('term.id'), index=True)
     rating = db.Column(db.Float, index=True)
     text = db.Column(db.UnicodeText())
-    score = db.Column(db.Integer, index=True)
+    upvotes = db.Column(db.Integer, index=True)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     scraped = db.Column(db.Boolean)
 

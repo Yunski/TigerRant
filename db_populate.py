@@ -91,7 +91,7 @@ def populateDB(filename):
                                    rating=t.overall_rating,
                                    text=review,
                                    num=num,
-                                   score=0,
+                                   upvotes=0,
                                    scraped=True,
                                    term=t)
                     sql.db.session.add(r)
