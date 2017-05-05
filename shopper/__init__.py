@@ -325,52 +325,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.commit()
         return json.dumps({'upvotes': rant.upvotes}), 201
 
-
-    @app.route('/api/rants/<int:c_id>/<hot>', methods=['GET'])
-    def get_hot_rants(c_id, hot):
-        netid = cas.username
-        if netid is None:
-            abort(401)
-        course = sql.Course.query.filter_by(c_id=c_id).first()
-        if course == None:
-            abort(404)
-        rants = course.rants.order_by(sql.Rant.timestamp.desc()).all()
-        user = sql.User.query.filter_by(netid=netid).first()
-        rantsJson = []
-        currentTime = datetime.datetime.utcnow()
-        if hot == 'true':
-            rants.sort(key=lambda k: k.upvotes, reverse=True)
-        if len(rants) < 20:
-            length = len(rants)
-        else: length = 20
-        for i in range(0, length):
-            rantDict = {}
-            rantDict['id'] = rants[i].id
-            rantDict['text'] = rants[i].text
-            rantDict['upvotes'] = rants[i].upvotes
-            rantDict['action'] = 0
-            if str(rants[i].id) in user.upvoted_rants:
-                rantDict['action'] = 1
-            elif str(rants[i].id) in user.downvoted_rants:
-                rantDict['action'] = -1
-            rantDict['replies'] = []
-            rantDict['timestamp'] = util.elapsedTime(rants[i].timestamp, currentTime)
-            for reply in rants[i].replies.all():
-                replyDict = {}
-                replyDict['id'] = reply.id
-                replyDict['text'] = reply.text
-                replyDict['upvotes'] = reply.upvotes
-                replyDict['action'] = 0
-                if str(reply.id) in user.upvoted_replies:
-                    replyDict['action'] = 1
-                elif str(reply.id) in user.downvoted_replies:
-                    replyDict['action'] = -1
-                replyDict['timestamp'] = util.elapsedTime(reply.timestamp, currentTime)
-                rantDict['replies'].append(replyDict)
-            rantsJson.append(rantDict)
-        return json.dumps(rantsJson)
-
-
     @app.route('/api/rants/<int:c_id>', methods=['GET'])
     def get_rants(c_id):
         netid = cas.username
@@ -379,7 +333,13 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
+        try:
+            isHot = request.args.get('sort-by') == 'true'
+        except ValueError:
+            isHot = False
         rants = course.rants.order_by(sql.Rant.timestamp.desc()).all()
+        if isHot:
+            rants.sort(key=lambda k: k.upvotes, reverse=True)
         user = sql.User.query.filter_by(netid=netid).first()
         rantsJson = []
         currentTime = datetime.datetime.utcnow()
@@ -518,50 +478,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         sql.db.session.commit()
         return json.dumps({'upvotes': review.upvotes}), 201
 
-    @app.route('/api/reviews/true/<int:c_id>', methods=['GET'])
-    def get_helpful_reviews(c_id):
-        netid = cas.username
-        if netid is None:
-            abort(401)
-        course = sql.Course.query.filter_by(c_id=c_id).first()
-        if course == None:
-            abort(404)
-        user = sql.User.query.filter_by(netid=netid).first()
-        terms = course.terms.all()
-        reviewsJson = {}
-        for term in terms:
-            code = term.code
-            reviewsJson[code] = {}
-            termCode = str(term.code)[1:]
-            if termCode[2:3] == "2":
-                termString = "Fall " + str(int(termCode[:2]) - 1)
-            else:
-                termString = "Spring " + termCode[:2]
-            reviewsJson[code]['term_string'] = termString
-            reviewsJson[code]['average_rating'] = term.overall_rating
-            reviewsJson[code]['instructors'] = []
-            for instructor in term.instructors:
-                instrucDict = {}
-                instrucDict['emplid'] = instructor.emplid
-                instrucDict['first_name'] = instructor.first_name
-                instrucDict['last_name'] = instructor.last_name
-                reviewsJson[code]['instructors'].append(instrucDict)
-            reviewsJson[code]['reviews'] = []
-            reviewsForTerm = sorted(term.reviews.order_by(sql.Review.timestamp.desc()).all(), key=lambda k: k.upvotes, reverse=True)
-            for review in reviewsForTerm:
-                reviewDict = {}
-                reviewDict['id'] = review.id
-                reviewDict['sem_code'] = review.sem_code
-                reviewDict['rating'] = review.rating
-                reviewDict['text'] = review.text
-                reviewDict['action'] = 0
-                if str(review.id) in user.upvoted_reviews:
-                    reviewDict['action'] = 1
-                reviewDict['upvotes'] = review.upvotes
-                reviewsJson[code]['reviews'].append(reviewDict)
-        return json.dumps(reviewsJson)
-
-
     @app.route('/api/reviews/<int:c_id>', methods=['GET'])
     def get_reviews(c_id):
         netid = cas.username
@@ -570,6 +486,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
             abort(404)
+        try:
+            byUpvotes = request.args.get('sort-by') == 'true'
+        except ValueError:
+            byUpvotes = False
         user = sql.User.query.filter_by(netid=netid).first()
         terms = course.terms.all()
         reviewsJson = {}
@@ -591,7 +511,10 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                 instrucDict['last_name'] = instructor.last_name
                 reviewsJson[code]['instructors'].append(instrucDict)
             reviewsJson[code]['reviews'] = []
-            for review in term.reviews.order_by(sql.Review.timestamp.desc()).all():
+            reviewsForTerm = term.reviews.order_by(sql.Review.timestamp.desc()).all()
+            if byUpvotes:
+                reviewsForTerm.sort(key=lambda k: k.upvotes, reverse=True)
+            for review in reviewsForTerm:
                 reviewDict = {}
                 reviewDict['id'] = review.id
                 reviewDict['sem_code'] = review.sem_code

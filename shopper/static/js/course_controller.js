@@ -17,7 +17,6 @@
             var page = "";
             var order = "";
             var maxPerPage = 20;
-            var onHot = false;
 
             if ( $location.search().hasOwnProperty('id')) {
                 id = $location.search().id;
@@ -33,6 +32,8 @@
             }
             $scope.returnURL = "/browse?search=" + search + "&page=" + page + "&order=" + order;
             $scope.selectedTerm = "";
+            $scope.rantOrder = false;
+            $scope.reviewOrder = false;
             $scope.getDescriptions = function() {
                 $http.get('/api/descriptions/' + id).
                       success(function(descriptions) {
@@ -51,9 +52,11 @@
                           $log.log(error);
                       });
             };
-            $scope.getTimeRants = function() {
-                onHot = false;
-                $http.get('/api/rants/' + id).
+            $scope.getRants = function(sortBy, set) {
+                if (set) {
+                    $scope.rantOrder = sortBy;
+                }
+                $http.get('/api/rants/' + id + '?sort-by=' + $scope.rantOrder).
                       success(function(rants) {
                           $scope.rants = rants;
                       }).
@@ -61,69 +64,11 @@
                           $log.log(error);
                       });
             };
-            $scope.getHotRants = function() {
-                onHot = true;
-                $http.get('/api/rants/' + id + '/true').
-                      success(function(rants) {
-                          $scope.rants = rants;
-                      }).
-                      error(function(error) {
-                          $log.log(error);
-                      });
-            };
-            $scope.getRants = function() {
-                if (onHot == true) {
-                    $scope.getHotRants();
+            $scope.getReviews = function(sortBy, set) {
+                if (set) {
+                    $scope.reviewOrder = sortBy;
                 }
-                else {
-                    $scope.getTimeRants();
-                }
-            };
-            $scope.getReviews = function() {
-                $http.get('/api/reviews/' + id).
-                      success(function(reviews) {
-                            var terms = []
-                            $scope.terms = reviews;
-                            for (var term in reviews) {
-                                terms.push(term);
-                                $scope.terms[term]['average_rating'] = $scope.terms[term]['average_rating'].toFixed(1).toString();
-                            }
-                            if (!$scope.selectedTerm && terms.length > 0) {
-                                for (var i = terms.length-1; i >= 0; i--) {
-                                    var length = $scope.terms[terms[i]]['reviews'].length;
-                                    if (length > 0) {
-                                        $scope.selectedTerm = terms[i];
-                                        break;
-                                    }
-                                }
-                                if (!$scope.selectedTerm) $scope.selectedTerm = terms[0];
-                            }
-                            if ($scope.terms[$scope.selectedTerm]['reviews'].length > 0) {
-                                var currentPage = 1;
-                                var totalReviews = $scope.terms[$scope.selectedTerm]['reviews'].length;
-                                var start = 0;
-                                var end = totalReviews < currentPage * maxPerPage ? totalReviews : currentPage * maxPerPage;
-                                var pages = (totalReviews % maxPerPage) > 0 ? Math.floor(totalReviews / maxPerPage) + 1 : Math.floor(totalReviews / maxPerPage);
-                                var pageLinks = [];
-                                for (var i = 0; i < pages; i++) {
-                                    if (i == currentPage-1) {
-                                        pageLinks[i] = true;
-                                    } else {
-                                        pageLinks[i] = false;
-                                    }
-                                }
-                                $scope.reviews = $scope.terms[$scope.selectedTerm]['reviews'].slice(start, end);
-                                $scope.currentPage = currentPage;
-                                $scope.pages = pages;
-                                $scope.pageLinks = pageLinks;
-                            }
-                      }).
-                      error(function(error) {
-                          $log.log(error);
-                      });
-            };
-            $scope.getHelpfulReviews = function() {
-                $http.get('/api/reviews/true/' + id).
+                $http.get('/api/reviews/' + id + '?sort-by=' + $scope.reviewOrder).
                       success(function(reviews) {
                             var terms = []
                             $scope.terms = reviews;
@@ -326,8 +271,8 @@
                       });
             }
             $scope.getDescriptions();
-            $scope.getRants();
-            $scope.getHelpfulReviews();
+            $scope.getRants(false, false);
+            $scope.getReviews(false, false);
         }
     ]);
 }());

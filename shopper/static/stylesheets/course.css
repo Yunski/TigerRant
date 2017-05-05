@@ -1021,6 +1021,9 @@ select::-ms-expand {
 .reviews-listing {
   border-left: 1px solid #ee7f2d;
   border-right: 1px solid #ee7f2d;
+  border-bottom: 1px solid #ee7f2d;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 .reviews .list-group-item {
@@ -1037,6 +1040,12 @@ select::-ms-expand {
 .reviews .list-group-item:hover {
   border-top: 1px solid #ee7f2d;
   border-bottom: 1px solid #ee7f2d;
+}
+
+.reviews .list-group-item:last-child {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom: none;
 }
 
 .reviews .blockquote {
@@ -1096,4 +1105,8 @@ select::-ms-expand {
   align-items: center;
   justify-content: center;
   display: flex;
+}
+
+.page-navigation {
+  padding-top: 1rem;
 }

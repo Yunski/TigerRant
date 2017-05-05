@@ -42,20 +42,6 @@ function animateBars() {
     });
 }
 
-function clickRecent() {
-    $("#helpful").removeClass("active");
-    $("#recent").addClass("active");
-    angular.element("#TigerShopController").scope().getReviews();
-    angular.element("#TigerShopController").scope().$apply();
-}
-
-function clickHelpful() {
-    $("#helpful").addClass("active");
-    $("#recent").removeClass("active");
-    angular.element("#TigerShopController").scope().getHelpfulReviews();
-    angular.element("#TigerShopController").scope().$apply();
-}
-
 $(document).ready(function() {
     //detectStarHover();
     selectStar();
@@ -170,7 +156,7 @@ $.fn.extend({
 
 function scrollToReviewsTop() {
     $("#course-page-content").animate({
-        scrollTop: 535
+        scrollTop: 475
     }, 500);
 }
 
