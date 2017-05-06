@@ -60,10 +60,10 @@
     <div id="sidebar-top">
       <h1>Rant Space</h1>
       <div class="sidebar-top-buttons d-flex justify-content-end">
-        <button class="hot" ng-click="getRants(true, true)"><i class="fa fa-fire" aria-hidden="true"></i></button>
-        <button class="time" ng-click="getRants(false, true)"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
-        <button class="refresh" ng-click="getRants(false, false)"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-        <button class="add" data-toggle="modal" data-target="#rant-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <button class="hot" data-toggle="tooltip" title="Sort by Upovtes" ng-click="getRants(true, true)"><i class="fa fa-fire" aria-hidden="true"></i></button>
+        <button class="time" data-toggle="tooltip" title="Sort by Time" ng-click="getRants(false, true)"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
+        <button class="refresh" data-toggle="tooltip" title="Refresh" ng-click="getRants(false, false)"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+        <button class="add" data-toggle="modal tooltip" title="Post a Rant" data-target="#rant-modal"><i class="fa fa-plus" aria-hidden="true"></i></button>
       </div>
     </div>
     <ul id="rants" class="list-group">
