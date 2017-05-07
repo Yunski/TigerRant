@@ -1094,7 +1094,12 @@ select::-ms-expand {
   font-weight: 300;
   justify-content: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  margin: 0.5rem;
+}
+
+.fa-cart-plus {
+  margin: 0.15rem 0.5rem;
 }
 
 .add-link:hover, .add-link:focus {

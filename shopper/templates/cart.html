@@ -5,90 +5,118 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="row">
-    <div class="col-md-2 d-flex align-items-center p-0">
-      <div class="tiger"></div>
-      <a class="navbar-brand" href="/browse">TigerRant</a>
-    </div>
-    <div class="col-md-7 d-flex align-items-center">
-      <div class="search-bar input-group">
-        <span class="input-group-addon input-label mb-0">Find</span>
-        <input class="search-text-field" type="text" placeholder="search courses"></input>
-        <span class="input-group-addon search-button"><i class="fa fa-search" aria-hidden="true"></i></span>
+    <div class="row">
+      <div class="col-md-2 d-flex align-items-center p-0">
+        <div class="tiger"></div>
+        <a class="navbar-brand" href="/browse">TigerRant</a>
+      </div>
+      <div class="col-md-7 d-flex align-items-center">
+        <div class="search-bar input-group">
+          <span class="input-group-addon input-label mb-0">Find</span>
+          <input class="search-text-field" type="text" placeholder="search courses"></input>
+          <span class="input-group-addon search-button"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+      </div>
+      <div class="col-md-3 d-flex align-items-center">
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+          <div class="navbar-nav">
+            <div class="dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
+              <div class="dropdown-menu" aria-labelledby="nav-account-button">
+                <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
+              </div>
+            </div>
+            <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
+              <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
+              <span class="badge badge-default badge-pill">{{ incart }}</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-md-3 d-flex align-items-center">
-      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-        <div class="navbar-nav">
-          <div class="dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="nav-account" class="btn nav-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, {{ netid }}</a>
-            <div class="dropdown-menu" aria-labelledby="nav-account-button">
-              <a id="logout-link" class="dropdown-item" href="/">Sign Out</a>
-            </div>
-          </div>
-          <a class="nav-item nav-link" id="cart-button" class="btn nav-button">
-            <i class="fa fa-shopping-cart fa-lg fa-2x" aria-hidden="true"></i>
-            <span class="badge badge-default badge-pill">{{ incart }}</span>
-          </a>
+    <div class="row border-top">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="cart-title text-center">
+          Shopping Cart
         </div>
+      </div>
+      <div class="col-md-2 center">
+        <a target="_self" href="/cart?remall=true" class="remove-all"><i class="fa fa-trash fa-lg"></i>Remove All</a>
       </div>
     </div>
   </div>
 </nav>
 {% endblock %}
 {% block content %}
-<div id="browse-results-info" class="row cart-title">
-  Shopping Cart
-</div>
 {% if courses|count > 0 %}
 <div id="browse-content-wrapper">
   <div id="browse-page-content" class="row">
-    <div class="col-md-9">
+    <div class="col-md">
       <ul class="list-group">
         {% for course in courses %}
         <li class="list-group-item justify-content-between" data-aos="zoom-in" data-aos-once="true" data-aos-offset="-2000">
           <div class="card">
             <div class="card-block">
-              <h4 class="card-title"><a href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order=dept">{{ course.dept }} {{ course.catalog_number }}</a>{% if course.distribution|length > 0 %}<span class="distributions">({{ course.distribution }})</span>{% endif %}<span class="grade_options">{{ course.grade_options }}</span></h4>
-              <span class="browse-item-rating">
-                {% for i in range(0, course.avg_rating|int) %}
-                <span><i class="fa fa-star" aria-hidden="true"></i></span>
-                {% endfor %}
-                {% if course.avg_rating - course.avg_rating|int > 0.3 %}
-                <span><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
-                {% for i in range(course.avg_rating|int + 1, 5) %}
-                <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                {% endfor %}
-                {% else %}
-                {% for i in range(course.avg_rating|int, 5) %}
-                <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                {% endfor %}
-                {% endif %}
-              </span>
-              <h6 class="card-subtitle">{{ course.title|striptags }}</h6>
-              <p class="card-text">{{ course.description|striptags|striptags }}</p>
-              <a href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order=dept" class="card-link">See Details<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
-              <div class="badges">
-                <!-- TODO: need Department model <img src="/static/icons/svg/trophy.svg" />-->
-                {% if course.avg_rating > 4.0 %}<img data-toggle="tooltip" title="4 out of 5 stars or greater!" src="/static/icons/svg/badge.svg" />{% endif %}
-                {% if course.avg_rating < 3.5  and course.avg_rating > 0 %}<img data-toggle="tooltip" title="Warning only 3.5 out of 5 stars or less." src="/static/icons/svg/warning-outline.svg" />{% endif %}
+              <div class="row top center">
+                <div class="col-md-3">
+                  <h4 class="card-title text-left">{% if course.distribution|length > 0 %}<span class="distributions">({{ course.distribution }})</span>{% endif %}<span class="grade_options">{{ course.grade_options }}</span></h4>
+                </div>
+                <div class="col-md-6">
+                  <h4 class="card-title1 text-center"><a href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order=dept">{{ course.dept }} {{ course.catalog_number }}</a></h4>
+                </div>
+                <div class="col-md-3 text-right">
+                  <div class="badges">
+                    <!-- TODO: need Department model <img src="/static/icons/svg/trophy.svg" />-->
+                    {% if course.avg_rating > 4.0 %}<img data-toggle="tooltip" title="4 out of 5 stars or greater!" src="/static/icons/svg/badge.svg" />{% endif %}
+                    {% if course.avg_rating < 3.5  and course.avg_rating > 0 %}<img data-toggle="tooltip" title="Warning only 3.5 out of 5 stars or less." src="/static/icons/svg/warning-outline.svg" />{% endif %}
+                  </div>
+                </div>
               </div>
-              <a target="_self" href="/cart?id={{ course.c_id }}&amp;search={{ search }}" class="remove-link"><i class="fa fa-times fa-lg"></i>Remove</a>
+              <div class="row">
+                <h6 class="card-subtitle">{{ course.title|striptags }}</h6>
+                <span class="browse-item-rating">
+                  {% for i in range(0, course.avg_rating|int) %}
+                  <span><i class="fa fa-star" aria-hidden="true"></i></span>
+                  {% endfor %}
+                  {% if course.avg_rating - course.avg_rating|int > 0.3 %}
+                  <span><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                  {% for i in range(course.avg_rating|int + 1, 5) %}
+                  <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                  {% endfor %}
+                  {% else %}
+                  {% for i in range(course.avg_rating|int, 5) %}
+                  <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                  {% endfor %}
+                  {% endif %}
+                </span>
+              </div>
+              <div class="row">
+                <p class="card-text">{{ course.description|striptags|striptags }}</p>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <a href="/course?id={{ course.c_id }}&amp;search={{ search }}&amp;page={{ current }}&amp;order=dept" class="card-link">See Details<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
+                </div>
+                <div class="col-md-6">
+                  <a target="_self" href="/cart?id={{ course.c_id }}" class="remove-link"><i class="fa fa-times fa-lg"></i>Remove</a>
+                </div>
+              </div>
             </div>
           </div>
         </li>
         {% endfor %}
       </ul>
     </div>
-    <div class="col-md-3"></div>
   </div>
 </div>
 {% else %}
 <div class="no-match-container">
   <div class="jumbotron">
-    <h1 class="display-5">Your shopping cart is empty.</h1>
-    <p>To keep track of your favorite courses add them to your shopping cart.</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="/browse" role="button"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Browse for Courses</a>
+    <h1 class="display-5 center">Use the shopping cart to keep track of all your favorite courses.</h1>
+    <p class="center">Just use the "Add Course to Cart" link at the top of each course page to add a course to your cart.</p>
+    <p class="lead center">
+      <a class="btn btn-primary btn-lg browse-button" href="/browse" role="button"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span>Browse for Courses</a>
     </p>
   </div>
 </div>

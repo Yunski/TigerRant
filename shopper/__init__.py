@@ -183,6 +183,11 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         if course_cookie == None:
             return render_template('cart.html', netid=netid, courses=courses, incart='0')
         course_id = request.args.get('id')
+        removeAll = request.args.get('remall')
+        if removeAll != None:
+            response = make_response(render_template('cart.html', netid=netid, incart='0'))
+            response.set_cookie('courses', '')
+            return response
         if course_id != None:
             if not course_id.isdigit():
                 '''going to want to redirect back to course page not browse'''
