@@ -3,7 +3,6 @@ import os.path
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from migrate.versioning import api
 
 db = SQLAlchemy()
 
