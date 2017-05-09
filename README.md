@@ -1,4 +1,4 @@
-# Project Tigershop
+# TigerRant
 
 ## Overview
 This project is a dedicated course shopping site for Princeton University.
