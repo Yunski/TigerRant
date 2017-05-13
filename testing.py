@@ -125,6 +125,50 @@ def test():
     for course in results:
     	result += course.dept + course.catalog_number + ' '
     if result != 'DAN420B ':
-    	print("TEST 10 FAILED")
+    	print("TEST 11 FAILED")
+
+    #test case 12
+    order = 'dept'
+    search = 'ec'
+    page = '1'
+    results, pageInt, length, num_pages = matched_courses(search, order, page)
+    result = ''
+    for course in results:
+        result += course.dept + course.catalog_number + ' '
+    if result != 'ANT326 CGS310 ECS311 GER306 GER308 LIN201 LIN260 LIN302 LIN310 LIN360 PHI203 PHI207 ':
+        print("TEST 12 FAILED")
+
+    #test case 13
+    order = 'dept'
+    search = 'cos qr phi em'
+    page = '1'
+    results, pageInt, length, num_pages = matched_courses(search, order, page)
+    result = ''
+    for course in results:
+        result += course.dept + course.catalog_number + ' '
+    if len(result) != 0:
+        print("TEST 13 FAILED")
+
+    #test case 14
+    order = 'dept'
+    search = 'ISC'
+    page = '1'
+    results, pageInt, length, num_pages = matched_courses(search, order, page)
+    result = ''
+    for course in results:
+        result += course.dept + course.catalog_number + ' '
+    if result != 'ISC231 ISC232 ISC335 ':
+        print("TEST 14 FAILED")
+
+    #test case 15
+    order = 'dept'
+    search = 'cos sa'
+    page = '1'
+    results, pageInt, length, num_pages = matched_courses(search, order, page)
+    result = ''
+    for course in results:
+        result += course.dept + course.catalog_number + ' '
+    if result != '':
+        print("TEST 15 FAILED")
 
 test()
