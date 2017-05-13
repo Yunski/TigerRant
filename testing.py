@@ -1,6 +1,7 @@
 from shopper.search_courses import matched_courses
 
 def test():
+    shopper.create_app(config).app_context().push()
     order = 'dept'
     search = 'cos'
     page = "1"
