@@ -1,25 +1,5 @@
 var rating = 0;
 
-function detectStarHover() {
-    if (rating == 0) {
-        $(".initial-rating span").mouseover(function() {
-            id = this.id.split("star")[1];
-            for (var i = 1; i <= 5; i++) {
-                if (i <= id) {
-                    $("#star"+i).addClass("active");
-                } else {
-                    $("#star"+i).removeClass("active");
-                }
-            }
-        });
-        $(".initial-rating span").mouseleave(function() {
-            for (var i = 1; i <= 5; i++) {
-                $("#star"+i).removeClass("active");
-            }
-        });
-    }
-}
-
 function selectStar() {
     $(".initial-rating span").click(function() {
         id = this.id.split("star")[1];
@@ -34,18 +14,8 @@ function selectStar() {
     });
 }
 
-function animateBars() {
-    var mockRatings = [0, 0, 0, 0, 0];
-    /* rating bar animation */
-    $(".rating-bars .rating-bar-inner").each(function(index) {
-        $(this).width(mockRatings[index] + '%');
-    });
-}
-
 $(document).ready(function() {
-    //detectStarHover();
     selectStar();
-    animateBars();
 
     $(".hot").click(function() {
         $(".add").addClass("hide");

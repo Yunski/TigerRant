@@ -111,7 +111,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         c_id = int(course_id)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
-            # course page not found
             return redirect(url_for('browse'))
         courses_cookie = request.cookies.get('courses')
         if (courses_cookie == None) or (courses_cookie == ""):
@@ -136,7 +135,6 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         c_id = int(course_id)
         course = sql.Course.query.filter_by(c_id=c_id).first()
         if course == None:
-            # course page not found
             return redirect(url_for('browse'))
         courses_cookie = request.cookies.get('courses')
         if (courses_cookie == None) or (courses_cookie == ""):
@@ -518,6 +516,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         for term in terms:
             code = term.code
             reviewsJson[code] = {}
+            percentages = [0, 0, 0, 0, 0]
             termCode = str(term.code)[1:]
             if termCode[2:3] == "2":
                 termString = "Fall " + str(int(termCode[:2]) - 1)
@@ -547,6 +546,15 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
                     reviewDict['action'] = 1
                 reviewDict['upvotes'] = review.upvotes
                 reviewsJson[code]['reviews'].append(reviewDict)
+                ratingMap = {}
+                if not review.scraped:
+                    percentages[5-int(review.rating)] += 1
+            total = sum([freq for freq in percentages])
+            if total > 0:
+                percentages = [(percent / total * 100) for percent in percentages]
+                max_percent = max(percentages)
+                percentages = [percent / max_percent * 100 for percent in percentages]
+            reviewsJson[code]['percentages'] = [percent for percent in percentages]
         return json.dumps(reviewsJson)
 
     # Add an error handler. This is useful for debugging the live application,

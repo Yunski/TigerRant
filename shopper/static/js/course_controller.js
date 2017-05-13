@@ -104,6 +104,7 @@
                                 $scope.currentPage = currentPage;
                                 $scope.pages = pages;
                                 $scope.pageLinks = pageLinks;
+                                $scope.percentages = $scope.terms[$scope.selectedTerm]['percentages'];
                             }
                       }).
                       error(function(error) {
@@ -111,7 +112,6 @@
                       });
             };
             $scope.getCourseData = function(term) {
-                //$log.log(key);
                 $scope.selectedTerm = term;
                 var start = 0;
                 var totalReviews = $scope.terms[$scope.selectedTerm]['reviews'].length;
@@ -130,6 +130,7 @@
                 $scope.pages = pages;
                 $scope.pageLinks = pageLinks;
                 $scope.currentPage = currentPage;
+                $scope.percentages = $scope.terms[$scope.selectedTerm]['percentages'];
             };
             $scope.getReviewsForPage = function(event) {
                 var currentPage = event.currentTarget.text;

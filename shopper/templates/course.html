@@ -214,13 +214,20 @@
       <div class="col-md">
         <!-- rating-bars -->
         <div class="rating-bars">
-          <div class="row">
-            <div class="rating-num">5</div>
+          <div class="row" ng-repeat="percent in percentages track by $index">
+            <style>
+              @keyframes bar-{a $index a} {
+                from { width: 0; }
+                to { width: {a percent a}%; }
+              }
+            </style>
+            <div class="rating-num">{a 5 - $index a}</div>
             <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
             <div class="rating-bar">
-              <div class="rating-bar-inner"></div>
+              <div class="rating-bar-inner" style="width: {a percent a}%; animation: bar-{a $index a} linear 1; animation-duration: 0.3s;"></div>
             </div>
           </div>
+          <!--
           <div class="row">
             <div class="rating-num">4</div>
             <div class="star-container"><i class="rating-star fa fa-star" aria-hidden="true"></i></div>
@@ -248,7 +255,7 @@
             <div class="rating-bar">
               <div class="rating-bar-inner"></div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>

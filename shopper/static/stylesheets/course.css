@@ -621,6 +621,7 @@ label {
 .description .card-text {
   width: 80%;
   margin: 0;
+  padding-top: 1rem;
 }
 
 .col-md .urban, .official {
@@ -865,7 +866,7 @@ label {
 
 .rating-star {
   position: relative;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   height: 70%;
   top: 15%;
 }
@@ -874,7 +875,7 @@ label {
   margin: 0;
   padding: 0;
   height: 100%;
-  width: 80%;
+  width: 60%;
   float: right;
 }
 
@@ -884,11 +885,10 @@ label {
   width: 0;
   border-top-right-radius: 0.3rem;
   border-bottom-right-radius: 0.3rem;
-  -webkit-transition: width 0.6s linear;
-  -moz-transition: width 0.6s linear;
-  transition: width 0.6s linear;
+  -webkit-transition: width 0.3s linear;
+  -moz-transition: width 0.3s linear;
+  transition: width 0.3s linear;
 }
-
 /* term tabs */
 
 .terms {
