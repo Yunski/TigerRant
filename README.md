@@ -2,8 +2,11 @@
 
 ## Elevator Pitch
 
-TigerRant is a platform for students to anonymously rant and talk about Princeton courses. Each course has its own page with “urban dictionary”-style course descriptions that describe what a course is really like (e.g. “learn how to learn new programming languages and tools” for COS 333), course reviews unfiltered by the Registrar, and a YikYak-style rant space for leaving “real-talk” comments. You’ll be able to see how thoughts on a course change over time and see why people drop a course! Even talk and give advice on a course before it’s started or talk about how valuable a course was for you long after you’ve taken it! We hope to supplement course offerings and improve the course shopping experience at Princeton!
+TigerRant is a platform for students to anonymously rant and talk about Princeton courses. 
 
+Each course has its own page with “urban dictionary”-style course descriptions that describe what a course is really like (e.g. “learn how to learn new programming languages and tools” for COS 333), course reviews unfiltered by the Registrar, and a YikYak-style rant space for leaving “real-talk” comments. You’ll be able to see how thoughts on a course change over time and see why people drop a course! Even talk and give advice on a course before it’s started or talk about how valuable a course was for you long after you’ve taken it! 
+
+We hope to supplement course offerings and improve the course shopping experience at Princeton!
 
 ## Timeline
 
