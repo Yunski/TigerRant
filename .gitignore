@@ -100,9 +100,6 @@ ghostdriver.log
 db_repository/
 cloud_sql_proxy
 
-# Config
-config.py
-
 # tigershop ignores
 .DS_Store
 db_repository/
