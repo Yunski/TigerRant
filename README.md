@@ -1,14 +1,15 @@
 # TigerRant
 
 ## Overview
-This project is a dedicated course shopping site for Princeton University.
+TigerRant is a platform for students to anonymously rant and talk about Princeton courses. 
 
-The goal is provide students with a supplemental information source, such as unfiltered student reviews, an urban dictionary with course descriptions, and a yak-like real-time posting mechanism to keep shoppers and enrolled students up to speed. Students have the option of following courses and getting notifications.
+Each course has its own page with “urban dictionary”-style course descriptions that describe what a course is really like (e.g. “learn how to learn new programming languages and tools” for COS 333), course reviews unfiltered by the Registrar, and a YikYak-style rant space for leaving “real-talk” comments. You’ll be able to see how thoughts on a course change over time and see why people drop a course! Even talk and give advice on a course before it’s started or talk about how valuable a course was for you long after you’ve taken it! 
 
-Our website still provides the official course offerings information, but students now have the opportunity to read exclusive content and contribute their own.
+We hope to supplement course offerings and improve the course shopping experience at Princeton!
 
-We hope that this will make course shopping more fun and informative.
-The final feature of our website is a shopping cart that syncs with a user's ReCal calendar.
+![alt text](https://raw.githubusercontent.com/Yunski/TigerRant/master/shopper/static/img/screenshot.png)
+
+http://tigerrant-166318.appspot.com/
 
 ## Setup
 #### Getting Started
