@@ -63,8 +63,8 @@ To run server, run the main script:
 $ python main.py
 ```
 #### Testing
-To test the search function:
-'''
+To test the search function, run the testing script:
+```
 $ python testing.py
-'''
+```
 
