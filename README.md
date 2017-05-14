@@ -8,6 +8,10 @@ Each course has its own page with “urban dictionary”-style course descriptio
 
 We hope to supplement course offerings and improve the course shopping experience at Princeton!
 
+![alt text](https://raw.githubusercontent.com/Yunski/TigerRant/master/shopper/static/img/screenshot.png)
+
+http://tigerrant-166318.appspot.com/
+
 ## Timeline
 
 - [x] 3/26: (Pre-alpha test) website should be live, complete with CAS login and supporting every search option (dept, distribution, professor, title, meeting times) that Course Offerings has with the addition of course ratings and student reviews. MySQL database is complete with all relevant tables and indices. No interaction features yet.
