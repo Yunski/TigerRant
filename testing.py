@@ -208,7 +208,7 @@ def test():
     if result != 'ANT326 CGS310 ECS311 GER306 GER308 LIN201 LIN260 LIN302 LIN310 LIN360 PHI203 PHI207 ':
         testsfailed += "TEST 18 FAILED (search was: '     ec')\n"
 
-    #test case 18
+    #test case 19
     order = 'dept'
     search = 'language identity power'
     page = '1'
@@ -219,7 +219,7 @@ def test():
     if result != 'ANT326 ':
         testsfailed += "TEST 19 FAILED (search was: 'language identity power')\n"
 
-    #test case 18
+    #test case 20
     order = 'dept'
     search = 'JDS La'
     page = '1'
@@ -228,7 +228,7 @@ def test():
     for course in results:
         result += course.dept + course.catalog_number + ' '
     if result != 'COM202 REL330 ':
-        testsfailed += "TEST 20 FAILED (search was: 'language identity power')\n"
+        testsfailed += "TEST 20 FAILED (search was: 'JDS La')\n"
 
     end = time.time()
     if testsfailed != "":
